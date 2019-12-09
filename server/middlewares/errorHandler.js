@@ -11,6 +11,11 @@ module.exports = (err, req, res, next) => {
       }
       break
 
+    case 'JsonWebTokenError':
+      status = 401
+      message = 'Require valid access_token'
+      break
+
     default:
       status = err.status || 500
       message = err.message || 'Internal Server Error'

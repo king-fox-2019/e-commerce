@@ -321,7 +321,6 @@ describe('User Routes', function() {
             process.env.JWT_SECRET
           )
           console.log('Access token generated')
-          console.log(access_token)
           done()
         })
         .catch(done)
@@ -338,7 +337,7 @@ describe('User Routes', function() {
             expect(res.body).to.have.property('data')
             expect(res.body.data)
               .to.have.property('_id')
-              .equals(userId)
+              .equals(String(userId))
             expect(res.body.data)
               .to.have.property('username')
               .equals(registeredUser.username)
@@ -368,21 +367,27 @@ describe('User Routes', function() {
           password: '123456'
         })
           .then(user => {
-            banned_token = sign({
-              _id: user._id,
-              username: user.username,
-              email: user.email
-            })
+            banned_token = sign(
+              {
+                _id: user._id,
+                username: user.username,
+                email: user.email
+              },
+              process.env.JWT_SECRET
+            )
             return User.deleteOne({ username: 'banned' })
           })
           .then(() => {
-            return server.get('/user/checksession').then(res => {
-              expect(res).to.have.status(401)
-              expect(res).to.have.property('body')
-              expect(res.body)
-                .to.have.property('message')
-                .equals('User banned')
-            })
+            return server
+              .get('/user/checksession')
+              .set({ access_token: banned_token })
+              .then(res => {
+                expect(res).to.have.status(401)
+                expect(res).to.have.property('body')
+                expect(res.body)
+                  .to.have.property('message')
+                  .equals('User banned')
+              })
           })
       })
     })
