@@ -20,7 +20,7 @@ const userSchema = new Schema(
           validator(val) {
             return /^[a-z0-9_.]+$/.test(val)
           },
-          msg: 'Invalid username format'
+          msg: 'Username can contain only alphanumerics, underscores, and dots'
         }
       ]
     },
@@ -50,7 +50,7 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, 'Password required'],
-      minlength: [6, 'Password min length 6']
+      minlength: [6, 'Password length must be at least 6']
     }
   },
   { versionKey: false }
