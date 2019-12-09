@@ -46,6 +46,11 @@ class UserController {
       })
       .catch(next)
   }
+
+  static checkSession(req, res, next) {
+    const { _id, username, email } = req.user
+    res.status(200).json({ data: { _id, username, email } })
+  }
 }
 
 module.exports = UserController
