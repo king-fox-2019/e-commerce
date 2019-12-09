@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const URI = process.env.MONGODB_URI || 'mongodb://localhost/lazalopedia'
+const URI = process.env.MONGODB_URI || 'mongodb://localhost/default'
 const NODE_ENV = process.env.NODE_ENV
 
 mongoose

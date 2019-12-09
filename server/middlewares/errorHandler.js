@@ -1,5 +1,6 @@
 module.exports = (err, req, res, next) => {
   let status, message
+  // console.log(err)
 
   switch (err.name) {
     case 'ValidationError':
