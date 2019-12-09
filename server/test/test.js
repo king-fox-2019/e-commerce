@@ -2,6 +2,7 @@ const chai = require('chai')
 const { expect } = chai
 const chaiHttp = require('chai-http')
 const { User } = require('../models')
+const { sign } = require('jsonwebtoken')
 
 const app = require('../app')
 
@@ -298,6 +299,90 @@ describe('User Routes', function() {
             expect(res.body)
               .to.have.property('message')
               .equals('Wrong username/email/password')
+          })
+      })
+    })
+  })
+
+  describe('Check Session', function() {
+    let access_token
+    let userId
+
+    before('Generating access_token', function(done) {
+      User.findOne({ email: registeredUser.email })
+        .then(user => {
+          userId = user._id
+          access_token = sign(
+            {
+              _id: user._id,
+              username: user.username,
+              email: user.email
+            },
+            process.env.JWT_SECRET
+          )
+          console.log('Access token generated')
+          console.log(access_token)
+          done()
+        })
+        .catch(done)
+    })
+
+    context('Success:', function() {
+      it('Should response 200 with data containing user payload', function() {
+        return server
+          .get('/user/checksession')
+          .set({ access_token })
+          .then(res => {
+            expect(res).to.have.status(200)
+            expect(res).to.have.property('body')
+            expect(res.body).to.have.property('data')
+            expect(res.body.data)
+              .to.have.property('_id')
+              .equals(userId)
+            expect(res.body.data)
+              .to.have.property('username')
+              .equals(registeredUser.username)
+            expect(res.body.data)
+              .to.have.property('email')
+              .equals(registeredUser.email)
+          })
+      })
+    })
+    context('Fail:', function() {
+      it('Sends no access_token and should response 401 with message "Require valid access_token"', function() {
+        return server.get('/user/checksession').then(res => {
+          expect(res).to.have.status(401)
+          expect(res).to.have.property('body')
+          expect(res.body)
+            .to.have.property('message')
+            .equals('Require valid access_token')
+        })
+      })
+
+      it('Sends valid access_token of banned user and should response 401 with message "User banned"', function() {
+        let banned_token
+
+        return User.create({
+          username: 'banned',
+          email: 'banned@mail.com',
+          password: '123456'
+        })
+          .then(user => {
+            banned_token = sign({
+              _id: user._id,
+              username: user.username,
+              email: user.email
+            })
+            return User.deleteOne({ username: 'banned' })
+          })
+          .then(() => {
+            return server.get('/user/checksession').then(res => {
+              expect(res).to.have.status(401)
+              expect(res).to.have.property('body')
+              expect(res.body)
+                .to.have.property('message')
+                .equals('User banned')
+            })
           })
       })
     })
