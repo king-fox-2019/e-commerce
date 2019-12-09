@@ -53,5 +53,20 @@ describe('User Routes', function() {
           })
       })
     })
+
+    context('Success:', function() {
+      it('Should response 422 with message "User registered" and User data', function() {
+        return server
+          .post('/signup')
+          .send(user)
+          .then(res => {
+            expect(res).to.have.status(201)
+            expect(res).to.have.property('body')
+            expect(res.body)
+              .to.have.property('message')
+              .equals('User registered')
+          })
+      })
+    })
   })
 })
