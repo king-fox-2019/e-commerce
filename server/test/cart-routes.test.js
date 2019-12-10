@@ -10,7 +10,7 @@ chai.use(chaiHttp)
 
 const server = chai.request(app).keepOpen()
 
-describe.only('Cart', function() {
+describe('Cart', function() {
   const registeredUser = {
     username: 'dummy',
     email: 'dummy@mail.com',
@@ -169,7 +169,7 @@ describe.only('Cart', function() {
     })
   })
 
-  describe.only('Add and remove items of Cart', function() {
+  describe('Add and remove items of Cart', function() {
     const itemAdd = {
       name: 'kaos',
       image: 'kaos.jpg',
