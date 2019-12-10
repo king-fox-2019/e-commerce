@@ -48,6 +48,10 @@ const userSchema = new Schema({
         type: String,
         required: [true, 'Address cannot be empty']
     }
+},
+{
+    versionKey: false,
+    timestamps: true
 })
 
 userSchema.pre('save', function(next){

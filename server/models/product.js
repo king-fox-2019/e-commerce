@@ -28,6 +28,10 @@ const productSchema = new Schema({
         type: String,
         enum: ['equipment', 'been']
     }
+},
+{
+    versionKey: false,
+    timestamps: true
 })
 
 const Product = model('Product', productSchema)

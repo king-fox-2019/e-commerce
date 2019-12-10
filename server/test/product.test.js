@@ -2,6 +2,7 @@ const chai = require('chai')
 const app = require('../app')
 const chaiHttp = require('chai-http')
 const User = require('../models/user')
+const Product = require('../models/product')
 
 chai.use(chaiHttp)
 const expect = chai.expect
@@ -163,6 +164,50 @@ describe('Product Routes', function(){
                     expect(res).to.have.status(401)
                     expect(res.body).to.be.an('object').to.have.any.keys('code', 'message')
                     expect(res.body.message).to.equal('jwt must be provided')
+                    done()
+                })
+            })
+        })
+    })
+
+    describe('GET /product', function(){
+        describe('success process', function(){
+            it('should return array of object of product list and send status code 200', function(done){
+                chai.request(app)
+                .get('/product')
+                .set('access_token', token)
+                .end(function(err,res){
+                    expect(err).to.be.null
+                    expect(res).to.have.status(200)
+                    expect(res.body).to.be.an('array')
+                    done()
+                })
+            })
+        })
+    })
+
+    describe('GET /product/:id', function(){
+
+        let productId = ''
+
+        before(function(done){
+            Product.create(initialProduct)
+                .then( product =>{
+                    productId = product._id
+                    done()
+                })
+                .catch(console.log)
+        })
+
+        describe('success process', function(){
+            it('should return object of product and send status code 200', function(done){
+                chai.request(app)
+                .get(`/product/${productId}`)
+                .set('access_token', token)
+                .end(function(err,res){
+                    expect(err).to.be.null
+                    expect(res).to.have.status(200)
+                    expect(res.body).to.be.an('object').to.have.any.keys('name', 'image', 'price', 'stock', 'category')
                     done()
                 })
             })
