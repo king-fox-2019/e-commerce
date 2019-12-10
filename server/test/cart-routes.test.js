@@ -65,7 +65,10 @@ describe.only('Cart', function() {
         stock: 210
       }
     )
-      .then(() => done())
+      .then(() => {
+        console.log('Dummy items created')
+        done()
+      })
       .catch(done)
   })
 
@@ -161,6 +164,259 @@ describe.only('Cart', function() {
                   .to.have.property('message')
                   .equals('User banned')
               })
+          })
+      })
+    })
+  })
+
+  describe('Add and remove items of Cart', function() {
+    const itemAdd = {
+      name: 'kaos',
+      image: 'kaos.jpg',
+      price: 120000,
+      stock: 310
+    }
+    let itemId
+
+    before('Get one product id', function(done) {
+      Item.create(itemAdd)
+        .then(item => {
+          itemId = item._id
+          done()
+        })
+        .catch(done)
+    })
+
+    context('Success:', function() {
+      it('Sends item kaos, amount 1, and should response 200 with message "Cart item updated" and data of cart with items have item only kaos and amount 1, and reduce stock of kaos by 1', function() {
+        return server
+          .patch('/user/cart')
+          .set({ access_token })
+          .send({ item: itemId, amount: 1 })
+          .then(res => {
+            expect(res).to.have.status(200)
+            expect(res).to.have.property('body')
+            expect(res.body)
+              .to.have.property('message')
+              .equals('Cart item updated')
+            expect(res.body).to.have.property('data')
+
+            expect(res.body.data).to.have.property('customer')
+            expect(res.body.data.customer)
+              .to.have.property('_id')
+              .equals(String(userId))
+            expect(res.body.data.customer)
+              .to.have.property('username')
+              .equals(registeredUser.username)
+            expect(res.body.data.customer)
+              .to.have.property('email')
+              .equals(registeredUser.email)
+
+            expect(res.body.data)
+              .to.have.property('items')
+              .of.an('array')
+              .of.length(1)
+            expect(res.body.data.items).to.contain({
+              item: { _id: itemId, ...itemAdd, stock: undefined },
+              amount: 1
+            })
+
+            return Item.findById(itemId)
+          })
+          .then(item => {
+            expect(item)
+              .to.have.property('name')
+              .equals(itemAdd.name)
+            expect(item)
+              .to.have.property('image')
+              .equals(itemAdd.image)
+            expect(item)
+              .to.have.property('price')
+              .equals(itemAdd.price)
+            expect(item)
+              .to.have.property('stock')
+              .equals(itemAdd.stock - 1)
+          })
+      })
+
+      it('Sends item kaos, amount 5, and should response 200 with message "Cart item updated" and data of cart with items have item only kaos (not duplicated) and amount 5, and reduce stock of kaos by 5', function() {
+        return server
+          .patch('/user/cart')
+          .set({ access_token })
+          .send({ item: itemId, amount: 5 })
+          .then(res => {
+            expect(res).to.have.status(200)
+            expect(res).to.have.property('body')
+            expect(res.body)
+              .to.have.property('message')
+              .equals('Cart item updated')
+            expect(res.body).to.have.property('data')
+
+            expect(res.body.data).to.have.property('customer')
+            expect(res.body.data.customer)
+              .to.have.property('_id')
+              .equals(String(userId))
+            expect(res.body.data.customer)
+              .to.have.property('username')
+              .equals(registeredUser.username)
+            expect(res.body.data.customer)
+              .to.have.property('email')
+              .equals(registeredUser.email)
+
+            expect(res.body.data)
+              .to.have.property('items')
+              .of.an('array')
+              .of.length(1)
+            expect(res.body.data.items).to.contain({
+              item: { _id: itemId, ...itemAdd, stock: undefined },
+              amount: 5
+            })
+
+            return Item.findById(itemId)
+          })
+          .then(item => {
+            expect(item)
+              .to.have.property('name')
+              .equals(itemAdd.name)
+            expect(item)
+              .to.have.property('image')
+              .equals(itemAdd.image)
+            expect(item)
+              .to.have.property('price')
+              .equals(itemAdd.price)
+            expect(item)
+              .to.have.property('stock')
+              .equals(itemAdd.stock - 5)
+          })
+      })
+
+      const itemJubah = {
+        name: 'jubah',
+        image: 'jubah.jpg',
+        price: 110000,
+        stock: 90
+      }
+      let jubahId
+      it('Sends item jubah, amount 2, and should response 200 with message "Cart item updated" and data of cart with items have item kaos (from before, not removed) with amount 5, and item jubah with amount 2, and reduce items stock accordingly', function() {
+        return Item.create(itemJubah)
+          .then(item => {
+            jubahId = item._id
+            return server
+              .patch('/user/cart')
+              .set({ access_token })
+              .send({ item: jubahId })
+          })
+          .then(res => {
+            expect(res).to.have.status(200)
+            expect(res).to.have.property('body')
+            expect(res.body)
+              .to.have.property('message')
+              .equals('Cart item updated')
+            expect(res.body).to.have.property('data')
+
+            expect(res.body.data).to.have.property('customer')
+            expect(res.body.data.customer)
+              .to.have.property('_id')
+              .equals(String(userId))
+            expect(res.body.data.customer)
+              .to.have.property('username')
+              .equals(registeredUser.username)
+            expect(res.body.data.customer)
+              .to.have.property('email')
+              .equals(registeredUser.email)
+
+            expect(res.body.data)
+              .to.have.property('items')
+              .of.an('array')
+              .of.length(2)
+            expect(res.body.data.items).to.contain({
+              item: { _id: itemId, ...itemAdd, stock: undefined },
+              amount: 5
+            })
+            expect(res.body.data.items).to.contain({
+              item: { _id: jubahId, ...itemJubah, stock: undefined },
+              amount: 2
+            })
+
+            return Promise.all([Item.findById(itemId), Item.findById(jubahId)])
+          })
+          .then(([item, jubah]) => {
+            expect(item)
+              .to.have.property('name')
+              .equals(itemAdd.name)
+            expect(item)
+              .to.have.property('image')
+              .equals(itemAdd.image)
+            expect(item)
+              .to.have.property('price')
+              .equals(itemAdd.price)
+            expect(item)
+              .to.have.property('stock')
+              .equals(itemAdd.stock - 5)
+
+            expect(jubah)
+              .to.have.property('name')
+              .equals(itemJubah.name)
+            expect(jubah)
+              .to.have.property('image')
+              .equals(itemJubah.image)
+            expect(jubah)
+              .to.have.property('price')
+              .equals(itemJubah.price)
+            expect(jubah)
+              .to.have.property('stock')
+              .equals(itemJubah.stock - 2)
+          })
+      })
+
+      it('Sends item kaos, amount 0, and should response 200 with message "Cart item updated" and data of cart with items have item only jubah (kaos removed) with amount 2, and update items stock accordingly', function() {
+        return server
+          .patch('/user/cart')
+          .set({ access_token })
+          .send({ item: itemId, amount: 0 })
+          .then(res => {
+            expect(res).to.have.status(200)
+            expect(res).to.have.property('body')
+            expect(res.body)
+              .to.have.property('message')
+              .equals('Cart item updated')
+            expect(res.body).to.have.property('data')
+
+            expect(res.body.data).to.have.property('customer')
+            expect(res.body.data.customer)
+              .to.have.property('_id')
+              .equals(String(userId))
+            expect(res.body.data.customer)
+              .to.have.property('username')
+              .equals(registeredUser.username)
+            expect(res.body.data.customer)
+              .to.have.property('email')
+              .equals(registeredUser.email)
+
+            expect(res.body.data)
+              .to.have.property('items')
+              .of.an('array')
+              .of.length(1)
+            expect(res.body.data.items).to.contain({
+              item: { _id: jubahId, ...itemJubah, stock: undefined },
+              amount: 2
+            })
+
+            return Item.findById(itemId)
+          })
+          .then(item => {
+            expect(item)
+              .to.have.property('name')
+              .equals(itemAdd.name)
+            expect(item)
+              .to.have.property('image')
+              .equals(itemAdd.image)
+            expect(item)
+              .to.have.property('price')
+              .equals(itemAdd.price)
+            expect(item)
+              .to.have.property('stock')
+              .equals(itemAdd.stock)
           })
       })
     })
