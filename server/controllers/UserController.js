@@ -2,12 +2,14 @@ const { User } = require('../models')
 const { compareSync } = require('bcryptjs')
 const { sign } = require('jsonwebtoken')
 const createError = require('http-errors')
+const CartController = require('./CartController')
 
 class UserController {
   static signUp(req, res, next) {
     const { username, email, password } = req.body
     User.create({ username, email, password })
-      .then(({ _id, username, email }) => {
+      .then(user => {
+        const { _id, username, email } = user
         res.status(201).json({
           message: 'User registered',
           data: {
@@ -17,6 +19,7 @@ class UserController {
             password
           }
         })
+        return CartController.createUserCart(user)
       })
       .catch(next)
   }

@@ -15,9 +15,9 @@ const cartSchema = new Schema(
         }
       }
     },
-    Items: [
+    items: [
       {
-        itemId: {
+        item: {
           type: Schema.Types.ObjectId,
           ref: 'Item',
           required: true

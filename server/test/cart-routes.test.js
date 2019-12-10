@@ -20,12 +20,10 @@ describe.only('Cart', function() {
   let access_token
   let userId
 
-  before('Mocking registered user and access_token', function(done) {
+  before('Mocking registered user, cart and access_token', function(done) {
     User.create(registeredUser)
       .then(user => {
-        console.log(
-          'User mock created, and user cart should automatically added too'
-        )
+        console.log('User mock created')
         userId = user._id
         access_token = sign(
           {
@@ -35,7 +33,12 @@ describe.only('Cart', function() {
           },
           process.env.JWT_SECRET
         )
+
         console.log('Access token generated')
+        return Cart.create({ customer: user._id })
+      })
+      .then(() => {
+        console.log('User cart created')
         done()
       })
       .catch(done)
@@ -102,7 +105,7 @@ describe.only('Cart', function() {
 
             expect(res.body.data.customer)
               .to.have.property('_id')
-              .equals(userId)
+              .equals(String(userId))
             expect(res.body.data.customer)
               .to.have.property('username')
               .equals(registeredUser.username)
