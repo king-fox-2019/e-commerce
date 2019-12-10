@@ -1,6 +1,6 @@
 module.exports = (err, req, res, next) => {
     if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'testing') {
-        console.log(err)
+        // console.log(err)
     }
     let status;
     let message;

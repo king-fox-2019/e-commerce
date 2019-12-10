@@ -1,18 +1,24 @@
 const User = require('../models/user')
 const { generateToken,verifyToken } = require('../helpers/jwt')
 const { hash,compare } = require('../helpers/password')
+const avatar = "https://api.adorable.io/avatars/285"
 
 class UserController {
     static registerUser(req,res,next){
-        const { username,email,password,role } = req.body
+        const { username,email,password,role,address } = req.body
         User.create({
             username,
             email,
             password,
-            role
+            role,
+            avatar: `${avatar}/${email}.png`,
+            address
         })
         .then(user => {
-            res.status(201).json(user)
+            res.status(201).json({
+                message: 'Register Success!',
+                user
+            })
         })
         .catch(next)
     }

@@ -11,10 +11,25 @@ module.exports = {
             next(err)
         }
     },
-    authorizationProduct(req,res,next){
-        
-    },
-    authorizationTransaction(req,res,next){
-
+    authorizationAdmin(req,res,next){
+        User.findOne({
+            _id: req.decoded.id
+        })
+        .then(user => {
+            if(user){
+                if(user.role == 'admin'){
+                    next()
+                }else{
+                    throw({
+                        message: 'You dont have authorization to do action'
+                    })
+                }
+            }else{
+                throw({
+                    message: 'You dont have authorization to do action'
+                })
+            }
+        })
+        .catch(next)
     }
 }

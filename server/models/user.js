@@ -34,7 +34,8 @@ const userSchema = new Schema({
     }],
     role:{
         type: String,
-        enum: ['Seller', 'Buyer']
+        enum: ['admin', 'customer'],
+        default: 'customer'
     },
     balance:{
         type: Number,
@@ -42,11 +43,15 @@ const userSchema = new Schema({
     },
     avatar:{
         type: String
+    },
+    address:{
+        type: String,
+        required: [true, 'Address cannot be empty']
     }
 })
 
 userSchema.pre('save', function(next){
-    this.passowrd = hash(this.passowrd)
+    this.password = hash(this.password)
     next()
 })
 
