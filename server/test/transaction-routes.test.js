@@ -143,7 +143,7 @@ describe('Transaction', function() {
           .post('/user/transactions')
           .set({ access_token })
           .then(res => {
-            expect(res).to.have.status(200)
+            expect(res).to.have.status(201)
             expect(res).to.have.property('body')
             expect(res.body).to.have.property('message', 'Transaction created')
             expect(res.body).to.have.property('data')
@@ -209,7 +209,10 @@ describe('Transaction', function() {
           .then(res => {
             expect(res).to.have.status(200)
             expect(res).to.have.property('body')
-            expect(res.body).to.have.property('message', 'Items delivered')
+            expect(res.body).to.have.property(
+              'message',
+              'Transaction status updated'
+            )
             expect(res.body).to.have.property('data')
 
             expect(res.body.data).to.have.property('customer')

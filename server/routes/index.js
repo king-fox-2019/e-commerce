@@ -9,5 +9,6 @@ routes.use(authenticate)
 
 routes.use('/user', require('./user'))
 routes.use('/items', require('./items'))
+routes.use('/transactions', require('./transactions'))
 
 module.exports = routes
