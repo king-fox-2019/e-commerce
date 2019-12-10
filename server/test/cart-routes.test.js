@@ -169,7 +169,7 @@ describe.only('Cart', function() {
     })
   })
 
-  describe('Add and remove items of Cart', function() {
+  describe.only('Add and remove items of Cart', function() {
     const itemAdd = {
       name: 'kaos',
       image: 'kaos.jpg',
@@ -216,8 +216,13 @@ describe.only('Cart', function() {
               .to.have.property('items')
               .of.an('array')
               .of.length(1)
-            expect(res.body.data.items).to.contain({
-              item: { _id: itemId, ...itemAdd, stock: undefined },
+            expect(res.body.data.items).to.deep.include({
+              item: {
+                _id: String(itemId),
+                name: itemAdd.name,
+                image: itemAdd.image,
+                price: itemAdd.price
+              },
               amount: 1
             })
 
@@ -267,8 +272,13 @@ describe.only('Cart', function() {
               .to.have.property('items')
               .of.an('array')
               .of.length(1)
-            expect(res.body.data.items).to.contain({
-              item: { _id: itemId, ...itemAdd, stock: undefined },
+            expect(res.body.data.items).to.deep.include({
+              item: {
+                _id: String(itemId),
+                name: itemAdd.name,
+                image: itemAdd.image,
+                price: itemAdd.price
+              },
               amount: 5
             })
 
@@ -304,7 +314,7 @@ describe.only('Cart', function() {
             return server
               .patch('/user/cart')
               .set({ access_token })
-              .send({ item: jubahId })
+              .send({ item: jubahId, amount: 2 })
           })
           .then(res => {
             expect(res).to.have.status(200)
@@ -329,12 +339,22 @@ describe.only('Cart', function() {
               .to.have.property('items')
               .of.an('array')
               .of.length(2)
-            expect(res.body.data.items).to.contain({
-              item: { _id: itemId, ...itemAdd, stock: undefined },
+            expect(res.body.data.items).to.deep.include({
+              item: {
+                _id: String(itemId),
+                name: itemAdd.name,
+                image: itemAdd.image,
+                price: itemAdd.price
+              },
               amount: 5
             })
-            expect(res.body.data.items).to.contain({
-              item: { _id: jubahId, ...itemJubah, stock: undefined },
+            expect(res.body.data.items).to.deep.include({
+              item: {
+                _id: String(jubahId),
+                name: itemJubah.name,
+                image: itemJubah.image,
+                price: itemJubah.price
+              },
               amount: 2
             })
 
@@ -397,8 +417,13 @@ describe.only('Cart', function() {
               .to.have.property('items')
               .of.an('array')
               .of.length(1)
-            expect(res.body.data.items).to.contain({
-              item: { _id: jubahId, ...itemJubah, stock: undefined },
+            expect(res.body.data.items).to.deep.include({
+              item: {
+                _id: String(jubahId),
+                name: itemJubah.name,
+                image: itemJubah.image,
+                price: itemJubah.price
+              },
               amount: 2
             })
 
