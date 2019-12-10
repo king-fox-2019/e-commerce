@@ -143,11 +143,115 @@ describe.only('Item Routes', function() {
     })
   })
 
-  // describe('Get One Item', function() {
-  //   context('Success:', function() {
-  //     it('Should response 200 with data of an item', function() {
-  //       // return server.get('/items/:id')
-  //     })
-  //   })
-  // })
+  describe('Get One Item', function() {
+    const oneItem = {
+      name: 'topi',
+      image: 'topi.jpg',
+      price: 140000,
+      stock: 120
+    }
+    let itemId
+
+    beforeEach("Get an item's id", function(done) {
+      Item.create(oneItem)
+        .then(item => {
+          itemId = item._id
+          done()
+        })
+        .catch(done)
+    })
+
+    afterEach('Delete item', function(done) {
+      Item.deleteOne(oneItem)
+        .then(() => {
+          done()
+        })
+        .catch(done)
+    })
+
+    context('Success:', function() {
+      it('Should response 200 with data of an item correctly', function() {
+        return server
+          .get(`/items/${itemId}`)
+          .set({ access_token })
+          .then(res => {
+            expect(res).to.have.status(200)
+            expect(res).to.have.property('body')
+            expect(res.body).to.have.property('data')
+            expect(res.body.data)
+              .to.have.property('name')
+              .equals(oneItem.name)
+            expect(res.body.data)
+              .to.have.property('image')
+              .equals(oneItem.image)
+            expect(res.body.data)
+              .to.have.property('price')
+              .equals(oneItem.price)
+            expect(res.body.data)
+              .to.have.property('stock')
+              .equals(oneItem.stock)
+          })
+      })
+    })
+
+    context('Fail:', function() {
+      it('Should response 404 with message "Item not found"', function() {
+        return Item.deleteOne(oneItem).then(() => {
+          return server
+            .get(`/items/${itemId}`)
+            .set({ access_token })
+            .then(res => {
+              expect(res).to.have.status(404)
+              expect(res).to.have.property('body')
+              expect(res.body)
+                .to.have.property('message')
+                .equals('Item not found')
+            })
+        })
+      })
+
+      it('Sends no access_token and should response 401 with message "Require valid access_token"', function() {
+        return server.get(`/items/${itemId}`).then(res => {
+          expect(res).to.have.status(401)
+          expect(res).to.have.property('body')
+          expect(res.body)
+            .to.have.property('message')
+            .equals('Require valid access_token')
+        })
+      })
+
+      it('Sends valid access_token of banned user and should response 401 with message "User banned"', function() {
+        let banned_token
+
+        return User.create({
+          username: 'banned',
+          email: 'banned@mail.com',
+          password: '123456'
+        })
+          .then(user => {
+            banned_token = sign(
+              {
+                _id: user._id,
+                username: user.username,
+                email: user.email
+              },
+              process.env.JWT_SECRET
+            )
+            return User.deleteOne({ username: 'banned' })
+          })
+          .then(() => {
+            return server
+              .get(`/items/${itemId}`)
+              .set({ access_token: banned_token })
+              .then(res => {
+                expect(res).to.have.status(401)
+                expect(res).to.have.property('body')
+                expect(res.body)
+                  .to.have.property('message')
+                  .equals('User banned')
+              })
+          })
+      })
+    })
+  })
 })
