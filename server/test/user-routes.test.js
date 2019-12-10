@@ -10,7 +10,7 @@ chai.use(chaiHttp)
 
 const server = chai.request(app).keepOpen()
 
-describe('User Routes', function() {
+describe('User', function() {
   const registeredUser = {
     username: 'dummy',
     email: 'dummy@mail.com',
