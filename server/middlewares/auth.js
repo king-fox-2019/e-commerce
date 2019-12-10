@@ -1,5 +1,5 @@
 const { verify } = require('jsonwebtoken')
-const { User } = require('../models')
+const { User, Transaction } = require('../models')
 const createError = require('http-errors')
 
 module.exports = {
@@ -17,5 +17,15 @@ module.exports = {
     } catch (err) {
       next(err)
     }
+  },
+  authorizeTransaction(req, res, next) {
+    console.log(req.params.id)
+    Transaction.findById(req.params.id)
+      .then(transaction => {
+        if (!transaction) throw createError(404, 'Transaction not found')
+        else if (transaction.customer == req.user.id) next()
+        else throw createError(403, "You don't have access to this transaction")
+      })
+      .catch(next)
   }
 }
