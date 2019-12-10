@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --exit"
+    "test": "NODE_ENV=test mocha --exit",
+    "dev": "NODE_ENV=development nodemon bin/http.js"
   },
   "keywords": [],
   "author": "aliftaufik",
@@ -14,10 +15,13 @@
     "chai-http": "^4.3.0",
     "dotenv": "^8.2.0",
     "mocha": "^6.2.2",
+    "morgan": "^1.9.1",
+    "nodemon": "^2.0.1",
     "prettier": "1.19.1"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "http-errors": "^1.7.3",
     "jsonwebtoken": "^8.5.1",
