@@ -7,7 +7,6 @@ module.exports = {
   authenticate(req, res, next) {
     try {
       const payload = verify(req.headers.access_token, process.env.JWT_SECRET)
-      console.log(payload)
       User.findById(payload._id)
         .then(user => {
           if (user) {
