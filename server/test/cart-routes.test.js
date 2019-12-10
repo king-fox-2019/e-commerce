@@ -417,15 +417,17 @@ describe.only('Cart', function() {
               .to.have.property('items')
               .of.an('array')
               .of.length(1)
-            expect(res.body.data.items).to.deep.include({
-              item: {
-                _id: String(jubahId),
-                name: itemJubah.name,
-                image: itemJubah.image,
-                price: itemJubah.price
-              },
-              amount: 2
-            })
+            expect(res.body.data.items).to.have.deep.members([
+              {
+                item: {
+                  _id: String(jubahId),
+                  name: itemJubah.name,
+                  image: itemJubah.image,
+                  price: itemJubah.price
+                },
+                amount: 2
+              }
+            ])
 
             return Item.findById(itemId)
           })
