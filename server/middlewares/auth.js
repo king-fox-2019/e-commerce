@@ -1,7 +1,6 @@
 const { verify } = require('jsonwebtoken')
 const { User } = require('../models')
 const createError = require('http-errors')
-const { Types } = require('mongoose')
 
 module.exports = {
   authenticate(req, res, next) {
