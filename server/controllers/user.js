@@ -55,5 +55,63 @@ module.exports = {
                 })
             })
             .catch(next)
+    },
+    addmoney(req,res,next){
+        const { id } = req.loggedUser
+        const { money } = req.body
+        UserModel.findOne({ _id : id })
+            .then(user=>{
+                let calculate = Number(user.money) + Number(money)
+                if (calculate < 0) {
+                    next({
+                        status : 400,
+                        message : `add money failed! uang mu akan dibawah 0`
+                    })
+                } else {
+                    return UserModel.findOneAndUpdate({ _id : id }, { money : calculate },{ new: true, runValidators: true }) 
+                }
+            })
+            .then(user=>{
+                res.status(200).json({
+                    message : `add money success`,
+                    user
+                })
+            })
+            .catch(next)
+    },
+    transferMoney(req,res,next){
+        const { money } = req.body
+        const { id } = req.params
+        UserModel.findOne({ _id : req.loggedUser.id })
+            .then(user=>{
+                let calculate = Number(user.money) - Math.abs(Number(money))
+                if (Number(user.money) < Math.abs(Number(money))) {
+                    next({
+                        status : 400,
+                        message : `transfer money failed! uang mu akan dibawah 0`
+                    })
+                } else if (calculate < 0) {
+                    next({
+                        status : 400,
+                        message : `tranfer money failed! uang mu akan dibawah 0`
+                    })
+                } else {
+                    return UserModel.findOneAndUpdate({ _id : req.loggedUser.id }, { money : calculate },{ new: true, runValidators: true }) 
+                }
+            })
+            .then(user=>{
+                return UserModel.findOne({ _id : id })
+            })
+            .then(user=>{
+                let calt = Number(user.money) + Number(money)
+                return UserModel.findOneAndUpdate({ _id : id }, { money : calt },{ new: true, runValidators: true }) 
+            })
+            .then(user=>{
+                res.status(200).json({
+                    message : `transfer money success to : ${user.name}`,
+                    user
+                })
+            })
+            .catch(next)
     }
 }

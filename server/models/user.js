@@ -33,7 +33,6 @@ const UserSchema = new Schema({
     },
     money : {
         type : Number,
-        default : 100000,
         validate : {
             validator : function(value){
                 return value < 0 ? false : true
@@ -44,10 +43,6 @@ const UserSchema = new Schema({
     bookmark : [{
         type : Schema.Types.ObjectId,
         ref : 'Product'
-    }],
-    checkout : [{
-        type : Schema.Types.ObjectId,
-        ref : 'Product'
     }]
 },{
     versionKey: false,
@@ -55,6 +50,7 @@ const UserSchema = new Schema({
 })
 
 UserSchema.pre('save',function(next){
+    this.money = Math.floor(Math.random() * Math.floor(500000))
     this.password = hashPassword(this.password)
     next()
 })
