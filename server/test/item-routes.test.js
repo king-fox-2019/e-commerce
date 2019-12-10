@@ -1,7 +1,7 @@
 const chai = require('chai')
 const { expect } = chai
 const chaiHttp = require('chai-http')
-const { User } = require('../models')
+const { User, Item } = require('../models')
 const { sign } = require('jsonwebtoken')
 
 const app = require('../app')
@@ -10,7 +10,7 @@ chai.use(chaiHttp)
 
 const server = chai.request(app).keepOpen()
 
-describe('Item Routes', function() {
+describe.only('Item Routes', function() {
   const registeredUser = {
     username: 'dummy',
     email: 'dummy@mail.com',
@@ -37,10 +37,39 @@ describe('Item Routes', function() {
       .catch(done)
   })
 
-  after('Erasing all user data', function(done) {
+  before('Mocking Items', function(done) {
+    Item.create(
+      {
+        name: 'Sepatu',
+        image: 'sepatu.jpg',
+        price: 240000,
+        stock: 130
+      },
+      {
+        name: 'Tas',
+        image: 'tas.jpg',
+        price: 320000,
+        stock: 200
+      },
+      {
+        name: 'Jaket',
+        image: 'jaket.jpg',
+        price: 180000,
+        stock: 210
+      }
+    )
+      .then(() => done())
+      .catch(done)
+  })
+
+  after('Erasing all data', function(done) {
     User.deleteMany({})
       .then(() => {
         console.log('All user data deleted')
+        return Item.deleteMany({})
+      })
+      .then(() => {
+        console.log('All items deleted')
         done()
       })
       .catch(done)
