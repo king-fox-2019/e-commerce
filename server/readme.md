@@ -42,7 +42,7 @@ HTTP STATUS CODE: 201
 
 ```json
 {
-    "code": 201
+    "code": 201,
 	"status": "success",
     "message": "new admin has been registred!",
     "admin": {
@@ -78,7 +78,7 @@ HTTP STATUS CODE: 200
 
 ```json
 {
-    "code": 200
+    "code": 200,
 	"status": "success",
     "admin": [
     	{
@@ -119,7 +119,7 @@ HTTP STATUS CODE: 200
 
 ```json
 {
-    "code": 200
+    "code": 200,
 	"status": "success",
     "profile": {
         "_id": "jas9bh39sjasbd.....",
@@ -160,7 +160,7 @@ HTTP STATUS CODE: 200
 
 ```json
 {
-    "code": 200
+    "code": 200,
 	"status": "success",
     "admin": {
         "_id": "jas9bh39sjasbd.....",
@@ -208,7 +208,7 @@ HTTP STATUS CODE: 200
 
 ```json
 {
-    "code": 200
+    "code": 200,
 	"status": "success",
     "message": "admin profile has been updated!",
     "admin": {
@@ -250,7 +250,7 @@ HTTP STATUS CODE: 200
 
 ```json
 {
-    "code": 200
+    "code": 200,
 	"status": "success",
     "message": "admin accout has been deactive!",
     "admin": {
