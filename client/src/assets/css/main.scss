@@ -34,6 +34,7 @@ $sizes: (
 // $link-decoration: none !default;
 // $link-hover-color: darken($link-color, 15%) !default;
 // $link-hover-decoration: underline !default;
+
 // $grid-breakpoints: (
 //   xs: 0,
 //   sm: 576px,
@@ -41,5 +42,20 @@ $sizes: (
 //   lg: 992px,
 //   xl: 1200px
 // ) !default;
+
+$enable-gradients: true;
+$enable-responsive-font-sizes: true;
+// $enable-caret: true !default;
+// $enable-rounded: true !default;
+// $enable-shadows: false !default;
+// $enable-transitions: true !default;
+// $enable-prefers-reduced-motion-media-query: true !default;
+// $enable-hover-media-query: false !default; // Deprecated, no longer affects any compiled CSS
+// $enable-grid-classes: true !default;
+// $enable-pointer-cursor-for-buttons: true !default;
+// $enable-print-styles: true !default;
+// $enable-validation-icons: true !default;
+// $enable-deprecation-messages: true !default;
+
 @import '~bootstrap';
 @import '~bootstrap-vue';
