@@ -21,7 +21,10 @@ let currentCartId = ''
 let checkedOutCartId = ''
 
 describe('CRUD cart routes', function () {
-  // console.log('masuk hooks');
+
+  this.timeout(5000)
+  // console.log('masuk hooks')
+
   before(function (done) {
     User.create({
       name: 'initial',
@@ -51,7 +54,9 @@ describe('CRUD cart routes', function () {
   })
 
   after(function (done) {
+    console.log('masuk ke after hooks');
     if (process.env.NODE_ENV === 'testing') {
+      
       User.deleteMany()
         .then(() => {
           console.log('\nsuccessfully deleted users');
@@ -71,7 +76,7 @@ describe('CRUD cart routes', function () {
   })
 
   describe('add a product to cart > POST /carts', function () {
-    this.timeout(5000)
+    // this.timeout(5000)
 
     it('should return the newly added items with the message: \'Successfully added item(s) to the cart!\'', function (done) {
 
