@@ -11,6 +11,11 @@ import Navbar from '@/components/Navbar'
 export default {
   components: {
     'main-navbar': Navbar
+  },
+  created() {
+    this.$store.dispatch('FETCH_ITEMS').catch(err => {
+      console.log(err)
+    })
   }
 }
 </script>

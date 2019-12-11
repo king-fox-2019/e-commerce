@@ -23,7 +23,11 @@
 
 <script>
 export default {
-  props: ['items']
+  computed: {
+    items() {
+      return this.$store.state.items
+    }
+  }
 }
 </script>
 
