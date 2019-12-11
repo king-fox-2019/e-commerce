@@ -54,5 +54,16 @@ module.exports = {
                 })
             })
             .catch(next)
+    },
+    findbytag(req,res,next){
+        const { tag } = req.body
+        ProductModel.findAll({ tag })
+            .then(products=>{
+                res.status(200).json({
+                    message : `success find product in tag : ${tag}`,
+                    products
+                })
+            })
+            .catch(next)
     }
 }
