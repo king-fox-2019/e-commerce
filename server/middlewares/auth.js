@@ -1,6 +1,7 @@
 const verifyToken = require('../helpers/tokenMaker').decodeToken
 const User = require('../models/user')
 const Product = require('../models/product')
+const Transaction = require('../models/transaction')
 
 function authentication(req, res, next) {
   try {
@@ -47,6 +48,20 @@ function authorization(req, res, next) {
     .catch(next)
 }
 
+function transactionAuthentication(req, res, next) {
+  const { id } = req.params
+
+  Transaction.findOne({ _id: id })
+    .then(transaction => {
+      if(transaction.user_id == req.loggedUser.id) {
+        next()
+      }
+      else {
+        next({ status: 401, message: 'Not authorized, this transaction does not belong to you' })
+      }
+    })
+    .catch(next)
+}
 module.exports = {
-  authentication, adminAuthorization, authorization
+  authentication, adminAuthorization, authorization, transactionAuthentication
 }
