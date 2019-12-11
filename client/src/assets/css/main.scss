@@ -7,9 +7,11 @@ $info: #fdfef8;
 $danger: #d33f49;
 // $light: $gray-100 !default;
 // $dark: $gray-800 !default;
+$navbar: rgba(2, 1, 10, 0.6);
 
 $theme-colors: (
-  'accent': $accent
+  'accent': $accent,
+  'navbar': $navbar
 );
 
 // $body-bg: $secondary;
