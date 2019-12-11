@@ -34,6 +34,12 @@ class AdminController {
       })
       .catch(next)
   }
+
+  static imageHandler(req, res, next) {
+    res
+      .status(201)
+      .json({ message: 'Image stored', data: { image: req.body.image } })
+  }
 }
 
 module.exports = AdminController
