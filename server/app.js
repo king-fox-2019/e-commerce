@@ -7,6 +7,7 @@ const cors = require('cors')
 
 require('./config/mongoose')
 
+app.use(cors())
 if (process.env.NODE_ENV === 'development') app.use(require('morgan')('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
