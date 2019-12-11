@@ -9,13 +9,7 @@ const app = require("../app");
 chai.use(chaiHttp);
 
 describe("API Testing", () => {
-  before(done => {
-    Product.remove({}, (err) => {
-    });
-    Cart.remove({}, (err) => {
-    })
-    done();
-  });
+
   describe("#Register", function() {
     it("it should success have status 201", done => {
       chai
