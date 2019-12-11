@@ -57,7 +57,7 @@ const userSchema = new Schema(
 )
 
 userSchema.post('validate', function(doc, next) {
-  doc.password = hashSync(doc.password)
+  doc.password = hashSync(doc.password, 10)
   next()
 })
 

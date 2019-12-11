@@ -17,5 +17,28 @@ class ItemController {
       })
       .catch(next)
   }
+
+  static createNewItem(req, res, next) {
+    const { name, image, price, stock } = req.body
+    Item.create({
+      name,
+      image,
+      price,
+      stock
+    }).then(item => {
+      res.status(200).json({ message: 'Item created', data: item })
+    })
+  }
+
+  static updateItem(req, res, next) {
+    const { name, image, price, stock } = req.body
+    Item.findByIdAndUpdate(
+      req.params.id,
+      { name, image, price, stock },
+      { new: true, omitUndefined: true }
+    ).then(item => {
+      res.status(200).json({ message: 'Item updated', data: item })
+    })
+  }
 }
 module.exports = ItemController

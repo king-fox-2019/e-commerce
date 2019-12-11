@@ -62,6 +62,24 @@ class TransactionController {
       })
       .catch(next)
   }
+
+  static getAllTransactions(req, res, next) {
+    Transaction.find().then(transactions => {
+      res.status(200).json({ data: transactions })
+    })
+  }
+
+  static getAllUserTransactions(req, res, next) {
+    Transaction.find({ customer: req.params.id }).then(transactions => {
+      res.status(200).json({ data: transactions })
+    })
+  }
+
+  static getOneTransaction(req, res, next) {
+    Transaction.findById(req.params.id).then(transaction => {
+      res.status(200).json({ data: transaction })
+    })
+  }
 }
 
 module.exports = TransactionController
