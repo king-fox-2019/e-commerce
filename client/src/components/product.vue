@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import axios from '../../api/server';
+
 export default {
   name: 'product',
   props: {
@@ -36,11 +38,14 @@ export default {
   data() {
     return {
       name: this.product.name,
-      price: '',
+      totalPrice: '',
       qty: 0,
     };
   },
   methods: {
+    addToCart() {
+
+    },
   },
   computed: {
     priceFormat() {
