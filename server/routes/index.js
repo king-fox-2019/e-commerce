@@ -5,11 +5,11 @@ const { authenticate } = require('../middlewares/auth')
 routes.post('/signup', UserController.signUp)
 routes.post('/signin', UserController.signIn)
 routes.use('/admin', require('./admin'))
+routes.use('/items', require('./items'))
 
 routes.use(authenticate)
 
 routes.use('/user', require('./user'))
-routes.use('/items', require('./items'))
 routes.use('/transactions', require('./transactions'))
 
 module.exports = routes
