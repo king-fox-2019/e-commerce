@@ -1,6 +1,6 @@
 module.exports = (err, req, res, next) => {
     if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'testing') {
-        // console.log(err)
+        console.log(err)
     }
     let status;
     let message;
@@ -15,6 +15,10 @@ module.exports = (err, req, res, next) => {
             break;
         case 'JsonWebTokenError':
             status = 401
+            message = err.message
+            break;
+        case 'CastError':
+            status = 404
             message = err.message
             break;
         default:

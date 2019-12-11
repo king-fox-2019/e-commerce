@@ -1,4 +1,5 @@
 const state = {
+    isLogin: true
 }
 
 const mutations = {

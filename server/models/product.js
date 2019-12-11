@@ -10,6 +10,9 @@ const productSchema = new Schema({
         required: [true, 'Image product cannot be empty'],
         default: 'https://crowdsourcer.io/assets/images/no-img.png'
     },
+    desc:{
+        type: String
+    },
     price:{
         type: Number,
         min: [0, 'Price cannot have negative value'],
@@ -26,7 +29,7 @@ const productSchema = new Schema({
     },
     category:{
         type: String,
-        enum: ['equipment', 'been']
+        enum: ['basic', 'attack', 'defense']
     }
 },
 {

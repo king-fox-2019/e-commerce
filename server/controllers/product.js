@@ -30,7 +30,14 @@ class ProductController {
             _id: req.params.id
         })
         .then(product => {
-            res.status(200).json(product)
+            if(product){
+                res.status(200).json(product)
+            }else{
+                throw({
+                    status: 404,
+                    message: 'There is no product with that id'
+                })
+            }
         })
         .catch(next)
     }
@@ -55,6 +62,7 @@ class ProductController {
         })
         .then(success => {
             res.status(200).json({
+                code: 200,
                 message: 'Delete Product Success!'
             })
         })  
