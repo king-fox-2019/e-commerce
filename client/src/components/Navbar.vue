@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" variant="accent" fixed="top">
+  <b-navbar toggleable="lg" type="dark" variant="navbar" fixed="top">
     <b-navbar-brand to="/">LaZaloPedia</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -31,4 +31,4 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss"></style>
