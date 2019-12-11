@@ -1,10 +1,10 @@
-$primary: #1c1c1c;
-$secondary: #b6b8b7;
-$accent: #2b3b57;
-$success: #5e5e44;
-$info: #cbc263;
+$primary: #242c41;
+// $secondary: #fdfef8;
+$accent: #02010a;
+$success: #6b9080;
+$info: #fdfef8;
 // $warning: $yellow !default;
-// $danger: $red !default;
+$danger: #d33f49;
 // $light: $gray-100 !default;
 // $dark: $gray-800 !default;
 
@@ -12,7 +12,7 @@ $theme-colors: (
   'accent': $accent
 );
 
-$body-bg: $secondary;
+// $body-bg: $secondary;
 // $body-color: $gray-900 !default;
 
 // $sizes: map-merge(
@@ -43,7 +43,7 @@ $sizes: (
 //   xl: 1200px
 // ) !default;
 
-$enable-gradients: true;
+// $enable-gradients: true;
 $enable-responsive-font-sizes: true;
 // $enable-caret: true !default;
 // $enable-rounded: true !default;
