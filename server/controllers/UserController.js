@@ -67,11 +67,18 @@ class UserController {
       User.findOne({ _id: loggedUser.id })
         .populate('cart.product_id')
         .then(user => {
+          console.log(user.cart);
           user.cart.forEach(product => {
-            if (product.product_id._id == product_id) {
-              cartQuantity = product.quantity
-              isDuplicate = true
-            }
+            // if(product.product_id.stock < Number(product.quantity)) {
+            //   res.status(400).json({ message: 'that is all the stock we got'})
+            // } else {
+              // console.log('masukkkkkkk');
+
+              if (product.product_id._id == product_id) {
+                cartQuantity = product.quantity
+                isDuplicate = true
+              }
+            // }
           })
   
           if (isDuplicate) {

@@ -98,7 +98,7 @@ before('create gonna be deleted product', function(done) {
 // })
 
 describe('CRUD Products Endpoints', function() {
-    // this.timeout(10000)
+    this.timeout(10000)
     describe('Create a product', function() {
         describe('success process', function() {
             it('should return an object (data) with status code 201', function(done) {
