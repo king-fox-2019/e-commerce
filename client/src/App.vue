@@ -23,6 +23,7 @@ export default {
 <style scoped>
 #app {
   background-image: url('./assets/gaming-background.jpg') !important;
+  background-size: cover;
   height: 100vh;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -25,7 +25,7 @@
         <button class="btn" @click.prevent="addToCart(ItemInCart.product_id._id)">+</button>
       </td>
       <td class="border-0 align-middle">
-        <b-button @click.prevent="removeFromCart(ItemInCart._id)">
+        <b-button @click.prevent="removeFromCart(ItemInCart.product_id._id)">
           <i class="fa fa-trash"></i>
         </b-button>
       </td>
@@ -43,6 +43,9 @@ export default {
     },
     addToCart (ItemInCartId) {
       this.$store.dispatch('addToCartFromCartPage', ItemInCartId)
+    },
+    removeFromCart (ItemInCartId) {
+      this.$store.dispatch('removeFromCart', ItemInCartId)
     }
   }
 }

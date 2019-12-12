@@ -17,7 +17,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/LoginRegisterPage.vue')
+    component: () => import(/* webpackChunkName: "login" */ '../views/LoginRegisterPage.vue')
   },
   {
     path: '/cart',
@@ -25,10 +25,18 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/CartPage.vue'),
+    component: () => import(/* webpackChunkName: "cart" */ '../views/CartPage.vue'),
     beforeEnter: (to, from, next) => {
       store.dispatch('viewCart').then(next)
     }
+  },
+  {
+    path: '/transaction',
+    name: 'Transaction',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "transaction" */ '../views/TransactionPage.vue')
   }
 ]
 

@@ -24,6 +24,13 @@
               </thead>
               <CartItem v-for="item in this.$store.state.cart" :key="item.id" :ItemInCart="item"></CartItem>
             </table>
+            <div class="d-flex justify-content-between" style="font-size: 200%">
+              <div>Subtotal:</div>
+              <div>Rp. {{ calculateSubtotal }}</div>
+            </div>
+            <div>
+              <b-button variant="warning" @click.prevent="createTransaction"> <i class="fas fa-money-check-alt"></i> Checkout <i class="fas fa-arrow-alt-circle-right"></i> </b-button>
+            </div>
           </div>
           <!-- End -->
         </div>
@@ -39,8 +46,28 @@ export default {
   components: {
     CartItem
   },
+  data () {
+    return {
+      subtotal: 0
+    }
+  },
+  methods: {
+    createTransaction () {
+      this.$store.dispatch('createTransaction')
+    }
+  },
   created () {
     this.$store.dispatch('viewCart')
+    // this.calculateSubtotal()
+  },
+  computed: {
+    calculateSubtotal () {
+      let totalPrice = 0
+      this.$store.state.cart.forEach(item => {
+        totalPrice += item.quantity * item.product_id.price
+      })
+      return totalPrice
+    }
   }
 }
 </script>

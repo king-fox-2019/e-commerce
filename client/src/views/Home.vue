@@ -11,6 +11,8 @@
           <hr>
           <b-button variant="info" @click.prevent="viewCart"> <i class="fas fa-shopping-cart"></i> View Cart </b-button>
           <hr>
+          <b-button variant="info" @click.prevent="viewTransactions"> <i class="fas fa-receipt"></i> Transactions </b-button>
+          <hr>
         </div>
 
         <div class="col-lg-9">
@@ -62,6 +64,9 @@ export default {
         })
         this.$router.push('/login')
       }
+    },
+    viewTransactions () {
+      this.$router.push('/transaction')
     }
   },
   created () {

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from '../../apis/server'
 import Swal from 'sweetalert2'
-// import router from '../router/index'
+import router from '../router/index'
 
 Vue.use(Vuex)
 
@@ -10,7 +10,8 @@ export default new Vuex.Store({
   state: {
     isLogin: false,
     products: [],
-    cart: []
+    cart: [],
+    transactions: []
   },
   mutations: {
     setLogin (state, payload) {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     },
     setCart (state, payload) {
       state.cart = payload
+    },
+    setTransactions (state, payload) {
+      state.transactions = payload
     }
   },
   actions: {
@@ -58,7 +62,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Something went wrong`, `error`)
+          Swal.fire('Errors', `Something went wrong 1`, `error`)
         })
     },
     viewCart ({ commit }, payload) {
@@ -74,7 +78,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Something went wrong`, `error`)
+          Swal.fire('Errors', `Something went wrong 2`, `error`)
         })
     },
     substractCart ({ dispatch }, payload) {
@@ -93,7 +97,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Something went wrong`, `error`)
+          Swal.fire('Errors', `Something went wrong 3`, `error`)
         })
     },
     addToCartFromCartPage ({ dispatch }, payload) {
@@ -113,7 +117,75 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Something went wrong`, `error`)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
+        })
+    },
+    removeFromCart ({ dispatch }, payload) {
+      axios({
+        url: `/users/cart`,
+        method: 'DELETE',
+        data: {
+          product_id: payload
+        },
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          dispatch('viewCart')
+        })
+        .catch(err => {
+          console.log(err.response)
+          Swal.fire('Errors', `Something went wrong 6`, `error`)
+        })
+    },
+    createTransaction ({ dispatch }) {
+      axios({
+        url: `/transactions`,
+        method: 'POST',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          dispatch('getUserTransactions')
+          router.push('/transaction')
+        })
+        .catch(err => {
+          console.log(err)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
+        })
+    },
+    getUserTransactions ({ commit }) {
+      axios({
+        url: `/transactions`,
+        method: 'GET',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          commit('setTransactions', data)
+        })
+        .catch(err => {
+          console.log(err)
+          Swal.fire('Errors', `Something went wrong 7`, `error`)
+        })
+    },
+    confirmTransaction ({ dispatch }, payload) {
+      axios({
+        url: `/transactions/${payload}`,
+        method: 'PATCH',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          dispatch('getUserTransactions')
+        })
+        .catch(err => {
+          console.log(err)
+          Swal.fire('Errors', `Something went wrong 8`, `error`)
         })
     }
   },
