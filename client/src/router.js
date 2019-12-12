@@ -10,15 +10,18 @@ const routes = [
     component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue')
   },
   {
-    path: '/signup',
-    name: 'signup',
+    path: '/session',
+    name: 'session',
     component: () =>
-      import(/* webpackChunkName: "about" */ '@/views/Signup.vue')
+      import(/* webpackChunkName: "session" */ '@/views/Session.vue'),
+    props: true
   },
   {
-    path: '/signin',
-    name: 'signin',
-    component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue')
+    path: '/items/:id',
+    name: 'item-detail',
+    component: () =>
+      import(/* webpackChunkName: "item-detail" */ '@/views/ItemDetail.vue'),
+    props: true
   }
 ]
 
@@ -27,7 +30,14 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   linkActiveClass: 'active',
   linkExactActiveClass: 'active',
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })
 
 export default router

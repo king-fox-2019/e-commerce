@@ -10,13 +10,24 @@ class UserController {
     User.create({ username, email, password })
       .then(user => {
         const { _id, username, email } = user
+        const access_token = sign(
+          {
+            _id: user._id,
+            username: user.username,
+            email: user.email
+          },
+          process.env.JWT_SECRET
+        )
         res.status(201).json({
           message: 'User registered',
           data: {
-            _id,
-            username,
-            email,
-            password
+            user: {
+              _id,
+              username,
+              email,
+              password
+            },
+            access_token
           }
         })
         return CartController.createUserCart(user)

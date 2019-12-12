@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import userModule from './userModule'
 
 const server = require('../api/server')
 
@@ -7,7 +8,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    onSession: false,
     items: []
   },
   mutations: {
@@ -20,7 +20,10 @@ export default new Vuex.Store({
       return server.get('items').then(({ data }) => {
         context.commit('SET_ITEMS', data.data)
       })
+    },
+    GET_ITEM_DETAIL(context, id) {
+      return server.get(`items/${id}`)
     }
   },
-  modules: {}
+  modules: { user: userModule }
 })

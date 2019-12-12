@@ -3,10 +3,28 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import BootstrapVue from 'bootstrap-vue'
+import Loading from 'vue-loading-overlay'
+import Toasted from 'vue-toasted'
+
 import '@/assets/css/main.scss'
+import 'vue-loading-overlay/dist/vue-loading.css'
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
+Vue.filter('formatCurrency', function(value) {
+  if (!value) return ''
+  return value.toLocaleString('id', { style: 'currency', currency: 'IDR' })
+})
+Vue.use(Loading, {
+  color: '#9e2b25',
+  'background-color': '#fff8f0'
+})
+Vue.use(Toasted, {
+  position: 'bottom-center',
+  duration: 2000,
+  className: 'bg-success text-light font-weight-bold',
+  containerClass: 'rounded'
+})
 
 new Vue({
   router,
