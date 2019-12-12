@@ -4,7 +4,7 @@
       v-for="item in items"
       :key="item._id"
       :title="item.name"
-      :sub-title="item.price"
+      :sub-title="item.price | formatCurrency"
       sub-title-text-variant="danger"
       :img-src="item.image"
       :img-alt="item.image"
