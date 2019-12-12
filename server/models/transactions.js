@@ -16,8 +16,18 @@ const TransactionSchema = new Schema ({
     },
     address : {
         type: String,
-        required: [true, 'address is required']
     },
+    receiver : {
+        type : String,        
+    },
+    payment_status : {
+        type : Boolean,
+        default : false
+    },
+    receive_status : {
+        type : Boolean,
+        default : false
+    }
 })
 
 const Transaction = mongoose.model('Transaction',TransactionSchema)

@@ -10,7 +10,7 @@
                 Based in Beaverton, Oregon, NIKE, Inc. includes the Nike, Converse, Hurley, and Jordan brands.</p>
             </div>
             <div class="col-sm-12 col-md-6" style="display:flex;justify-content:center">
-                <img style="width:200px" src="https://storage.googleapis.com/bucket-mini-ecommerce/nike-logo.png" alt="" srcset="">
+                <img style="width:200px" src="https://storage.googleapis.com/nike-public-bucket/nike-logo.png" alt="" srcset="">
             </div>
             </div>
             <hr>
@@ -19,7 +19,7 @@
             <div class="row">
             <div class="col-md-8 col-sm-6 col-xs-12">
                 <p class="copyright-text">Copyright &copy; 2017 All Rights Reserved by 
-            <a href="#">Nike</a>.
+            <a href="">Nike</a>.
                 </p>
             </div>
             </div>

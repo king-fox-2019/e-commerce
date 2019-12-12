@@ -1,6 +1,6 @@
 <template>
 
-<div class="container" style="padding:100px;max-width: 1600px; display:flex; flex-wrap: wrap;">
+<div class="container">
     
      <div v-for="(product, index) in products" :key="index" class="product-page" style="width:20rem; margin:70px;">
          <b-card
@@ -9,26 +9,29 @@
             img-alt="Image"
             img-top
         >
-        <b-card-img :src="product.images[0]" style="top:-80px;height:370px;width:auto;position:absolute" class="rounded-0"></b-card-img>
+        <b-card-img :src="product.images[0]" id="card-image" class="rounded-0"></b-card-img>
             <b-card-body style="padding-left:50px;padding-right:50px">
-            <b-card-title style="margin-top:270px;font-size:22px; font-family:'Bebas Neue';color:black;" >{{product.name.split('-')[0]}}</b-card-title>
-            <b-card-sub-title class="mb-4" style="font-size:42px; font-family:'Bebas Neue';color:#383838">{{product.name.split('-')[1]}}</b-card-sub-title>
+            <b-card-title id="title" >{{product.name.split('-')[0]}}</b-card-title>
+            <b-card-sub-title class="mb-4" id="sub-title">{{product.name.split('-')[1]}}</b-card-sub-title>
             <b-card-text>
-                {{product.description.slice(0,80)}}...<a href="#" class="card-link">more</a>
+                {{product.description.slice(0,80)}}...
+                
+                    <!-- <a class="card-link" href="" @click.prevent="$route.push(`/detail`)">more</a> -->
+                    <a class="card-link" href="" @click.prevent="testPush(product._id)">more</a>
+                
             </b-card-text>
             </b-card-body>
                 <hr>
 
-            <b-card-body style="padding-left:50px;padding-right:50px;margin-bottom:20px">
-            <b-card-sub-title class="mb-4" style="font-size:24px; font-family:'Bebas Neue';">idr.{{product.price}}</b-card-sub-title>
-            <b-button pill variant="primary" size="sm"><i class="fas fa-cart-plus" style="margin-right:10px"></i> Add to cart</b-button>
+            <b-card-body id="card-body-bottom">
+            <b-card-sub-title id="card-body-price" class="mb-4">idr.{{product.price}}</b-card-sub-title>
+            <b-button @click.prevent="testPush(product._id)" pill variant="primary" size="sm"><i class="fas fa-cart-plus" style="margin-right:5px"></i> Buy </b-button>
             <b-button v-if="userRole" pill variant="primary" size="sm" style="margin-left:10px"> delete </b-button>
-            <!-- <p>{{this.$store.state.isLogin}}</p> -->
             </b-card-body>
         </b-card>
     
     </div>
-    
+
 
 
 </div>
@@ -44,6 +47,13 @@ export default {
     name:'home',
     computed : mapState(['products', 'userRole']),
   
+    methods: {
+        testPush(id){
+          
+            this.$store.dispatch('productDetail',id)
+            this.$router.push(`/detail/${id}`)
+        }
+    },
     created() {
         if(localStorage.getItem('role')==='admin'){
             this.$store.commit('CHANGE_ROLE',true)
@@ -55,7 +65,46 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+.container{
+    padding:100px;
+    max-width: 1600px;
+    display:flex;
+    flex-wrap: wrap;
+}
+
+#card-image{
+    top:-80px;
+    height:370px;
+    width:auto;
+    position:absolute
+}
+
+#title{
+    margin-top:270px;
+    font-size:22px;
+    font-family:'Bebas Neue';
+    color:#2b2b2b;
+}
+
+#sub-title{
+    font-size:42px;
+    font-family:'Bebas Neue';
+    color:#2b2b2b;
+}
+
+#card-body-bottom{
+    padding-left:50px;
+    padding-right:50px;
+    margin-bottom:20px
+}
+
+#card-body-price{
+    font-size:24px;
+    font-family:'Bebas Neue';
+}
+
 .card-img-top {
     width: 120%;
     border-top-left-radius: calc(0.25rem - 1px);

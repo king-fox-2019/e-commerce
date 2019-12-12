@@ -28,8 +28,8 @@ const upload = gcsUpload({
 
 
 router.get('/',productController.showAll)
-router.use(authentication)
 router.get('/:id',productController.findOne)
+router.use(authentication)
 router.post('/:id',transactionController.addToCart)
 router.use('/',authorization)
 router.post('/',upload.array('images'),productController.create)

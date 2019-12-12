@@ -9,7 +9,7 @@
             img-height="300"
         >
             <b-carousel-slide
-            img-src="https://storage.googleapis.com/bucket-mini-ecommerce/img1.jpg"
+            img-src="https://storage.googleapis.com/nike-public-bucket/img1.jpg"
             >
             <div class="content-slider1">
             </div>
@@ -17,15 +17,15 @@
             </b-carousel-slide>
             <b-carousel-slide
             
-            img-src="https://storage.googleapis.com/bucket-mini-ecommerce/img2.jpg"
+            img-src="https://storage.googleapis.com/nike-public-bucket/img2.jpg"
             ></b-carousel-slide>
              <b-carousel-slide
            
-            img-src="https://storage.googleapis.com/bucket-mini-ecommerce/img3.jpg"
+            img-src="https://storage.googleapis.com/nike-public-bucket/img3.jpg"
             ></b-carousel-slide>
             <b-carousel-slide
             
-            img-src="https://storage.googleapis.com/bucket-mini-ecommerce/img4.jpg"
+            img-src="https://storage.googleapis.com/nike-public-bucket/img4.jpg"
             ></b-carousel-slide>
         </b-carousel>
     </div>

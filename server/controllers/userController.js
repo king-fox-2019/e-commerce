@@ -5,6 +5,7 @@ const Product = require('../models/product')
 
 class UserController {
     static register(req,res,next){
+        console.log(req.body,'register triggered')
         User.create({
             fullname : req.body.fullname,
             email : req.body.email,
@@ -19,6 +20,7 @@ class UserController {
             res.status(201).json({ access_token : token, role : user.role })
         })
         .catch(err => {
+            console.log(err)
             next(err)
         })
     }

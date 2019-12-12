@@ -16,6 +16,7 @@ class productController{
             _id : req.params.id
         })
         .populate('productId')
+        .populate('stock')
             .then(one => {
                 res.status(200).json(one)
             })
