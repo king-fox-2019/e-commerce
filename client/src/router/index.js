@@ -59,7 +59,12 @@ const routes = [
       {
         path: 'update-product/:id',
         name: 'Update-Product',
-        component: () => import('../views/UpdateProductPage.vue')
+        component: () => import(/* webpackChunkName: "updateProduct" */ '../views/UpdateProductPage.vue')
+      },
+      {
+        path: 'transactions',
+        name: 'Admin-Transaction',
+        component: () => import(/* webpackChunkName: "adminTransaction" */ '../views/AdminTransactionList.vue')
       }
     ]
   }

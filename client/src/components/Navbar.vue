@@ -27,6 +27,8 @@ export default {
         this.$router.push('/admin')
       } else if (localStorage.getItem('role') === 'customer') {
         this.$router.push('/')
+      } else {
+        this.$router.push('/')
       }
     },
     logout () {
@@ -43,6 +45,7 @@ export default {
   },
   created () {
     console.log(this.$route.name)
+    console.log(this.$store.state.isLogin)
   }
 }
 </script>

@@ -66,7 +66,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Something went wrong 1`, `error`)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
         })
     },
     viewCart ({ commit }, payload) {
@@ -82,7 +82,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Something went wrong 2`, `error`)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
         })
     },
     substractCart ({ dispatch }, payload) {
@@ -101,7 +101,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Something went wrong 3`, `error`)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
         })
     },
     addToCartFromCartPage ({ dispatch }, payload) {
@@ -140,7 +140,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err.response)
-          Swal.fire('Errors', `Something went wrong 6`, `error`)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
         })
     },
     createTransaction ({ dispatch }) {
@@ -173,7 +173,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Something went wrong 7`, `error`)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
         })
     },
     confirmTransaction ({ dispatch }, payload) {
@@ -189,7 +189,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Something went wrong 8`, `error`)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
         })
     },
     addProduct ({ commit }, payload) {
@@ -217,8 +217,8 @@ export default new Vuex.Store({
           router.push('/admin')
         })
         .catch(err => {
-          console.log(err)
-          Swal.fire('Errors', `Something went wrong 9`, `error`)
+          console.log(err.response.data.message)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
         })
     },
     deleteProduct ({ dispatch }, payload) {
@@ -235,7 +235,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Something went wrong 10`, `error`)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
         })
     },
     setUpdateData ({ commit }, payload) {
@@ -253,7 +253,7 @@ export default new Vuex.Store({
           .catch(err => {
             console.log(err)
             reject(err)
-            Swal.fire('Errors', `Something went wrong 11`, `error`)
+            Swal.fire('Errors', `${err.response.data.message}`, `error`)
           })
       })
     },
@@ -282,8 +282,8 @@ export default new Vuex.Store({
           router.push('/admin')
         })
         .catch(err => {
-          console.log(err)
-          Swal.fire('Errors', `Something went wrong 12`, `error`)
+          console.log(err.response.data.message)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
         })
     },
     getAdminTransactions ({ commit }) {
@@ -299,7 +299,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire('Errors', `Something went wrong 13`, `error`)
+          Swal.fire('Errors', `${err.response.data.message}`, `error`)
         })
     }
   },

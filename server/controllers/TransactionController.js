@@ -16,7 +16,7 @@ class TransactionController{
   static adminFind(req, res, next){
     const { user_id } = req.params
     Transaction.find({ user_id })
-    .sort({ createdAt: 'desc' })
+      .sort({ createdAt: 'desc' })
       .then(transactions => {
         res.status(200).json(transactions)
       })
@@ -25,7 +25,9 @@ class TransactionController{
 
   static adminFindAll(req, res, next){
     Transaction.find()
-    .sort({ createdAt: 'desc' })
+      .populate('products.product_id')
+      .populate('user_id')
+      .sort({ createdAt: 'desc' })
       .then(transactions => {
         res.status(200).json(transactions)
       })

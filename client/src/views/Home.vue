@@ -26,13 +26,6 @@
       <!-- end of main row div -->
     </div>
     <!-- end of container div -->
-     <!-- Footer -->
-    <footer class="py-2 bg-success">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Geomancy 2019 </p>
-      </div>
-      <!-- /.container -->
-    </footer>
   </div>
 </template>
 
@@ -54,7 +47,6 @@ export default {
   },
   methods: {
     viewCart () {
-      console.log(this.$store)
       if (this.$store.state.isLogin) {
         this.$router.push('/cart')
       } else if (!this.$store.state.isLogin) {
@@ -66,7 +58,15 @@ export default {
       }
     },
     viewTransactions () {
-      this.$router.push('/transaction')
+      if (this.$store.state.isLogin) {
+        this.$router.push('/transaction')
+      } else if (!this.$store.state.isLogin) {
+        Swal.fire({
+          title: 'You need to login first',
+          showConfirmButton: true
+        })
+        this.$router.push('/login')
+      }
     }
   },
   created () {
@@ -75,11 +75,8 @@ export default {
 }
 </script>
 <style scoped>
-/* footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 2.5rem;
-  color: palegreen !important;
-} */
+.home {
+  height: 100vh;
+  overflow: scroll;
+}
 </style>

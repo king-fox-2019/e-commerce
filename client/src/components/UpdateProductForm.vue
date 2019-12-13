@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form class="card mt-4 mb-4 shadow" style="padding: 30px; background-color: rgb(194, 241, 241)">
     <div class="form-group">
       <label for="exampleInputEmail1">Product Name</label>
       <input v-model="name" type="text" class="form-control" placeholder="Input product's name"/>
@@ -66,5 +66,7 @@ export default {
 </script>
 
 <style>
-
+.contai {
+  color:rgb(194, 241, 241)
+}
 </style>

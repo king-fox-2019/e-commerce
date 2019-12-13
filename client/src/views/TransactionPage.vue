@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid p-0">
+  <div class="container-fluid p-0 conTrans">
     <div class="container d-flex justify-content-center" style="width: 100%">
       <div class="mb-4" style="width: 100%">
         <div class="d-flex justify-content-center mt-4 mb-4" style="font-size: 250%; background-color: aquamarine;">
@@ -41,5 +41,8 @@ export default {
 </script>
 
 <style>
-
+.conTrans {
+  height: 100vh;
+  overflow: scroll;
+}
 </style>

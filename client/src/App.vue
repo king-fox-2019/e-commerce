@@ -1,7 +1,12 @@
 <template>
   <div id="app">
     <Navbar></Navbar>
-    <router-view/>
+    <router-view />
+    <footer class="py-2 bg-success">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Geomancy 2019</p>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -13,8 +18,14 @@ export default {
     Navbar
   },
   created () {
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('token') && localStorage.getItem('role') === 'admin') {
+      this.$router.push('/admin')
       this.$store.commit('setLogin', true)
+    } else if (localStorage.getItem('token') && localStorage.getItem('role') === 'customer') {
+      this.$router.push('/')
+      this.$store.commit('setLogin', true)
+    } else {
+      this.$store.commit('setLogin', false)
     }
   }
 }
@@ -22,10 +33,11 @@ export default {
 
 <style scoped>
 #app {
-  /* background-image: url('./assets/gaming-background.jpg') !important;
-  background-repeat: no-repeat;
-  background-size: cover; */
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  background-image: url('./assets/gaming-background.jpg') !important;
+  background-repeat: repeat;
+  background-size: cover;
+  bottom: 5rem;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -43,5 +55,12 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+footer {
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;
+  color: palegreen !important;
 }
 </style>

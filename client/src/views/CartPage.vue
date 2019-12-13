@@ -81,4 +81,8 @@ export default {
 </script>
 
 <style>
+.pb-5 {
+  height: 100vh;
+  overflow: scroll;
+}
 </style>

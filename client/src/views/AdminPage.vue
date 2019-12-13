@@ -23,13 +23,6 @@
       <!-- end of main row div -->
     </div>
     <!-- end of container div -->
-     <!-- Footer -->
-    <footer class="py-2 bg-success">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Geomancy 2019 </p>
-      </div>
-      <!-- /.container -->
-    </footer>
   </div>
 </template>
 
@@ -40,11 +33,17 @@ export default {
   methods: {
     addProduct () {
       this.$router.push('/admin/addProduct')
+    },
+    viewTransactions () {
+      this.$router.push('/admin/transactions')
     }
   }
 }
 </script>
 
 <style scoped>
-
+.AdminPage {
+  height: 100vh;
+  overflow: scroll;
+}
 </style>

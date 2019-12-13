@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='admin-product-page'>
     <AdminCarousel></AdminCarousel>
     <div class="row">
       <AdminProductCard v-for="(product) in this.$store.state.products" :key="product._id" :ProductData="product"></AdminProductCard>
@@ -24,5 +24,8 @@ export default {
 </script>
 
 <style>
-
+.admin-product-page {
+  height: 100vh;
+  overflow: scroll;
+}
 </style>

@@ -16,5 +16,8 @@ export default {
 </script>
 
 <style>
-
+.update-product-page {
+  height: 100vh;
+  overflow: scroll;
+}
 </style>
