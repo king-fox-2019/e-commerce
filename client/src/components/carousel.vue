@@ -3,14 +3,10 @@
     <b-carousel
       id="carousel-fade"
       style="text-shadow: 0px 0px 2px #000"
-      fade
-      indicators
-      img-width="1024"
-      img-height="480"
+      img-width="100%"
+      img-height="100%"
     >
-      <b-carousel-slide caption="First slide" img-src="https://picsum.photos/1024/480/?image=10"></b-carousel-slide>
-      <b-carousel-slide caption="Second Slide" img-src="https://picsum.photos/1024/480/?image=12"></b-carousel-slide>
-      <b-carousel-slide caption="Third Slide" img-src="https://picsum.photos/1024/480/?image=22"></b-carousel-slide>
+      <b-carousel-slide img-src="https://dmarket.com/blog/best-csgo-wallpapers/CS-GO-logo-wallpapers-hd_hue199b6a1ed647a8b314f53ae06533b1e_29064_1920x1080_resize_q90_box.jpg"></b-carousel-slide>
     </b-carousel>
   </div>
 </template>

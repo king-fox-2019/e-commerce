@@ -27,8 +27,8 @@ mongoose
 const user = require("./routes/user");
 const product = require("./routes/product");
 const cart = require("./routes/cart");
-app.use("/user", user);
 app.use("/product", product);
+app.use("/user", user);
 app.use('/cart', cart)
 app.use(errHandling);
 

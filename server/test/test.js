@@ -9,7 +9,6 @@ const app = require("../app");
 chai.use(chaiHttp);
 
 describe("API Testing", () => {
-
   describe("#Register", function() {
     it("it should success have status 201", done => {
       chai
@@ -101,7 +100,7 @@ describe("API Testing", () => {
         .post("/cart")
         .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZWZjYzExYTY1ZTA5NjUwNjI3ZGE0YiIsImZ1bGxuYW1lIjoiTXVoYW1tYWQgSWxoYW0iLCJpYXQiOjE1NzU5OTY0Nzh9.7tNDmGGs8pPcyOg8-_7nv2CIRzCA3vng2ZLY8ffqWgI')
         .send({
-          products: {
+          product: {
             productId: "susu bendera",
             qty: 2,
           }

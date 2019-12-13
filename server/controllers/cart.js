@@ -3,16 +3,25 @@
 const { Cart } = require("../models");
 
 class CartController {
+  static cart(req, res, next) {
+    const { id } = req.token
+    Cart
+      .findOne({ user: id })
+      .then((cart) => {
+        res.status(200).json(cart);
+      })
+      .catch(next);
+  };
   static create(req, res, next) {
-    const { product } = req.body;
+    const { qty, product } = req.body;
     const { id } = req.token;
-    console.log(id);
+    product.qty = Number(qty)
     Cart.findOne({ user: id })
       .then(cart => {
         if (cart) {
           let isExist = false
-           cart.products.forEach((item, i) => {
-             if(item.productId == product.productId) {
+          cart.products.forEach((item, i) => {
+            if(item._id == product._id) {
                 item.qty += product.qty
                 isExist = true
               }

@@ -38,5 +38,6 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Lilita+One|Lobster|Roboto+Condensed&display=swap');
 
 </style>

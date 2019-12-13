@@ -7,7 +7,9 @@ class ProductController {
       name: req.body.name,
       price: req.body.price,
       stock: req.body.stock,
-      image: req.body.image
+      wear: req.body.wear,
+      image: req.body.image,
+      about: req.body.about,
     };
     Product.create(product)
       .then(success => {

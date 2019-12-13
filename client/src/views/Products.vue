@@ -29,9 +29,12 @@ export default {
           this.productList = data;
         })
         .catch((err) => {
-          console.log(err.response);
+          console.log(err.response, 'err');
         });
     },
+  },
+  mounted() {
+    this.fetchProducts();
   },
   created() {
     this.fetchProducts();

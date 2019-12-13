@@ -1,19 +1,4 @@
 "use strict";
-/* 
-  Satu cart mewakili satu user
-  Field products berupa Array of object
-      [
-        {
-          idProduct: productid001,
-          qty: 10
-        },
-        {
-          idProduct: productid002,
-          qty: 3
-        }
-      ]
-  
-*/
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
