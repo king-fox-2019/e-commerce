@@ -50,7 +50,7 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">select size (US) </label>
               <select v-model="size" class="form-control" id="exampleFormControlSelect1">
-                <option v-for="stock in getProduct.stock" :key="stock._id">{{stock.number}}</option>
+                <option :disabled="stock.stock == 0" v-for="stock in getProduct.stock" :key="stock._id">{{stock.number}}</option>
               </select>
             </div>
             <div class="form-group" style="width:100px;margin-left:30px">
@@ -105,8 +105,6 @@
            this.image3 = false
         },
         addToCart(id){
-
-          
           
           if(localStorage.getItem('token')){
             
@@ -115,15 +113,17 @@
             }else{
               this.detailTransaction = true
         
-              setTimeout(time => {
+              setTimeout(() => {
                 this.detailTransaction = false
-              },2000)
+              },4000)
               this.$store.dispatch('addToCart',{
                 id,
                 size : this.size,
                 amount : this.amount
               })
             }
+            this.amount = ''
+            this.size = ''
           }else{
             alert('login first')
           }
@@ -133,9 +133,7 @@
         getProduct(){
           return this.$store.state.detailProduct[0]
         },
-
         getCart(){
-          
           return this.$store.state.cartNow
         }
 
@@ -149,11 +147,14 @@
 <style scoped>
 
 button{
+  transition: all .2s ease-in-out;
   height:40px;
   width:100px;
   margin-top:20px;
 }
-
+button:hover{
+    transform: scale(1.1)
+}
 .content-detail{
   margin-top:200px;
 }

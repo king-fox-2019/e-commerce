@@ -1,7 +1,9 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
-import axios from '../apis/server'
+import GetData from '../apis/server'
+// import APIongkir from '../apis/apiOngkir'
 import Swal from 'sweetalert2'
+import router from '../router/index'
 
 Vue.use(Vuex)
 
@@ -35,31 +37,105 @@ export default new Vuex.Store({
     },
     CART_NOW(state,payload){
       state.cartNow =payload
+    },
+    GET_CITY(state,payload){
+      state.cartNow =payload
     }
   },
   actions: {
-
-    removeTransaction({commit},payload){
-      // console.log(payload)
-      axios({
-        method: 'delete',
-        url : `/transactions/${payload}`,
+    createTransaction({commit},payload){
+      GetData({
+        method: 'post',
+        url : `/transactions/checkout`,
         headers : {
           token : localStorage.getItem('token')
         },
+        data: {
+          receiver: payload.firstName+' '+payload.lastName ,
+          street: payload.street,
+          city: payload.city,
+          province: payload.province,
+          postalCode: payload.postalCode
+        }
       })
       .then(({data}) => {
-        console.log('delete success')
-        this.dispatch('getCart')
+        Swal.fire(
+          'Thank you for your purchase!',
+          'Please confirm when the item arrived',
+          'success'
+        )
+        console.log('create Transaction Success',data,commit)
+        router.push('/')
       })
       .catch(({response}) =>{
         console.log(response)
       })
     },
+    // getCity({commit}){
+      // console.log(process.env.VUE_APP_APIKEY)
+      // console.log(process.env.VUE_APP_RAJAONGKIR_API_KEY,'----')
+    //   APIongkir({
+    //     method: 'get',
+    //     url : `/city/`,
+    //     headers : {
+    //       key : 'fabd964c98d58b14d275f0ae37234817',
+    //       'Access-Control-Allow-Origin': '*',
+    //       "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+    //       'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
+    //     },
+    //     withCredentials: true,
+    //     useCredentails: true,
+
+    //   })
+    //   .then(({data}) => {
+    //     console.log('data city => ',data)
+    //     commit('GET_CITY',data)
+    //   })
+    //   .catch(({response}) =>{
+    //     console.log(response)
+    //   })
+    // },
+
+    removeTransaction({commit},payload){
+      console.log(commit)
+      Swal.fire({
+        title: 'Remove this from cart?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, remove it!'
+
+      }).then((result) => {
+
+        GetData({
+          method: 'delete',
+          url : `/transactions/${payload}`,
+          headers : {
+            token : localStorage.getItem('token')
+          },
+        })
+        .then(({data}) => {
+          console.log('delete success',data)
+          this.dispatch('getCart')
+        })
+        .catch(({response}) =>{
+          console.log(response)
+        })
+        
+        if (result.value) {
+          Swal.fire(
+            'Removed!',
+            'Item has been removed from your cart',
+            'success'
+          )
+        }
+      })
+    },
 
     addToCart({commit},payload){
   
-      axios({
+      GetData({
         method: 'post',
         url : `/products/${payload.id}`,
         headers : {
@@ -71,17 +147,26 @@ export default new Vuex.Store({
         }
       })
       .then(({data}) => {
-        // console.log(data,'dari dari add to cart')
+        Swal.fire(
+          'added to cart!',
+          '',
+          'success'
+        )
         commit('ADD_CART',data.cart)
         commit('CART_NOW',data.stock)
       })
       .catch(({response}) =>{
-        console.log(response)
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${response.data.message}`,
+        })
+        console.log(response.data)
       })
     },
 
     getCart(context){
-      axios({
+      GetData({
         method: 'get',
         url : `/transactions/cart`,
         headers : {
@@ -98,7 +183,7 @@ export default new Vuex.Store({
     },
 
     productDetail({commit},payload){
-      axios({
+      GetData({
         method: 'get',
         url : `/products/${payload}`,
       })
@@ -112,7 +197,7 @@ export default new Vuex.Store({
     
 
     fetchProduct(context){
-      axios({
+      GetData({
         method: 'get',
         url : '/products',  
       })
@@ -124,7 +209,7 @@ export default new Vuex.Store({
       })
     },
     register(context,payload){
-      axios({
+      GetData({
         method: 'post',
         url :'/users/signup',
         data : {
@@ -157,7 +242,7 @@ export default new Vuex.Store({
       })
     },
     async login(context,payload){
-      await axios({
+      await GetData({
         method: 'post',
         url :'/users/signin',
         data : {

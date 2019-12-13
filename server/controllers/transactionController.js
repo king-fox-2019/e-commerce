@@ -44,9 +44,10 @@ class TransactionController {
        let address = `${req.body.street}, ${req.body.city}, ${req.body.province}, ${req.body.postalCode}`
        Transaction.find({
            User_id : req.loggedUser.id,
-           status : false
-       })
-       .then(transactions => {
+           payment_status : false
+        })
+        .then(transactions => {
+            console.log('triggered?',req.loggedUser.id)
             transactions.forEach(transaction => {
                 let updatedStock = null
                 let totalBuy = transaction.count
@@ -107,6 +108,7 @@ class TransactionController {
                 User_id : req.loggedUser.id
             })
             .populate('User_id')
+            .populate('Stock_id')
                 .then(transaction => {
                     res.status(200).json(transaction)
                 })
@@ -114,6 +116,7 @@ class TransactionController {
         }
 
     static deleteTransaction(req,res,next){
+        console.log(req.params)
         Transaction.findByIdAndDelete(req.params.id)
             .then(transaction => {
                 res.status(201).json({message : 'transaction successfully deleted'})

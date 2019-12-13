@@ -3,35 +3,35 @@
       <div class="container-inside-left">
       <h1>Detail Transaction</h1>
       <br>
-        <form>
+        <form @submit.prevent="createTransaction">
                 <div class="form-group">
                 <label for="inputEmail4">First Name</label>
-                <input type="email" class="form-control" id="inputEmail4">
+                <input v-model="firstName" type="text" class="form-control" required >
                 </div>
 
                 <div class="form-group">
                 <label for="inputPassword4">Last Name</label>
-                <input type="password" class="form-control" id="inputPassword4">
+                <input v-model="lastName"  type="text" class="form-control" required >
                 </div>
 
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">Address</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+                    <textarea v-model="street" class="form-control"  rows="2" required></textarea>
                 </div>
             
                 <div class="form-group">
                 <label for="inputCity">City</label>
-                <input type="text" class="form-control" id="inputCity">
+                <input v-model="city" type="text" class="form-control" placeholder="Jakarta" required>
                 </div>
 
                 <div class="form-group">
-                <label for="inputState">Town</label>
-                <input type="text" class="form-control" id="inputCity">
+                <label for="inputState">Province</label>
+                <input v-model="province" type="text" class="form-control" placeholder="DKI Jakarta" required>
                 </div>
 
                 <div class="form-group">
                 <label for="inputZip">Zip</label>
-                <input type="text" class="form-control" id="inputZip">
+                <input v-model="postalCode" type="text" class="form-control" placeholder="12345" required>
                 </div>
         
             <button type="submit" class="btn btn-primary">checkout</button>
@@ -91,8 +91,30 @@
 
 <script>
 export default {
+    name:'transaction-page',
+    data(){
+        return {
+            firstName : '',
+            lastName : '',
+            street : '',
+            city: '',
+            province: '',
+            postalCode: ''
+        }
+    },
 
     methods: {
+        createTransaction(){
+            let payload = {
+                firstName: this.firstName ,
+                lastName: this.lastName,
+                street: this.street,
+                city: this.city,
+                province: this.province,
+                postalCode: this.postalCode
+            }
+            this.$store.dispatch('createTransaction',payload)
+        },
         removeTransaction(id){
             // console.log(id)
             this.$store.dispatch('removeTransaction',id)
@@ -120,6 +142,7 @@ export default {
     },
     created(){
         this.$store.dispatch('getCart')
+        // this.$store.dispatch('getCity')
     },
 
 }

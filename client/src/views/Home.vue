@@ -23,7 +23,6 @@ export default {
   components: {
     SliderPage,
     ProductPage,
-  
   },
   data: function(){
     return {
