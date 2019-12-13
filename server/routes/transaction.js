@@ -15,6 +15,6 @@ router.post('/', authenticate, authorizationCustomer, TransactionController.crea
 router.put('/:id/sent', authenticate, authorizationAdmin, TransactionController.sentProduct)
 
 // update status receive
-router.put('/:id/received', authenticate, authorizationCustomer, TransactionController.reveivedProduct)
+router.put('/:id/received', authenticate, authorizationCustomer, TransactionController.receivedProduct)
 
 module.exports = router

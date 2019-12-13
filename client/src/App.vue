@@ -1,25 +1,30 @@
 <template>
 <div>
   <v-app>
-    <router-link to="/about">About</router-link>
-    <HelloWorld></HelloWorld>
-    <router-view></router-view>
+      <navbar></navbar>
+      <router-view></router-view>
   </v-app>
 </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld'
+
+import navbar from './components/Navbar'
 
 export default {
   name: 'App',
-
   components: {
-    // HelloWorld
+    navbar
   },
-
-  data: () => ({
-    //
-  })
+  data () {
+    return {
+    }
+  }
 }
 </script>
+
+<style scoped>
+#app{
+  background: url('./assets/img/main_background.jpg');
+}
+</style>
