@@ -10,6 +10,7 @@
 
       </div>
     </div>
+    <b-button variant="warning" @click.prevent="goBack"> <i class="fas fa-arrow-circle-left"></i> Back </b-button>
   </div>
 </template>
 
@@ -28,6 +29,9 @@ export default {
   methods: {
     getUserTransactions () {
       this.$store.dispatch('getUserTransactions')
+    },
+    goBack () {
+      this.$router.push('/')
     }
   },
   created () {

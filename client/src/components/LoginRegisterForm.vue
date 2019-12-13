@@ -137,7 +137,7 @@ export default {
           this.password = ''
           this.$store.commit('setLogin', true)
           localStorage.setItem('token', data.token)
-
+          localStorage.setItem('role', data.role)
           this.$router.push('/')
           Swal.fire({
             icon: 'success',
@@ -166,6 +166,7 @@ export default {
           this.password = ''
           this.$store.commit('setLogin', true)
           localStorage.setItem('token', data.token)
+          localStorage.setItem('role', data.role)
           Swal.fire({
             icon: 'success',
             title: 'Login Successful',

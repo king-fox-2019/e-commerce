@@ -23,10 +23,14 @@ export default {
       this.$router.push('/login')
     },
     goToHomePage () {
-      this.$router.push('/')
+      if (localStorage.getItem('role') === 'admin') {
+        this.$router.push('/admin')
+      } else if (localStorage.getItem('role') === 'customer') {
+        this.$router.push('/')
+      }
     },
     logout () {
-      localStorage.removeItem('token')
+      localStorage.clear()
       this.$store.commit('setLogin', false)
       Swal.fire({
         icon: 'success',

@@ -2,16 +2,16 @@
   <tbody>
     <tr>
       <th scope="row" class="border-0">
-        <div class="p-2">
+        <div class="p-2" style="display: flex; justify-content: flex-start;">
           <img
             :src="ItemInCart.product_id.image"
             alt
             width="70"
             class="img-fluid rounded shadow-sm"
           />
-          <div class="ml-3 d-inline-block align-middle">
+          <div class="ml-3">
             <h5 class="mb-0">
-              <span class="text-dark d-inline-block align-middle">{{ ItemInCart.product_id.name }}</span>
+              <span class="text-dark">{{ ItemInCart.product_id.name }}</span>
             </h5>
           </div>
         </div>
