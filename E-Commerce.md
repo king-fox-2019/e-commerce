@@ -4,21 +4,22 @@ ________________________________________________________________________________
 
 ## User Routes:
 
-| **ROUTE**            | METHOD | Description                         |
-| -------------------- | :----: | ----------------------------------- |
-| /users/login         |  POST  | Sign in user                        |
-| /users/register      |  POST  | Sign up user                        |
-| /users/cart          |  GET   | Get all items on cart               |
-| /users/product       |  GET   | Get all user's products             |
+| **ROUTE**       | METHOD | Description             |
+| --------------- | :----: | ----------------------- |
+| /users/login    |  POST  | Sign in user            |
+| /users/register |  POST  | Sign up user            |
+| /users/cart     |  GET   | Get all items on cart   |
+| /users/product  |  GET   | Get all user's products |
 
 ## Product Routes:
 
-| ****ROUTE**** | METHOD | Description                               |
-| ------------- | :----: | ----------------------------------------- |
-| /products/    |  GET   | Get all product list                      |
-| /products/add |  POST  | Create/Add a new product                  |
-| /products/:id | DELETE | Delete product (owner's only)             |
-| /products/:id | PATCH  | Update product information (owner's only) |
+| ****ROUTE****       | METHOD | Description                               |
+| ------------------- | :----: | ----------------------------------------- |
+| /products/          |  GET   | Get all product list                      |
+| /products/add       |  POST  | Create/Add a new product                  |
+| /products/:id       | DELETE | Delete product (owner's only)             |
+| /products/:id       | PATCH  | Update product information (owner's only) |
+| /products/myproduct |  GET   | Get all user's(login user) products       |
 
 ## Errors:
 
@@ -135,34 +136,6 @@ ________________________________________________________________________________
   - **Code:** 500 Internal Server Error
 
     **Content:** `{error: Internal Server Error}``
-
-##### ********User's Product********
-
-- ##### url
-
-  users/product
-
-- ##### Method
-
-  `GET`
-
-- ##### Required
-
-  access_token
-
-- ##### Success Response
-
-  will show user's selled items
-
-  ###### Code: 200
-
-
-- ##### Error Response:
-
-  - **Code:** 500 Internal Server Error
-
-    **Content:** `{error: Internal Server Error}``
-
 
 
 #### **Product**
@@ -318,3 +291,32 @@ ________________________________________________________________________________
     **Content:** `{error: Internal Server Error}``
   - **Code:** 403 Forbidden
     **Content:** `{error: It's not yours}``
+
+#### ********User's Product********
+
+- ##### url
+
+  users/product
+
+- ##### Method
+
+  `GET`
+
+- ##### Required
+
+  access_token
+
+- ##### Success Response
+
+  will show user's selled items
+
+  ###### Code: 200
+
+
+- ##### Error Response:
+
+  - **Code:** 500 Internal Server Error
+
+    **Content:** `{error: Internal Server Error}``
+
+#### 

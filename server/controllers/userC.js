@@ -55,10 +55,27 @@ class Controller {
             }).catch(next);
     }
 
-    // static showPoduct(req, res, next){
-    //     User
-    //         .
-    // }
+    static addCart(req, res, next) {
+        User
+            .findByIdAndUpdate(req.decode.id, {
+                $push: { cart: req.params.id }
+            })
+            .then((result) => {
+                res.status(200).json(result)
+            })
+            .catch(next);
+    }
+
+    static removeCart(req, res, next) {
+        User
+            .findByIdAndUpdate(req.decode.id, {
+                $pull: { cart: req.params.id }
+            })
+            .then((result) => {
+                res.status(200).json(result)
+            })
+            .catch(next);
+    }
 }
 
 module.exports = Controller

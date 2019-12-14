@@ -3,7 +3,7 @@
 const express = require('express')
 const router = express.Router()
 const ControllerUser = require('../controllers/userC')
-const { authenticating } = require('../middlewares/auth')
+const { authenticating, authorizating } = require('../middlewares/auth')
 
 
 router.get('/', ControllerUser.findAllUser)
@@ -12,9 +12,13 @@ router.post('/login', ControllerUser.login)
 
 router.post('/register', ControllerUser.register)
 
-router.get('/cart', authenticating, ControllerUser.showCart)
+router.use(authenticating)
 
-// router.get('/product', authenticating, ControllerUser.showProduct)
+router.get('/cart', ControllerUser.showCart)
+
+router.patch('/:id', ControllerUser.addCart)
+
+router.put('/:id', ControllerUser.removeCart)
 
 
 module.exports = router
