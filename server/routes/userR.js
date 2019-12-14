@@ -5,7 +5,7 @@ const router = express.Router()
 const ControllerUser = require('../controllers/userC')
 const { authenticating, authorizating } = require('../middlewares/auth')
 
-
+console.log('masuk routes');
 router.get('/', ControllerUser.findAllUser)
 
 router.post('/login', ControllerUser.login)

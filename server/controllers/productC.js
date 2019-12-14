@@ -29,18 +29,20 @@ class Controller {
             .catch(next);
     }
 
-    static myproduct(req, res, next) {
-        Product
-            .find({
-                where: {
-                    owner: req.decode.id
-                }
-            })
-            .then((products) => {
-                res.status(200).json(products)
-            })
-            .catch(next);
-    }
+    // <!-- this one for tokopedia looks like e-commerce -->
+
+    // static myproduct(req, res, next) {
+    //     Product
+    //         .find({
+    //             where: {
+    //                 owner: req.decode.id
+    //             }
+    //         })
+    //         .then((products) => {
+    //             res.status(200).json(products)
+    //         })
+    //         .catch(next);
+    // }
 
     static deleteProduct(req, res, next) {
         Product.findOneAndRemove(req.params.id)

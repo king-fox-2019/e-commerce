@@ -5,11 +5,11 @@ const { hash } = require('../helpers/bcrypt')
 const UserSchema = new Schema({
     name: {
         type: String,
-        require: true,
+        required: [true,"Name may not blank"]
     },
     email: {
         type: String,
-        require: true,
+        required: [true,"Please input your email"],
         validate: {
             validator: function (v) {
                 return User.findOne({ email: v })
@@ -23,15 +23,16 @@ const UserSchema = new Schema({
     },
     phone_number: {
         type: String,
-        require: true,
+        // required: true,
         minlength: 9,
         maxlength: 14
     },
     password: {
         // match: [/[A-Za-z0-9]+$/, "Password must contain atleast one uppercase, lowercase and number"],
         type: String,
-        minlength: 6,
-        maxlength: 12
+        required: [true, "password, please!"],
+        minlength: [6, "Password must longer than 6 character"],
+        maxlength: [12, "Sir, its to long, even for me to remember it"]
     },
     cart: [{ type: Schema.Types.ObjectId, ref: 'Product' }]
 })

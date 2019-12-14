@@ -15,6 +15,10 @@ class Controller {
     }
 
     static login(req, res, next) {
+        // console.log(req.body);
+        if (!req.body.email || !req.body.password) {
+            next({ status: 400, msg: 'Please gimme your email and password' })
+        }
         User.findOne({ email: req.body.email })
             .then((user) => {
                 if (!user) next({ status: 404, msg: "User not found" })
@@ -50,18 +54,19 @@ class Controller {
             .findById(req.decode.id)
             .populate('cart')
 
-            .then((carts) => {
-                res.status(200).json(carts)
+            .then((user) => {
+                res.status(200).json(user.cart)
             }).catch(next);
     }
 
     static addCart(req, res, next) {
+        // console.log(req.params);
         User
             .findByIdAndUpdate(req.decode.id, {
                 $push: { cart: req.params.id }
             })
-            .then((result) => {
-                res.status(200).json(result)
+            .then((user) => {
+                res.status(200).json({cart : user.cart})
             })
             .catch(next);
     }

@@ -2,17 +2,19 @@
 
 module.exports = {
     errorHandler: function (error, req, res, next) {
-        console.log(JSON.stringify(error, null, 2));
-        console.log(error);
+        // console.log(JSON.stringify(error, null, 2));
+        // console.log(error);
 
         let statusCode;
         let messageError = [];
 
-        switch (key) {
+        switch (error.name) {
             case "ValidationError":
+                    // console.log(error.message);
                 statusCode = 422;
-                for (const key in error) {
+                for (const key in error.errors) {
                     messageError.push(error.errors[key].message);
+                    // console.log(key);
                 };
                 break;
 
@@ -42,7 +44,7 @@ module.exports = {
                 break;
         }
 
-        console.log(statusCode, messageError);
+        // console.log(statusCode, messageError);
 
         res.status(statusCode).json({
             message: messageError

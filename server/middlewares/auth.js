@@ -8,9 +8,10 @@ const Product = require('../models/product')
 function authenticating(req, res, next) {
     try {
         req.decode = verify(req.headers.access_token)
+        console.log(req.decode);
         User.findById(req.decode.id)
             .then((user) => {
-                if (user) {
+                if (!user) {
                     throw ({
                         status: 404,
                         msg: 'User undefined/not registered'
@@ -21,7 +22,7 @@ function authenticating(req, res, next) {
             })
             .catch(next);
     } catch (error) {
-        next()
+        next({status:401, msg: "Unathorized"})
     }
 }
 
@@ -40,7 +41,7 @@ function authorizating(req, res, next) {
             })
             .catch(next);
     } catch (error) {
-        next(error)
+        next({status: 500, msg: "Something went wrong"})
     }
 }
 

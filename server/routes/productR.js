@@ -12,7 +12,8 @@ router.use(authenticating)
 
 router.post('/add', ControllerProduct.addProduct)
 
-router.get('/myproduct', ControllerProduct.myproduct)
+// <!-- this one for tokopedia looks like e-commerce -->
+// router.get('/myproduct', ControllerProduct.myproduct)
 
 router.use(authorizating)
 
