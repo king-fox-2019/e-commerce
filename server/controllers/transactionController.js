@@ -310,65 +310,9 @@ class TransactionController {
                         line-height: 1.5;
                         margin:0px;
                         }
-                        html {
-                        width: 100%;
-                        }
-                        body {
-                        background: #f5f5f5;
-                        margin: 50px auto;
-                        width: 512px;
-                        }
-                        .mdl-card + .mdl-card {
-                        margin-top: 40px;
-                        }
                         
-                        // Card styles
-                        
-                        .mdl-card--horizontal {
-                        flex-direction: column;
-                        height: 1vh; /* 1 */
-                        padding-left: 150px;
-                        width: 100%;
-                        
-                        .mdl-card__media {
-                            left: 0;
-                            position: absolute;
-                            width: 150px;
-                        }
-                        
-                        .mdl-card__supporting-text {
-                            flex: 1 1 auto;
-                            width: auto;
-                        }
-                        }
-                        
-                        .mdl-card--horizontal-2 {
-                        flex-direction: row;
-                        flex-wrap: wrap;
-                        min-height: 0px;
-                        
-                        .mdl-card__title {
-                            align-items: flex-start;
-                            flex-direction: column;
-                            flex: 1 auto;
-                            float: left;
-                        }
-                        .mdl-card__title-text {
-                            align-self: flex-start;
-                        }
-                        .mdl-card__media {
-                            flex: 0 auto; 
-                            float: right;
-                            height: 112px;
-                            margin: 16px 16px 0 0;
-                            width: 112px;
-                        }
-                        .mdl-card__actions {
-                            clear: both;
-                            flex: 1 auto; 
-                        }
-                        }
                         </style>
+                        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bebas+Neue">
                         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
                         </head>
                         <body>
@@ -377,9 +321,9 @@ class TransactionController {
                                 <div>
                                 <img src="https://storage.googleapis.com/nike-public-bucket/nike%20logo%20square.png" alt="Smiley face" width="100" height="100">
                                 </div>
-                            <h1><i class="fa fa-check-circle" aria-hidden="true" style="color: #353535;"></i> Order Confirmation</h1>
-                                
-                                <div class="mdl-card mdl-shadow--2dp mdl-card--horizontal" style="display:flex;box-shadow: 10px 10px 37px -11px rgba(0,0,0,0.22);">
+                            <h1><i class="fa fa-check-circle" aria-hidden="true" style="color: #353535;font-family:'Bebas Neue';"></i> Order Confirmation</h1>
+                                <br>
+                                <center><div class="mdl-card mdl-shadow--2dp mdl-card--horizontal" style="display:flex;background-color:#fcfcfc ;max-width:700px">
                         <div class="mdl-card__media">
                             <img src="${transaction.Stock_id.productId.images[1]}" width="200" height="200" alt="img">
                         </div>
@@ -392,9 +336,10 @@ class TransactionController {
                             </div> 
                                 </div> 
                                 <br>
+                                <br>
                                 <p>Click button below to confirm <span id="count"></span>.</p>
                                 <br>
-                                <a href="${confirmationLink}" class= "button">Confirm Now</a>
+                                <a href="${confirmationLink}" style="color:white" class= "button">Confirm Now</a>
                             </div>
                             </div>
                             <hr style="width:70px">
