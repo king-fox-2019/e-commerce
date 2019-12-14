@@ -11,6 +11,10 @@ const productSchema = new Schema({
     type: Number,
     required: [true, 'weight cannot be empty']
   },
+  price: {
+    type: Number,
+    required: [true, 'price cannot be empty']
+  },
   quantity: {
     type: Number,
     required: [true, 'quantity cannot be empty']

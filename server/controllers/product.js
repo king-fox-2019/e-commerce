@@ -4,9 +4,9 @@ const { Product } = require('../models')
 
 class productController {
   static create(req, res, next) {
-    const { name, weight, quantity, image } = req.body
+    const { name, weight, quantity, image, price } = req.body
     Product
-      .create({ name, weight, quantity, image })
+      .create({ name, weight, quantity, image, price })
       .then( product => {
         res.status(201).json(product)
       })
@@ -35,7 +35,7 @@ class productController {
   static update(req, res, next) {
 
   }
-  
+
   static delete(req, res, next) {
 
   }
