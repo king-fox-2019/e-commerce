@@ -11,14 +11,6 @@ const routes = [
     component: Home,
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
-  },
-  {
     path: '/login',
     name: 'login',
     component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue'),
@@ -29,9 +21,14 @@ const routes = [
     component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue'),
   },
   {
-    path: '/my-chart',
-    name: 'myChart',
-    component: () => import(/* webpackChunkName: "myChart" */ '../views/MyChart.vue'),
+    path: '/about',
+    name: 'about',
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+  {
+    path: '/my-cart',
+    name: 'myCart',
+    component: () => import(/* webpackChunkName: "myChart" */ '../views/MyCart.vue'),
   },
   {
     path: '/purchase',
@@ -43,9 +40,9 @@ const routes = [
         component: () => import(/* webpackChunkName: "purchaseGold" */ '../views/Product.vue'),
       },
       {
-        path: 'gold-series',
-        name: 'purchaseGoldSeries',
-        component: () => import(/* webpackChunkName: "purchaseGoldSeries" */ '../views/Product.vue'),
+        path: 'batik-series',
+        name: 'purchaseBatikSeries',
+        component: () => import(/* webpackChunkName: "purchaseBatikSeries" */ '../views/Product.vue'),
       },
     ],
   },
@@ -54,14 +51,14 @@ const routes = [
     name: 'services',
     children: [
       {
-        path: 'product-custom',
-        name: 'serviceProductCustom',
-        component: () => import(/* webpackChunkName: "serviceProductCustom" */ '../views/Service.vue'),
+        path: 'custom-product',
+        name: 'serviceCustomProduct',
+        component: () => import(/* webpackChunkName: "serviceCustomProduct" */ '../views/Service.vue'),
       },
       {
-        path: 'revining',
-        name: 'serviceRevining',
-        component: () => import(/* webpackChunkName: "serviceRevining" */ '../views/Service.vue'),
+        path: 'refining',
+        name: 'serviceRefining',
+        component: () => import(/* webpackChunkName: "serviceRefining" */ '../views/Service.vue'),
       },
       {
         path: 'analysis',
