@@ -18,11 +18,28 @@ export default new Vuex.Store({
     detailTransaction : false,
     allCities:[],
     allCitiesInProvince:[],
-    deliveryCost:0
+    deliveryCost:0,
+    filteredProduct :''
   },
   mutations: {
+    FILTER_PRODUCT(state,payload){
+      // console.log(payload)
+      // router.push('/')
+      state.filteredProduct = payload
+      let ListOfProducts = this.state.products
+      let filteredProduct = []
+      return ListOfProducts.filter(product => {
+        if(product.name.toString().toLowerCase().includes(payload.toLowerCase())){
+          filteredProduct.push(product)
+        }
+        state.filteredProduct = filteredProduct
+        // console.log(state.products,'from filter',payload)
+      })
+
+    },
     FETCH_PRODUCT(state,payload){
       state.products = payload
+      state.filteredProduct = payload
     },
     CHANGE_LOGIN(state,payload){
       state.isLogin = payload
@@ -61,10 +78,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
+
     createTransaction({commit},payload){
       // console.log(this.state.deliveryCost)
-      
-
       GetData({
         method: 'post',
         url : `/transactions/checkout`,
@@ -257,12 +273,14 @@ export default new Vuex.Store({
         url : '/products',  
       })
       .then(({data}) => {
+        console.log(data)
         context.commit('FETCH_PRODUCT',data)
       })
       .catch(({response}) => {
         console.log(response)
       })
     },
+
     register(context,payload){
       GetData({
         method: 'post',

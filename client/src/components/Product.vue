@@ -1,8 +1,8 @@
 <template>
 
 <div class="container">
-    
-     <div v-for="(product, index) in products"  :key="index" class="product-page" style="width:20rem; margin:70px;">
+    <!-- <h1>{{filteredProduct}}</h1> -->
+     <div v-for="(product, index) in filteredProduct"  :key="index" class="product-page" style="width:20rem; margin:70px;">
          <b-card
             id="product-card"
             no-body
@@ -46,7 +46,7 @@
 import { mapState } from 'vuex'
 export default {
     name:'home',
-    computed : mapState(['products', 'userRole']),
+    computed : mapState(['products', 'userRole','filteredProduct']),
   
     methods: {
         
@@ -64,6 +64,7 @@ export default {
             this.$store.commit('CHANGE_ROLE',false)
         }
         this.$store.dispatch('fetchProduct')
+        
     },
     
 }

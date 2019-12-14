@@ -30,6 +30,10 @@ const TransactionSchema = new Schema ({
     },
     delivery_cost : {
         type : Number,
+    },
+    date : {
+        type : Date,
+        default : new Date()
     }
 })
 
