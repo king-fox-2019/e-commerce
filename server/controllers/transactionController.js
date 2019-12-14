@@ -64,7 +64,7 @@ class TransactionController {
            payment_status : false
         })
         .then(transactions => {
-            console.log('triggered?',req.loggedUser.id)
+            // console.log('triggered?',req.loggedUser.id)
             transactions.forEach(transaction => {
                 let updatedStock = null
                 let totalBuy = transaction.count
@@ -103,7 +103,7 @@ class TransactionController {
     }
 
     static cart(req,res,next){
-        console.log('get cart?')
+        // console.log('get cart?')
         Transaction.find({
             payment_status : false,
             User_id : req.loggedUser.id
