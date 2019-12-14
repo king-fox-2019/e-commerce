@@ -37,11 +37,13 @@ export default {
 <style>
 .site-footer
 {
+  margin-top:100px;
   background-color:#26272b;
   padding:45px 0 20px;
   font-size:15px;
   line-height:24px;
   color:#737373;
+  min-width:300px
 }
 .site-footer hr
 {

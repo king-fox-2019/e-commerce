@@ -19,14 +19,18 @@
                     <textarea v-model="street" class="form-control"  rows="2" required></textarea>
                 </div>
             
-                <div class="form-group">
-                <label for="inputCity">City</label>
-                <input v-model="city" type="text" class="form-control" placeholder="Jakarta" required>
+                 <div class="form-group">
+                    <label for="exampleFormControlSelect1">Province</label>
+                    <select v-on:change="getCity()" v-model="province" class="form-control" id="exampleFormControlSelect1">
+                    <option v-for="(province,i) in getCities" :key="i" >{{province.province}}</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
-                <label for="inputState">Province</label>
-                <input v-model="province" type="text" class="form-control" placeholder="DKI Jakarta" required>
+                    <label for="exampleFormControlSelect1">City</label>
+                    <select v-on:change="getCost()" v-model="city" class="form-control" id="exampleFormControlSelect1">
+                    <option v-for="(city,i) in getCitiesInProvince" :key="i" >{{city.city_name}}</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -45,11 +49,17 @@
             <p style="font-size:18px" class="card-text"><strong>Total Items :</strong>  </p>
             <p style="font-size:18px" class="card-text">{{getTotalItems}}</p>
             </div>
+         <hr style="width:100%;margin:5px">
+             <div class="detailItem" >
+            <p style="font-size:18px" class="card-text"><strong>Delivery fee : </strong> </p>
+            <p style="font-size:18px" class="card-text">Rp. {{getDeliveryCost.toLocaleString()}}</p>
+            </div>
         <hr style="width:100%;margin:5px">
              <div class="detailItem" >
             <p style="font-size:18px" class="card-text"><strong>Total Price : </strong> </p>
             <p style="font-size:18px" class="card-text">Rp. {{getTotalPayment.toLocaleString()}}</p>
             </div>
+
         <hr style="width:100%;margin:5px;">
         <div class="list-items" >
         <br>
@@ -60,7 +70,7 @@
             <div v-for="(cart, index) in getCart" :key="index" class="card mb-3">
                 <div class="row no-gutters">
                     <div>
-                    <img :src= cart.Stock_id.productId.images[2] id='product-small' alt="" srcset="">
+                    <img :src= cart.Stock_id.productId.images[1] id='product-small' alt="" srcset="">
                     </div>
                     <div class="col-md-6">
                     <div class="card-body">
@@ -99,11 +109,25 @@ export default {
             street : '',
             city: '',
             province: '',
-            postalCode: ''
+            postalCode: '',
+            totalItems : ''
         }
     },
 
     methods: {
+        getCost(){
+            this.$store.dispatch('calculateCost',this.city)
+        },
+        getCity(){
+            this.$store.dispatch('getCityDetail',this.province)
+        },
+        getValue(){
+            let payload = {
+                city : this.city,
+                delivery : this.delivery
+            }
+            console.log(payload)
+        },
         createTransaction(){
             let payload = {
                 firstName: this.firstName ,
@@ -122,6 +146,12 @@ export default {
     },
 
     computed : {
+        getCitiesInProvince(){
+            return this.$store.state.allCitiesInProvince
+        },
+        getCities(){
+            return this.$store.state.allCities
+        },
         getCart(){
             return this.$store.state.detailCart
         },
@@ -129,20 +159,23 @@ export default {
             let allItems = 0
             for(let i = 0 ; i < this.$store.state.detailCart.length; i++){
                 allItems += this.$store.state.detailCart[i].count
-            }
+            } 
             return allItems
         },
         getTotalPayment(){
-            let totalPayment = 0
+            let totalPayment = this.$store.state.deliveryCost
             for(let i = 0 ; i < this.$store.state.detailCart.length; i++){
                 totalPayment += this.$store.state.detailCart[i].total_payment
             }
             return totalPayment
+        },
+         getDeliveryCost(){
+          return this.$store.state.deliveryCost
         }
     },
     created(){
         this.$store.dispatch('getCart')
-        // this.$store.dispatch('getCity')
+        this.$store.dispatch('getCity')
     },
 
 }

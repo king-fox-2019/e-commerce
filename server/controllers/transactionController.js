@@ -1,10 +1,10 @@
 const Transaction = require ('../models/transactions')
 const Stock = require('../models/stock')
+const rajaOngkirAPI = require('../api/axios')
 
 class TransactionController {
 
    static getAllTransaction(req,res,next){
-       console.log('halo')
     Transaction.find()
         .populate('User_id')
         .populate({
@@ -139,6 +139,79 @@ class TransactionController {
                 res.status(201).json({message : 'transaction successfully deleted'})
             })
             .catch(err => {
+                next(err)
+            })
+    }
+
+    static getCities(req,res,next){
+
+        rajaOngkirAPI({
+            method : 'get',
+            url : 'province',
+        })
+            .then(({data}) => {
+                let cities = data.rajaongkir.results
+                res.status(200).json(cities)
+            })
+            .catch(err => {
+                console.log(err)
+                next(err)
+            })
+    }
+
+    static getCityInProvince(req,res,next){
+        // console.log(req.body.province)
+        rajaOngkirAPI({
+            method : 'get',
+            url : 'city',
+        })
+            .then(({data}) => {
+                let cities = data.rajaongkir.results
+                
+                var filteredCity =  cities.filter(function(city) {
+                        return city.province == req.body.province;
+                    });
+                res.status(200).json(filteredCity)
+            })
+            .catch(err => {
+                console.log(err)
+                next(err)
+            })
+    }
+
+    static getCityId(req,res,next){
+        // console.log(req.body.province)
+        rajaOngkirAPI({
+            method : 'get',
+            url : 'city',
+        })
+            .then(({data}) => {
+                let cities = data.rajaongkir.results
+                var filtered =  cities.filter(function(city) {
+                    return city.city_name == req.body.city;
+                });
+                return filtered[0].city_id
+            })
+            .then(destinationId => {
+                // res.status(200).json(destinationId)
+                console.log(destinationId,'from destinationid')
+
+                rajaOngkirAPI({
+                    method : 'post',
+                    url : 'cost',
+                    data : {
+                        origin : '501' ,
+                        destination : destinationId,
+                        weight: req.body.weight,
+                        courier: 'tiki'
+                    }
+                })
+                .then(({data}) => {
+                    res.status(200).json(data.rajaongkir.results)
+                })
+            })
+            .catch(err => {
+                console.log(err)
                 next(err)
             })
     }

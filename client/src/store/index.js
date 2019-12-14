@@ -1,9 +1,9 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
-import GetData from '../apis/server'
-// import APIongkir from '../apis/apiOngkir'
 import Swal from 'sweetalert2'
 import router from '../router/index'
+import GetData from '../apis/server'
+// import APIongkir from '../apis/apiOngkir'
 
 Vue.use(Vuex)
 
@@ -14,7 +14,11 @@ export default new Vuex.Store({
     userRole: false,
     detailProduct : {},
     detailCart : [],
-    cartNow : {}
+    cartNow : {},
+    detailTransaction : false,
+    allCities:[],
+    allCitiesInProvince:[],
+    deliveryCost:0
   },
   mutations: {
     FETCH_PRODUCT(state,payload){
@@ -39,11 +43,28 @@ export default new Vuex.Store({
       state.cartNow =payload
     },
     GET_CITY(state,payload){
-      state.cartNow =payload
+      state.allCities =payload
+    },
+    GET_PROVINCE(state,payload){
+      state.allCitiesInProvince =payload
+      // console.log(state.allCitiesInProvince)
+    },
+    DETAIL_TRANSACTION(state,payload){
+      state.detailTransaction = payload
+      setTimeout(() => {
+        state.detailTransaction  = false
+      },4000)
+    },
+    GET_DELIVERY_COST(state,payload){
+      state.deliveryCost = payload
+      console.log(state.deliveryCost)
     }
   },
   actions: {
     createTransaction({commit},payload){
+      // console.log(this.state.deliveryCost)
+      
+
       GetData({
         method: 'post',
         url : `/transactions/checkout`,
@@ -55,7 +76,8 @@ export default new Vuex.Store({
           street: payload.street,
           city: payload.city,
           province: payload.province,
-          postalCode: payload.postalCode
+          postalCode: payload.postalCode,
+          // deliveryCost : this.state.deliveryCost
         }
       })
       .then(({data}) => {
@@ -71,30 +93,62 @@ export default new Vuex.Store({
         console.log(response)
       })
     },
-    // getCity({commit}){
-      // console.log(process.env.VUE_APP_APIKEY)
-      // console.log(process.env.VUE_APP_RAJAONGKIR_API_KEY,'----')
-    //   APIongkir({
-    //     method: 'get',
-    //     url : `/city/`,
-    //     headers : {
-    //       key : 'fabd964c98d58b14d275f0ae37234817',
-    //       'Access-Control-Allow-Origin': '*',
-    //       "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
-    //       'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
-    //     },
-    //     withCredentials: true,
-    //     useCredentails: true,
 
-    //   })
-    //   .then(({data}) => {
-    //     console.log('data city => ',data)
-    //     commit('GET_CITY',data)
-    //   })
-    //   .catch(({response}) =>{
-    //     console.log(response)
-    //   })
-    // },
+    calculateCost({commit},payload){
+      let count = 0
+      for (let i = 0 ; i < this.state.detailCart.length; i++){
+        count += this.state.detailCart[i].count
+      }
+      let weight = count*1.5*1000
+      GetData({
+        method: 'post',
+        url : `/transactions/getCost`,
+        data : {
+          city : payload,
+          weight: weight
+        }
+      })
+      .then(({data}) => {
+        // console.log(data)
+        // console.log(data[0].costs[0].cost[0].value,'-----')
+        commit('GET_DELIVERY_COST',data[0].costs[0].cost[0].value)
+      })
+      .catch(({response}) =>{
+        console.log(response)
+      })
+    },
+
+    getCity({commit}){
+      GetData({
+        method: 'get',
+        url : `/transactions/cities`,
+      })
+      .then(({data}) => {
+        commit('GET_CITY',data)
+      })
+      .catch(({response}) =>{
+        console.log(response)
+      })
+    },
+
+    getCityDetail({commit},payload){
+      // console.log(commit)
+      console.log(payload,'from get city detail')
+      GetData({
+        method: 'post',
+        url : `/transactions/cityDetails`,
+        data : {
+          province : payload
+        }
+      })
+      .then(({data}) => {
+        console.log('masuk kah?')
+        commit('GET_PROVINCE',data)
+      })
+      .catch(({response}) =>{
+        console.log(response)
+      })
+    },
 
     removeTransaction({commit},payload){
       console.log(commit)
@@ -154,6 +208,7 @@ export default new Vuex.Store({
         )
         commit('ADD_CART',data.cart)
         commit('CART_NOW',data.stock)
+        commit('DETAIL_TRANSACTION',true)
       })
       .catch(({response}) =>{
         Swal.fire({

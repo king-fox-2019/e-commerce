@@ -6,7 +6,7 @@
             fade
             indicators
             img-width="1024"
-            img-height="300"
+            img-height="800"
         >
             <b-carousel-slide
             img-src="https://storage.googleapis.com/nike-public-bucket/img1.jpg"

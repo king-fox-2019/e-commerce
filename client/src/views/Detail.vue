@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-     <div v-if="detailTransaction === true" id="transaction-notif" class="card mb-3" style="max-height:200px;width:500px;position:absolute;right:20px;top:100px;box-shadow: 10px 10px 38px -8px rgba(0,0,0,0.41);">
+     <div v-if="getDetailTransaction === true" id="transaction-notif" class="card mb-3" style="max-height:200px;width:500px;position:absolute;right:20px;top:100px;box-shadow: 10px 10px 38px -8px rgba(0,0,0,0.41);">
         <div class="row no-gutters">
             <div>
             <img :src="getCart.productId.images[2]" style="width:200px;height:200px;"  alt="" srcset="">
@@ -10,6 +10,7 @@
                 <h5 class="card-title right">{{getCart.productId.name}}</h5>
                 <div class='display-form'>
                     <div class="left">
+                      {{this.ammount}}
                     <p class="card-text" style="font-size:12px;margin:0px">size : US {{getCart.number}}</p>
                     
                     <p class="card-text" style="font-size:12px;margin:0px">amount : {{this.amount}}</p>
@@ -26,7 +27,7 @@
     
     <!-- <div class="about"> -->
     <div class="hero-picture" id='product-hero'>
-      <img v-if="heroImages === true" :src= getProduct.images[0] id='product-hero-1' style="height:500px;width:500px">
+      <img v-if="heroImages === true" :src= getProduct.images[0] id='product-hero-1' style="height:500px;width:500px;min-width:100px;">
       <img v-if="image1 === true" :src= getProduct.images[1] id='product-large-1' style="height:500px;width:500px;">
       <img v-if="image2 === true" :src= getProduct.images[2] id='product-large-1' style="height:500px;width:500px;">
       <img v-if="image3 === true" :src= getProduct.images[3] id='product-large-1' style="height:500px;width:500px;">
@@ -104,26 +105,26 @@
            this.image2 = false
            this.image3 = false
         },
-        addToCart(id){
+        async addToCart(id){
           
           if(localStorage.getItem('token')){
             
             if(this.amount === 0 || this.size === 0){
               alert('please insert data')
             }else{
-              this.detailTransaction = true
-        
-              setTimeout(() => {
-                this.detailTransaction = false
-              },4000)
-              this.$store.dispatch('addToCart',{
+              await this.$store.dispatch('addToCart',{
                 id,
                 size : this.size,
                 amount : this.amount
               })
-            }
-            this.amount = ''
-            this.size = ''
+              this.detailTransaction = true
+            setTimeout(() => {
+              this.detailTransaction = false
+              this.amount = ''
+              this.size = ''
+            },8000)
+          }
+           
           }else{
             alert('login first')
           }
@@ -135,8 +136,10 @@
         },
         getCart(){
           return this.$store.state.cartNow
+        },
+        getDetailTransaction(){
+          return this.$store.state.detailTransaction
         }
-
       },
       created(){
         this.$store.dispatch('productDetail',this.$route.params.id)
@@ -194,6 +197,9 @@ p{
     margin:5px;
     width:160px;
     height:160px;
+    min-width:160px;
+    min-height:160px;
+    
   }
 
 
@@ -205,6 +211,7 @@ p{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    min-width:300px;
   }
   .details{
     display:flex;

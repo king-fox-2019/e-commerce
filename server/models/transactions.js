@@ -27,6 +27,9 @@ const TransactionSchema = new Schema ({
     receive_status : {
         type : Boolean,
         default : false
+    },
+    delivery_cost : {
+        type : Number,
     }
 })
 
