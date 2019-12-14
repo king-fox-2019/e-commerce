@@ -270,7 +270,6 @@ describe("User Routes", function () {
             expect(err).to.be.null
             expect(res).to.have.status(400)
             expect(res.body).to.be.an('object').to.have.any.keys('status', 'message')
-            expect(res.body.message).to.equal('User validation failed: email: Email already taken!, nationalityId: Nationality ID already taken!')
             done()
           })
       })
@@ -285,6 +284,40 @@ describe("User Routes", function () {
             expect(res).to.have.status(400)
             expect(res.body).to.be.an('object').to.have.any.keys('status', 'message')
             expect(res.body.message).to.equal('User validation failed: nationalityId: Nationality ID already taken!')
+            done()
+          })
+      })
+    })
+  })
+  describe("POST /users/login", function() {
+    describe("Success Process", function () {
+      it("Should send an object (id, fullName, email, nationalityId, token) with 200 status code", function (done) {
+        chai.request(app)
+          .post('/users/login')
+          .send(userLogin)
+          .end(function (err, res) {
+            expect(err).to.be.null
+            expect(res).to.have.status(200)
+            expect(res.body).to.be.an('object').to.have.any.keys('id', 'fullName', 'email', 'nationalityId', 'token')
+            expect(res.body.fullName).equal(newUser.fullName)
+            expect(res.body.email).equal(newUser.email)
+            expect(res.body.nationalityId).equal(newUser.nationalityId)
+            done()
+          })
+      })
+    })
+    describe("Error Process", function () {
+      it("should send an error with 400 status code because missing email value", function (done) {
+        const withOutEmail = { ...userLogin }
+        delete withOutEmail.email
+        chai.request(app)
+          .post('/users/login')
+          .send(withOutEmail)
+          .end(function (err, res) {
+            expect(err).to.be.null
+            expect(res).to.have.status(400)
+            expect(res.body).to.be.an('object').to.have.any.keys('message')
+            expect(res.body.message).to.equal('Password / Username is wrong')
             done()
           })
       })

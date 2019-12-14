@@ -4,9 +4,9 @@ const { Product } = require('../models')
 
 class productController {
   static create(req, res, next) {
-    const { name, weight, quantity, image, price } = req.body
+    const { name, weight, quantity, image, price, category } = req.body
     Product
-      .create({ name, weight, quantity, image, price })
+      .create({ name, weight, quantity, image, price, category })
       .then( product => {
         res.status(201).json(product)
       })
@@ -17,6 +17,27 @@ class productController {
     Product
       .find()
       .then( product => {
+        console.log(product)
+        res.status(200).json(product)
+      })
+      .catch(next)
+  }
+
+  static readEB(req, res, next) {
+    Product
+      .find({ category: 'EB' })
+      .then( product => {
+        console.log(product)
+        res.status(200).json(product)
+      })
+      .catch(next)
+  }
+
+  static readSB(req, res, next) {
+    Product
+      .find({ category: 'SB' })
+      .then( product => {
+        console.log(product)
         res.status(200).json(product)
       })
       .catch(next)

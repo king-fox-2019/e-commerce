@@ -37,7 +37,7 @@ class userController {
           let token = generateToken({ id: userData.id })
           let user = {
             id: userData.id,
-            username: userData.username,
+            fullName: userData.fullName,
             email: userData.email,
             nationalityId: userData.nationalityId,
             token

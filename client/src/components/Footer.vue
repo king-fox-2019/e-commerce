@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <div class="copyright mt-4">
+    <div class="copyright pt-4">
       © Brahmantya Sukma, 2019 All Rights Reserved
     </div>
   </div>
@@ -59,9 +59,8 @@ export default {
 
 <style scoped>
 .footer {
-  margin-top: 50px;
-  background-color: #23427e;
-  color: white
+  color: white;
+  width: 100%;
 }
 
 .foot {
@@ -69,7 +68,8 @@ export default {
   text-align: left;
   padding-top: 30px;
   padding-left: 20px;
-  /* border-color: #00ccaa !important; */
+  width: 100vw;
+  background-color: #23427e;
 }
 
 h5 {
@@ -84,6 +84,8 @@ a {
 }
 
 .copyright {
+  width: 100%;
+  background-color: #23427e;
   color: white;
   font-size: 12px;
   padding-bottom: 20px
@@ -92,5 +94,9 @@ a {
 img {
   height: 30px;
   margin-right: 20px
+}
+
+.row {
+  margin-left: 0px !important
 }
 </style>

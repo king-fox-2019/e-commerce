@@ -1,0 +1,16 @@
+'use strict'
+
+const { Schema, model, models } = require('mongoose')
+
+const cartSchema = new Schema({
+  customer: {
+    type: Schema.Types.ObjectId, ref: "User"
+  },
+  items: [{
+    type: Schema.Types.ObjectId, ref: "Product"
+  }]
+})
+
+const Cart = model('Cart', cartSchema)
+
+module.exports = Cart

@@ -62,7 +62,7 @@
 
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
     </b-carousel>
-    <div class="row info border">
+    <div class="row info">
       <div class="col buy">
         <div class="col p-2">
           <div>
@@ -95,6 +95,7 @@
       </div>
     </div>
   </div>
+  <Item />
   <Footer />
   </div>
 </template>
@@ -102,11 +103,12 @@
 <script>
 import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue';
+import Item from '../components/ItemHome.vue';
 
 export default {
   name: 'home',
   components: {
-    Navbar, Footer,
+    Navbar, Footer, Item,
   },
   data() {
     return {
@@ -121,6 +123,14 @@ export default {
     onSlideEnd() {
       this.sliding = false;
     },
+  },
+  computed: {
+    data() {
+      return this.$store.state.data;
+    },
+  },
+  created() {
+    this.$store.dispatch('fetchData');
   },
 };
 </script>
@@ -152,6 +162,7 @@ export default {
   height: 150px;
   background-color: #23427e;
   color: white;
+  width: 100%;
   font-weight: bold;
 }
 
@@ -187,5 +198,10 @@ export default {
 .fas {
   color: #cb9b2d
 }
+
+.row {
+  margin-left: 0px !important
+}
+
 
 </style>
