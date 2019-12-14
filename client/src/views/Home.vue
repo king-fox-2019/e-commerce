@@ -69,15 +69,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/css/main.scss';
-
 #home {
   height: 100%;
 
   #jumbotron {
     height: 682px;
-    background-color: $primary;
-    color: $white;
+    background-color: var(--primary);
+    color: var(--white);
     margin: 0;
     padding: 0;
 
@@ -93,7 +91,9 @@ export default {
   }
 }
 
-@include media-breakpoint-up(md) {
+$mid: var(--breakpoint-md);
+
+@media (min-width: 768px) {
   #home {
     #jumbotron {
       height: 600px;
@@ -105,7 +105,7 @@ export default {
   }
 }
 
-@include media-breakpoint-up(sm) {
+@media (min-width: 576px) {
   #home {
     #jumbotron {
       h1 {
