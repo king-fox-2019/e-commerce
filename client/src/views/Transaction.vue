@@ -11,7 +11,18 @@
             :columns="columns">
         </b-table>
     </section>
+  <div>
+    <div>
+    transaction summary
+    </div>
 
+    <div> id : {{transaction[0]._id}}</div>
+    <div>status : {{transaction[0].status}}</div>
+    <div>total billing : {{transaction[0].total}}</div>
+    <div>date: {{transaction[0].createdAt}}</div>
+    <div>customer : {{transaction[0].carts[0].user.username}}</div>
+    <div>products : {{transaction[0].carts[0].product.name}}</div>
+  </div>
     <!-- chart js  -->
     <div class="small">
       <line-chart v-if="isAdmin" :chart-data="datacollection"></line-chart>
@@ -28,7 +39,7 @@ export default {
   name: 'transaction',
   data: function () {
     return {
-      transaction: {},
+      transaction: [],
       datacollection: null,
       content: [
         { 'id': 1, 'contributor': 'Jesse Simmons', 'posts': 2, 'comments': 5 },
@@ -133,7 +144,6 @@ export default {
     // result [700.000, 390.000, 900.000, ... 299.000] ini yg ditampilin di chart
     // dan jumlah yg terjual, itung amount di transaction
   }
-
 }
 </script>
 
