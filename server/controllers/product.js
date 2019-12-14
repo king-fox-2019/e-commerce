@@ -33,11 +33,29 @@ class productController {
   }
 
   static update(req, res, next) {
+    let id = req.params.id
+    let { name, weight, quantity, image, price } = req.body
+    let value = {
+      name, weight, quantity, image, price
+    }
 
+    Product
+      .findByIdAndUpdate(id, value, { new: true, omitUndefined: true})
+      .then( item => {
+        res.status(200).json(item)
+      })
+      .catch(next)
   }
 
   static delete(req, res, next) {
+    let id = req.params.id
 
+    Product
+      .findByIdAndDelete(id)
+      .then( item => {
+        res.status(200).json(item)
+      })
+      .catch(next)
   }
 }
 
