@@ -2,7 +2,9 @@
 
 <div class="container">
     <!-- <h1>{{filteredProduct}}</h1> -->
-     <div v-for="(product, index) in filteredProduct"  :key="index" class="product-page" style="width:20rem; margin:70px;">
+     <div v-for="(product, i) in filteredProduct"  :key="i" class="product-page" style="width:20rem; margin:70px;">
+
+
          <b-card
             id="product-card"
             no-body
@@ -18,7 +20,8 @@
                 {{product.description.slice(0,80)}}...
                 
                     <!-- <a class="card-link" href="" @click.prevent="$route.push(`/detail`)">more</a> -->
-                    <a class="card-link" href="" @click.prevent="testPush(product._id)">more</a>
+                     
+                    <a class="card-link" href="" data-toggle="modal" data-target="#exampleModalLong"  @click="index = i">more</a>
                 
             </b-card-text>
             </b-card-body>
@@ -30,8 +33,34 @@
             <b-button v-if="userRole" pill variant="primary" size="sm" style="margin-left:10px"> delete </b-button>
             </b-card-body>
         </b-card>
-    
+
+
     </div>
+
+    
+          <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="border-radius:20px">
+               
+                <div class="modal-body">
+                    <img :src="filteredProduct[index].images[1]" style="height:350px;width:auto;margin-top:50px">
+                    <b-card-title id="title-detail" >{{filteredProduct[index].name.split('-')[0]}}</b-card-title>
+                    <b-card-sub-title class="mb-4" id="sub-title">{{filteredProduct[index].name.split('-')[1]}}</b-card-sub-title>
+                    <hr>
+
+                    <p>
+                    {{filteredProduct[index].description}}
+                    </p>
+                </div>
+                <div class="modal-footer">
+    
+                    <b-button  pill variant="dark" size="sm"  data-dismiss="modal" style="width:80px"> Close </b-button>
+                    <b-button @click.prevent="testPush(filteredProduct[index]._id)" pill variant="primary" data-dismiss="modal" size="sm" style="width:100px"><i class="fas fa-cart-plus" style="margin-right:5px"></i> Buy </b-button>
+                </div>
+                </div>
+            </div>
+        </div>
+
 
 
 
@@ -47,7 +76,11 @@ import { mapState } from 'vuex'
 export default {
     name:'home',
     computed : mapState(['products', 'userRole','filteredProduct']),
-  
+    data(){
+        return {
+            index : 0
+        }
+    },
     methods: {
         
         testPush(id){
@@ -64,13 +97,34 @@ export default {
             this.$store.commit('CHANGE_ROLE',false)
         }
         this.$store.dispatch('fetchProduct')
-        
     },
     
 }
 </script>
 
 <style scoped>
+
+
+
+.modal-body p{
+    padding-left:50px;
+    padding-right:50px;
+    text-align:center
+}
+
+.modal-body{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center
+}
+
+.modal-body hr{
+    border: 0.5px solid rgb(98, 98, 98);
+    width:50px;
+    margin-top:20px;
+    margin-bottom:40px;
+}
 
 #product-card{
     box-shadow: 15px 10px 70px -13px rgba(0,0,0,0.15);
@@ -115,6 +169,14 @@ button:hover{
     font-family:'Bebas Neue';
     color:#2b2b2b;
 }
+
+#title-detail{
+    margin-top:50px;
+    font-size:22px;
+    font-family:'Bebas Neue';
+    color:#2b2b2b;
+}
+
 
 #sub-title{
     font-size:42px;

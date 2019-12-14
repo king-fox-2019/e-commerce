@@ -61,7 +61,7 @@
             </div>
             <b-button pill variant="primary" size="sm" type='submit' @click="addToCart(getProduct._id)"><i class="fas fa-cart-plus" ></i> Add </b-button>
             <router-link to="/">
-              <b-button pill variant="primary" size="sm" style="margin-left:10px"> back </b-button>
+              <b-button pill variant="dark" size="sm" style="margin-left:10px"> back </b-button>
             </router-link>
           </form>
       </div>

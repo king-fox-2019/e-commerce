@@ -1,4 +1,4 @@
-import Vuex from 'vuex'
+import Vuex, { createNamespacedHelpers } from 'vuex'
 import Vue from 'vue'
 import Swal from 'sweetalert2'
 import router from '../router/index'
@@ -19,7 +19,9 @@ export default new Vuex.Store({
     allCities:[],
     allCitiesInProvince:[],
     deliveryCost:0,
-    filteredProduct :''
+    filteredProduct :'',
+    allTranscation:[],
+    transactionHistory: []
   },
   mutations: {
     FILTER_PRODUCT(state,payload){
@@ -75,39 +77,178 @@ export default new Vuex.Store({
     GET_DELIVERY_COST(state,payload){
       state.deliveryCost = payload
       console.log(state.deliveryCost)
+    },
+    GET_ALL_TRANSACTION(state,payload){
+      state.allTranscation = payload
+    },
+    GET_TRANSACTION_HISTORY(state,payload){
+      state.transactionHistory = payload
+    },
+    CLEAR_TRANSACTION_HISTORY(state){
+      state.detailCart = []
+      state.deliveryCost = 0
     }
   },
   actions: {
 
-    createTransaction({commit},payload){
-      // console.log(this.state.deliveryCost)
+    deleteTransaction({commit},payload){
+      Swal.fire({
+        title: 'Remove this transaction?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, remove it!'
+
+      }).then((result) => {
+
+      if (result.value) {
+        GetData({
+          method: 'delete',
+          url : `/transactions/${payload}`,
+          headers : {
+            token : localStorage.getItem('token')
+          },
+        })
+        .then(({data}) => {
+          Swal.fire(
+            `${data.message}`,
+            'Item has been removed from your cart',
+            'success'
+          )
+          console.log(commit)
+          this.dispatch('getAllTransaction')
+          this.dispatch('getTransactionHistory')
+        })
+        .catch(({response}) =>{
+          console.log(response)
+        })
+
+      }
+    })
+    },
+    confirmReceived({commit},payload){
+      
       GetData({
-        method: 'post',
-        url : `/transactions/checkout`,
+        method: 'get',
+        url : `/transactions/confirm/${payload}`,
         headers : {
           token : localStorage.getItem('token')
         },
-        data: {
-          receiver: payload.firstName+' '+payload.lastName ,
-          street: payload.street,
-          city: payload.city,
-          province: payload.province,
-          postalCode: payload.postalCode,
-          // deliveryCost : this.state.deliveryCost
-        }
       })
       .then(({data}) => {
+        console.log(commit)
         Swal.fire(
-          'Thank you for your purchase!',
-          'Please confirm when the item arrived',
+          `${data.message}`,
+          'Thank you for your purchase',
           'success'
         )
-        console.log('create Transaction Success',data,commit)
-        router.push('/')
+        this.dispatch('getTransactionHistory')
       })
       .catch(({response}) =>{
         console.log(response)
       })
+    },
+
+    sentItem({commit},payload){
+      console.log(payload,'from action')
+      GetData({
+        method: 'post',
+        url : `/transactions/mail`,
+        headers : {
+          token : localStorage.getItem('token')
+        },
+        data : {
+          transactionId : payload
+        }
+      })
+      .then(({data}) => {
+        Swal.fire(
+          `${data,message}`,
+          'Please confirm when the item arrived',
+          'success'
+        )
+          // commit('GET_TRANSACTION_HISTORY',data)
+      })
+      .catch(({response}) =>{
+        console.log(response)
+      })
+      console.log(commit,payload,'from action')
+    },
+    getTransactionHistory({commit}){
+      GetData({
+        method: 'get',
+        url : `/transactions/`,
+        headers : {
+          token : localStorage.getItem('token')
+        },
+      })
+      .then(({data}) => {
+          commit('GET_TRANSACTION_HISTORY',data)
+      })
+      .catch(({response}) =>{
+        console.log(response)
+      })
+    },
+    getAllTransaction({commit}){
+      GetData({
+        method: 'get',
+        url : `/transactions/all`,
+        headers : {
+          token : localStorage.getItem('token')
+        },
+      })
+      .then(({data}) => {
+          commit('GET_ALL_TRANSACTION',data)
+      })
+      .catch(({response}) =>{
+        console.log(response)
+      })
+    },
+    createTransaction({commit},payload){
+      // console.log(this.state.deliveryCost)
+      Swal.fire({
+        title: 'Before checkout',
+        text: "Make sure all the information are correct",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirm'
+      }).then((result) => {
+        if (result.value) {
+          GetData({
+            method: 'post',
+            url : `/transactions/checkout`,
+            headers : {
+              token : localStorage.getItem('token')
+            },
+            data: {
+              receiver: payload.firstName+' '+payload.lastName ,
+              street: payload.street,
+              city: payload.city,
+              province: payload.province,
+              postalCode: payload.postalCode,
+              // deliveryCost : this.state.deliveryCost
+            }
+          })
+          .then(({data}) => {
+            Swal.fire(
+              'Thank you for your purchase!',
+              'Please confirm when the item arrived',
+              'success'
+            )
+            // console.log('create Transaction Success',data,commit)
+            router.push('/')
+            this.dispatch('getAllTransaction')
+            commit('CLEAR_TRANSACTION_HISTORY')
+          })
+          .catch(({response}) =>{
+            console.log(response)
+          })
+        }
+      })
+      
     },
 
     calculateCost({commit},payload){
@@ -177,28 +318,27 @@ export default new Vuex.Store({
         confirmButtonText: 'Yes, remove it!'
 
       }).then((result) => {
-
-        GetData({
-          method: 'delete',
-          url : `/transactions/${payload}`,
-          headers : {
-            token : localStorage.getItem('token')
-          },
-        })
-        .then(({data}) => {
-          console.log('delete success',data)
-          this.dispatch('getCart')
-        })
-        .catch(({response}) =>{
-          console.log(response)
-        })
         
         if (result.value) {
-          Swal.fire(
-            'Removed!',
-            'Item has been removed from your cart',
-            'success'
-          )
+          GetData({
+            method: 'delete',
+            url : `/transactions/${payload}`,
+            headers : {
+              token : localStorage.getItem('token')
+            },
+          })
+          .then(({data}) => {
+            console.log('delete success',data)
+            this.dispatch('getCart')
+            Swal.fire(
+              'Removed!',
+              'Item has been removed from your cart',
+              'success'
+            )
+          })
+          .catch(({response}) =>{
+            console.log(response)
+          })
         }
       })
     },
