@@ -5,6 +5,7 @@ import store from './store'
 import BootstrapVue from 'bootstrap-vue'
 import Loading from 'vue-loading-overlay'
 import Toasted from 'vue-toasted'
+// import VueNumericInput from 'vue-numeric-input'
 
 import '@/assets/css/main.scss'
 import 'vue-loading-overlay/dist/vue-loading.css'
@@ -25,6 +26,7 @@ Vue.use(Toasted, {
   className: 'bg-success text-light font-weight-bold',
   containerClass: 'rounded'
 })
+// Vue.use(VueNumericInput)
 
 new Vue({
   router,

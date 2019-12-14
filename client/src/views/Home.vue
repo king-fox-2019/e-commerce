@@ -61,6 +61,9 @@ export default {
   },
   methods: {
     searchItems() {}
+  },
+  created() {
+    this.$store.dispatch('FETCH_USER_DATA')
   }
 }
 </script>

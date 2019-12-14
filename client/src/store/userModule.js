@@ -5,7 +5,8 @@ export default {
     onSession: false,
     _id: '',
     username: '',
-    email: ''
+    email: '',
+    cart: {}
   },
   mutations: {
     SET_SESSION(state, session) {
@@ -19,10 +20,13 @@ export default {
     },
     SET_EMAIL(state, email) {
       state.email = email
+    },
+    SET_USER_CART(state, cart) {
+      state.cart = cart
     }
   },
   actions: {
-    FETCH_USER_DATA({ commit }) {
+    FETCH_USER_DATA({ commit, dispatch }) {
       const access_token = localStorage.getItem('access_token')
       if (access_token) {
         return server
@@ -33,6 +37,7 @@ export default {
             commit('SET_ID', user._id)
             commit('SET_USERNAME', user.username)
             commit('SET_EMAIL', user.email)
+            return dispatch('FETCH_USER_CART')
           })
       } else {
         commit('SET_SESSION', false)
@@ -40,6 +45,12 @@ export default {
         commit('SET_USERNAME', '')
         commit('SET_EMAIL', '')
       }
+    },
+    FETCH_USER_CART({ commit }) {
+      const access_token = localStorage.getItem('access_token')
+      return server
+        .get('user/cart', { headers: { access_token } })
+        .then(({ data }) => commit('SET_USER_CART', data.data))
     },
     ON_SIGN_UP({ dispatch }, payload) {
       return server.post('/signup', payload).then(response => {
@@ -56,6 +67,15 @@ export default {
     ON_SIGN_OUT({ dispatch }) {
       localStorage.clear()
       dispatch('FETCH_USER_DATA')
+    },
+    UPDATE_CART(context, payload) {
+      const access_token = localStorage.getItem('access_token')
+      return server
+        .patch('user/cart', { ...payload }, { headers: { access_token } })
+        .then(response => {
+          context.dispatch('FETCH_USER_CART')
+          return response
+        })
     }
   }
 }
