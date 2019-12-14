@@ -76,6 +76,15 @@ export default {
           context.dispatch('FETCH_USER_CART')
           return response
         })
+    },
+    CHECKOUT_TRANSACTION(context) {
+      const access_token = localStorage.getItem('access_token')
+      return server
+        .post('user/transactions', {}, { headers: { access_token } })
+        .then(response => {
+          context.dispatch('FETCH_USER_CART')
+          return response
+        })
     }
   }
 }

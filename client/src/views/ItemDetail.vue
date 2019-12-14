@@ -2,7 +2,7 @@
   <div id="item-detail">
     <div class="row" id="item-wrapper">
       <div class="col-12 col-md-5">
-        <div class="ml-5 my-3">
+        <div class="mx-md-0 ml-md-5 mx-3  my-3">
           <b-img class="border" :src="item.image" fluid-grow rounded></b-img>
         </div>
       </div>

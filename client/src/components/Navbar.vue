@@ -11,7 +11,7 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav class="ml-auto" v-if="onSession">
-        <b-nav-item to="/signup">Cart</b-nav-item>
+        <b-nav-item to="/cart">Cart</b-nav-item>
         <b-nav-item @click="onSignOut">Sign Out</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto" v-else-if="$route.path != '/session'">

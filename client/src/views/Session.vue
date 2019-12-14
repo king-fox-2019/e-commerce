@@ -16,7 +16,9 @@ export default {
   },
   created() {
     this.$store.dispatch('FETCH_USER_DATA').then(() => {
-      if (this.$store.state.user.onSession) this.$router.replace('/')
+      if (this.$store.state.user.onSession) {
+        this.$router.replace('/')
+      }
     })
   }
 }
