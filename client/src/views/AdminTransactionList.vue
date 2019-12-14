@@ -21,9 +21,6 @@ export default {
     transactions: {
       get () {
         return this.$store.state.adminTransactions
-      },
-      set () {
-
       }
     }
   },

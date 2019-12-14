@@ -13,16 +13,6 @@ class TransactionController{
       .catch(next)
   }
 
-  static adminFind(req, res, next){
-    const { user_id } = req.params
-    Transaction.find({ user_id })
-      .sort({ createdAt: 'desc' })
-      .then(transactions => {
-        res.status(200).json(transactions)
-      })
-      .catch(next)
-  }
-
   static adminFindAll(req, res, next){
     Transaction.find()
       .populate('products.product_id')

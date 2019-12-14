@@ -4,7 +4,7 @@
       <div class="d-flex justify-content-between">
         <h4>Transaction ID: {{ transaction._id }}</h4>
         <div v-if="!transaction.status">
-          <button class="btn" style="background-color: #B80F0B; color: white" @click.prevent="delivered(transaction._id)"> Delivered? </button>
+          <button class="btn" style="background-color: #B80F0B; color: white" @click.prevent="delivered(transaction._id)"> Confirm Delivery </button>
         </div>
       </div>
       <div class="container">
@@ -15,7 +15,7 @@
             <div style="width: 80px">
               <img :src="product.product_id.image" alt="" style="width: 100%; object-fit: cover;">
             </div>
-            <div class="ml-3 d-flex flex-column">
+            <div class="ml-3 d-flex flex-column" style="display: flex; justify-content: flex-start; text-align: left">
               <div>
                 {{ product.product_id.name }}
               </div>

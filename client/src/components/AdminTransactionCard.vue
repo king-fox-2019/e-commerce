@@ -13,7 +13,7 @@
             <div style="width: 80px">
               <img :src="product.product_id.image" alt="" style="width: 100%; object-fit: cover;">
             </div>
-            <div class="ml-3 d-flex flex-column">
+            <div class="ml-3 d-flex flex-column" style="display: flex; justify-content: flex-start; text-align: left">
               <div>
                 {{ product.product_id.name }}
               </div>
