@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
+import detail from '../views/productdetail.vue';
 
 Vue.use(VueRouter);
 
@@ -17,6 +18,13 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "products" */ '../views/Products.vue'),
+    children: [
+      {
+        path: ':id',
+        name: 'productDetail',
+        component: detail,
+      },
+    ],
   },
   {
     path: '/login',

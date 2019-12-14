@@ -12,7 +12,9 @@
           </template>
           <section v-show="status">
             <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item v-b-modal.modal-1>Cart</b-dropdown-item>
+            <b-dropdown-item id="show-btn" @click="$bvModal.show('bv-modal-example')">
+              Cart
+            </b-dropdown-item>
             <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
           </section>
           <section v-show="!status">
@@ -21,11 +23,17 @@
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
-    <b-modal id="modal-1" title="My Cart">
-      <div>
-        <b-table striped hover :items="cart" :fields="fields"></b-table>
-      </div>
-    </b-modal>
+    <div>
+      <b-modal id="bv-modal-example" hide-footer>
+        <template v-slot:modal-title>
+        </template>
+        <div class="d-block text-center">
+          <h3>My cart</h3>
+          <b-table striped hover :items="cart" :fields="fields"></b-table>
+        </div>
+        <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Close Me</b-button>
+      </b-modal>
+    </div>
   </b-navbar>
 </template>
 

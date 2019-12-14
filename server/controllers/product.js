@@ -2,6 +2,9 @@
 const { Product } = require("../models");
 
 class ProductController {
+  static getOneProduct(req, res, next) {
+    console.log(req.params);
+  };
   static addNewProduct(req, res, next) {
     let product = {
       name: req.body.name,

@@ -8,13 +8,12 @@
       tag="article"
       style="max-width: 20rem; font-family: 'Roboto Condensed', sans-serif;"
       class="mr-3 mt-5"
-    >
+    >data
       <b-card-text>
         Price: {{ priceFormat }} <br>
         Stock: {{ product.stock }} <br>
       </b-card-text>
-
-      <b-button href="#" @click="addToCart(product)" variant="primary">Add to cart</b-button>
+      <b-button href="#" variant="primary">Add to cart</b-button>
     </b-card>
   </div>
 </template>

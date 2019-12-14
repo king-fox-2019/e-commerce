@@ -1,5 +1,6 @@
 <template>
   <b-container class="bv-example-row">
+    <router-view class="mt-3" id="detail"/>
     <b-row>
       <card v-for="product in productList" :product="product" :key="product._id"/>
     </b-row>
