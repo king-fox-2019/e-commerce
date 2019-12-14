@@ -83,7 +83,16 @@
         ></b-popover>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">Sign Up</b-button>
+      <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <b-button type="submit" variant="primary">Sign Up</b-button>
+
+        <span class="mt-2 mt-sm-0">
+          Already have an account?
+          <router-link :to="`/session?from=${$route.query.from}&on=signin`"
+            >Sign Up</router-link
+          >
+        </span>
+      </div>
     </b-form>
   </div>
 </template>
