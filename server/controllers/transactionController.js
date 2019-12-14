@@ -2,6 +2,24 @@ const Transaction = require ('../models/transactions')
 const Stock = require('../models/stock')
 
 class TransactionController {
+
+   static getAllTransaction(req,res,next){
+       console.log('halo')
+    Transaction.find()
+        .populate('User_id')
+        .populate({
+            path : "Stock_id",
+            populate :{
+                path : "productId",
+            }
+        })
+        .then(transactions => {
+            res.status(200).json(transactions)
+        })
+        .catch(err => {
+            next(err)
+        })
+   }
    static addToCart(req,res,next){
        Stock.findOne({
            productId : req.params.id,
@@ -9,7 +27,6 @@ class TransactionController {
         })
         
         .populate('productId')
-        
         .then(stock => {
                 
                 if(!stock){
