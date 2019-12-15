@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     
-    <SliderPage v-if="!this.$store.state.userRole"/>
+    <SliderPage/>
     <div class="welcomegif">
       <img src="../assets/greeting.gif" fluid alt="Responsive image" srcset="">
     </div>
@@ -34,10 +34,10 @@ export default {
 
 <style scoped>
   img{
-    margin-top:100px;
+    /* margin-top:-200px; */
     width:100%
   }
   SliderPage{
-    margin-top:100px
+    margin-bottom:-100px;
   }
 </style>

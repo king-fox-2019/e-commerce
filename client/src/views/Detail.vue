@@ -27,10 +27,10 @@
     
     <!-- <div class="about"> -->
     <div class="hero-picture" id='product-hero'>
-      <img v-if="heroImages === true" :src= getProduct.images[0] id='product-hero-1' style="height:500px;width:500px;min-width:100px;">
-      <img v-if="image1 === true" :src= getProduct.images[1] id='product-large-1' style="height:500px;width:500px;">
-      <img v-if="image2 === true" :src= getProduct.images[2] id='product-large-1' style="height:500px;width:500px;">
-      <img v-if="image3 === true" :src= getProduct.images[3] id='product-large-1' style="height:500px;width:500px;">
+      <img v-if="heroImages === true" :src= getProduct.images[0] id='product-hero-1' style="height:550px;width:550px;min-width:100px;">
+      <img v-if="image1 === true" :src= getProduct.images[1] id='product-large-1' style="height:550px;width:550px;">
+      <img v-if="image2 === true" :src= getProduct.images[2] id='product-large-1' style="height:550px;width:550px;">
+      <img v-if="image3 === true" :src= getProduct.images[3] id='product-large-1' style="height:550px;width:550px;">
       <div class="small-picture">
         <img @mouseover="imagesOne" @mouseout="imagesHero" :src= getProduct.images[1] id='product-small-1' alt="" srcset="">
         <img @mouseover="imagesTwo" @mouseout="imagesHero" :src= getProduct.images[2] id='product-small-2' alt="" srcset="">
@@ -54,9 +54,9 @@
                 <option :disabled="stock.stock == 0" v-for="stock in getProduct.stock" :key="stock._id">{{stock.number}}</option>
               </select>
             </div>
-            <div class="form-group" style="width:100px;margin-left:30px">
+            <div class="form-group" style="width:150px;margin-left:30px">
             <label for="exampleFormControlSelect1">insert amount</label>
-            <input v-model="amount" class="form-control" type="text" placeholder="0">
+            <input v-model="amount" class="form-control" type="text">
             </div>
             </div>
             <b-button pill variant="primary" size="sm" type='submit' @click="addToCart(getProduct._id)"><i class="fas fa-cart-plus" ></i> Add </b-button>
@@ -71,7 +71,7 @@
 </template>
 
 <script>
-
+  import Swal from 'sweetalert2'
   export default {
       name:'detail-product',
       data(){
@@ -194,7 +194,7 @@ p{
   }
 
   .small-picture img{
-    margin:5px;
+    margin:15px;
     width:160px;
     height:160px;
     min-width:160px;

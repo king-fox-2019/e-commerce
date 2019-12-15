@@ -81,12 +81,9 @@ export default {
 
     methods: {
         sentItem(payload){
-            // console.log(payload)
-            // console.log(transactionId) 
             this.$store.dispatch('sentItem',payload)
         },
         deleteTransaction(transactionId){
-            // console.log(transactionId)
             this.$store.dispatch('deleteTransaction',transactionId)
         }
     },

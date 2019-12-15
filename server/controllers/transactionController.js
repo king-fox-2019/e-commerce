@@ -278,8 +278,7 @@ class TransactionController {
                         padding: 5px; 
                         }
                         .text-container{
-                        width: 90%;
-                        max-width: 800px;
+                        width: 400px;
                         font-weight: 300;
                         margin: 0 auto;
                         padding: 15px;
@@ -323,15 +322,15 @@ class TransactionController {
                                 </div>
                             <h1><i class="fa fa-check-circle" aria-hidden="true" style="color: #353535;font-family:'Bebas Neue';"></i> Order Confirmation</h1>
                                 <br>
-                                <center><div class="mdl-card mdl-shadow--2dp mdl-card--horizontal" style="display:flex;background-color:#fcfcfc ;max-width:700px">
+                                <center><div class="mdl-card mdl-shadow--2dp mdl-card--horizontal" style="background-color:#fcfcfc ;max-width:700px">
                         <div class="mdl-card__media">
-                            <img src="${transaction.Stock_id.productId.images[1]}" width="200" height="200" alt="img">
+                            <img src="${transaction.Stock_id.productId.images[1]}" width="400" height="400" alt="img">
                         </div>
                             <div class="mdl-card__title" style="text-align:left;margin-left:20px">
                             <h2 class="mdl-card__title-text">${transaction.Stock_id.productId.name}</h2>
                             <p>Receiver : ${transaction.receiver}</p>
                             <p>Address : ${transaction.address} </p>
-                            <p>Total Payment : ${transaction.total_payment}</p>
+                            <p>Total Payment : Rp. ${transaction.total_payment.toLocaleString()}</p>
                             <p>Date purchased : ${transaction.date.toString().slice(0,10) + ', '+ transaction.date.getFullYear()}</p>
                             </div> 
                                 </div> 

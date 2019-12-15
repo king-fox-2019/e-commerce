@@ -127,6 +127,7 @@ export default {
 }
 
 #product-card{
+    min-height: 700px;
     box-shadow: 15px 10px 70px -13px rgba(0,0,0,0.15);
     transition: all .2s ease-in-out;
 }
@@ -179,9 +180,10 @@ button:hover{
 
 
 #sub-title{
-    font-size:42px;
+    font-size:40px;
     font-family:'Bebas Neue';
     color:#2b2b2b;
+    line-height: 95%;
 }
 
 #card-body-bottom{

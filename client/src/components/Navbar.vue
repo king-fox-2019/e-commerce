@@ -12,6 +12,7 @@
                   <div class="icons-user">
                     <i v-if="this.$store.state.isLogin" class="fas fa-sign-out-alt"></i>
                     <i v-if="!this.$store.state.isLogin" class="fas fa-user"></i>
+                    
 
                     <!-- sign in ------------------------------------------------------- -->
 
@@ -60,6 +61,8 @@
                     <!-- modal cart ------------------------------------------------------- -->
                     <b-nav-item v-if="this.$store.state.isLogin" @click="signout"  style="font-size:11px">Logout</b-nav-item>
                     <b-nav-item v-if="!this.$store.state.isLogin" v-b-modal.modal-center style="font-size:11px">Sign in</b-nav-item>
+                    <div v-if="!this.$store.state.isLogin" class="vl"></div>
+                    <i v-if="!this.$store.state.isLogin" class="fas fa-user-plus"></i>
                     <b-nav-item v-if="!this.$store.state.isLogin" v-b-modal.modal-register style="font-size:11px">Register</b-nav-item>
                   </div>
                   <div v-if="this.$store.state.isLogin && !userRole" class="vl"></div>
@@ -67,11 +70,11 @@
                   <b-nav-item v-if="this.$store.state.isLogin && !userRole" @click="HistoryPage" style="font-size:11px">History</b-nav-item>
 
                   <div v-if="this.$store.state.isLogin" class="vl"></div>
-                   <div v-if="this.$store.state.isLogin" class="icons-user">
-                    <i v-if="this.$store.state.isLogin"  class="fas fa-shopping-cart"></i>
+                  <div v-if="this.$store.state.isLogin" class="icons-user">
+                  <i v-if="this.$store.state.isLogin"  class="fas fa-shopping-cart"></i>
                     
                     <!-- <b-nav-item v-if="this.$store.state.isLogin" data-target="#myModal2" style="font-size:14px">{{getCart.length}}</b-nav-item> -->
-                    <b-nav-item v-if="this.$store.state.isLogin" @click="showCart" style="font-size:14px;margin-right:100px;">{{detailCart.length}}</b-nav-item>
+                    <b-nav-item v-if="this.$store.state.isLogin" @click="showCart" style="font-size:14px;margin-right:10px;">{{detailCart.length}}</b-nav-item>
                     
                   </div>
                 </div>                   
@@ -207,7 +210,7 @@ export default {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    width: 200px;
+    width: 300px;
 }
 
 
