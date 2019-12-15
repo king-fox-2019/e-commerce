@@ -22,7 +22,7 @@ const buyerSchema = new Schema({
       required: [true, 'Please enter password']
    },
    cart: [{
-      itemId: {
+      item: {
          type: Schema.Types.ObjectId,
          ref: 'Item'
       },

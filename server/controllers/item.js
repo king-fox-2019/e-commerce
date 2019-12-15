@@ -3,15 +3,15 @@ const Item = require('../models/Item')
 
 class ItemController {
 
-   static create (req, res, next) {
+   // static create (req, res, next) {
 
-      Item
-      .create(req.body)
-      .then(item => {
-         res.status(201).json({item})
-      })
-      .catch(next)
-   }
+   //    Item
+   //    .create(req.body)
+   //    .then(item => {
+   //       res.status(201).json({item})
+   //    })
+   //    .catch(next)
+   // }
 
    static readOne (req, res, next ) {
 
@@ -25,6 +25,7 @@ class ItemController {
    }
 
    static readAll (req, res, next) {
+
       Item
       .find()
       .then(items => {

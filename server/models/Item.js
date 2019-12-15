@@ -9,13 +9,17 @@ const itemSchema = new Schema({
    },
    description: {
       type: String,
-      required: [true, `Please enter this item's description`]
+      default: 'no description'
    },
    image: {
       type: String,
       default: ''
    },
    price: {
+      type: Number,
+      default: 0
+   },
+   stock: {
       type: Number,
       default: 0
    }

@@ -2,7 +2,7 @@
 const Buyer = require('../models/Buyer')
 const jwt = require('jsonwebtoken')
 const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client(CLIENT_ID);
+const client = new OAuth2Client(process.env.GOOGLE_SIGNIN_CLIENT_ID);
 const {comparePassword} = require('../helpers/bcrypt')
 
 class BuyerController {

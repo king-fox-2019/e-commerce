@@ -2,14 +2,15 @@ const jwt = require('jsonwebtoken')
 const Item = require('../models/Item')
 
 function authentication (req, res, next) {
-   if(!req.headers) throw {
-      code: 400,
-      message: 'You are not authenticated'
-   }
-
    try {
-      jwt.verify(req.body.access_token, process.env.JWT_SECRET, (err, decoded) => {
+      if(!req.headers.access_token) throw {
+         code: 400,
+         message: 'You are not authenticated'
+      }
+
+      jwt.verify(req.headers.access_token, process.env.JWT_SECRET, (err, decoded) => {
          if(err) {
+            console.log('ada error')
             if(err.name == 'TokenExpiredError') throw {
                code: 400,
                message: 'Your authentication has expired, please sign in again.'
@@ -18,10 +19,10 @@ function authentication (req, res, next) {
                code: 400,
                message: 'Invalid access token'
             }
-            else {
-               req.decoded = decoded
-               next()
-            }
+         }
+         else {
+            req.decoded = decoded
+            next()
          }
       })
    }
