@@ -6,10 +6,7 @@
     <div class="parallax_layer parallax_layer-back" style="background-image: url(https://storage.googleapis.com/nike-public-bucket/parallax-base-new.jpg);height:100vh;width:100vw;background-size:auto;background-position:center;top:0vh">
     <div class="title"></div>
     </div>
-    <div class="parallax_layer parallax_layer-flying-grass1" style="background-image: url(https://storage.googleapis.com/nike-public-bucket/parallax-flying-grass1.png);height:100vh;width:100vw;background-position:center;background-size: 100%;top:300vh">
-      <div class="title"></div>
-    </div>
-    <div class="parallax_layer parallax_layer-text" style="background-image: url(https://storage.googleapis.com/nike-public-bucket/parallax-the.png);height:100vh;width:100vw;background-size:15%;background-position:center;top:10vh;left:-70vw">
+    <div class="parallax_layer parallax_layer-text-1" style="background-image: url(https://storage.googleapis.com/nike-public-bucket/parallax-the.png);height:100vh;width:100vw;background-size:15%;background-position:center;top:10vh;left:-78vw">
     <div class="title"></div>
     </div>
     <div class="parallax_layer parallax_layer-grass" style="background-image: url(https://storage.googleapis.com/nike-public-bucket/parallax-grass1.png);height:100vh;width:100vw;background-size:auto;background-position:center;top:470vh">
@@ -31,6 +28,9 @@
       <div class="title"></div>
     </div>
     <div class="parallax_layer parallax_layer-flying-grass2" style="background-image: url(https://storage.googleapis.com/nike-public-bucket/parallax-flying-grass2.png);height:100vh;width:100vw;background-position:center;background-size: 100%;top:200vh">
+      <div class="title"></div>
+    </div>
+    <div class="parallax_layer parallax_layer-flying-grass1" style="background-image: url(https://storage.googleapis.com/nike-public-bucket/parallax-flying-grass1.png);height:100vh;width:100vw;background-position:center;background-size: 100%;top:400vh">
       <div class="title"></div>
     </div>
 </div>
@@ -122,6 +122,10 @@ parallax_layer{
   .parallax_layer-text {
     -webkit-transform: translateZ(0px);
     transform: translateZ(-5px) scale(6);
+  }
+  .parallax_layer-text-1 {
+    -webkit-transform: translateZ(0px);
+    transform: translateZ(-6px) scale(7);
   }
     .parallax_layer-soil {
     -webkit-transform: translateZ(-2px);

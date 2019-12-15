@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Navbar class="fixed-top" style="background-color:white"/>
+    <Navbar class="fixed-top" />
     <router-view/>
     <FooterPage/>
   </div>
@@ -26,6 +26,11 @@ export default {
 </script>
 
 <style>
+
+.fixed-top{
+  box-shadow: 10px 10px 28px -9px rgba(0,0,0,0.23);
+  background-color:white;
+}
 
 .icons-user{
   display: flex;
