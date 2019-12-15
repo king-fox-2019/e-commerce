@@ -24,7 +24,7 @@ const productSchema = new Schema({
     type: String,
     required: [true, 'Please input the author\'s name!']
   }
-})
+}, { timestamps: true })
 
 const Product = mongoose.model('Product', productSchema)
 

@@ -39,7 +39,6 @@ let product, cart, transaction
 
 describe('CRUD transaction routes', function () {
   before(async function () {
-
     try {
       // CUSTOMER
       let customer = await User.create(customerInfo)
@@ -247,12 +246,12 @@ describe('CRUD transaction routes', function () {
 
   describe('update status of a transaction > PATCH /transactions/:id', function () {
 
-    it ('should return an updated transaction with the message: \'Updated transaction status!\'', function(done) {
+    it('should return an updated transaction with the message: \'Updated transaction status!\'', function(done) {
       
       chai
         .request(app)
         .patch(`/transactions/${transaction._id}`)
-        .send({ status: 'delivered' })
+        .send({ status: 'delivering' })
         .set('access_token', currentAdminAccessToken)
         .end(function (err, res) {
           
@@ -264,13 +263,13 @@ describe('CRUD transaction routes', function () {
           expect(res.body.message).to.eql('Updated transaction status!')
 
           expect(res.body.transaction).to.be.an('object')
-          expect(res.body.transaction.status).to.eql('delivered')
+          expect(res.body.transaction.status).to.eql('delivering')
           
           done()
         })
     })
 
-    it ('ERROR: unauthorized access when given customer\'s access token', function (done) {
+    it('ERROR: unauthorized access when given customer\'s access token', function (done) {
 
       chai
         .request(app)
@@ -326,7 +325,7 @@ describe('CRUD transaction routes', function () {
         })
     })
 
-    it (`ERROR: bad request when patched with any status other than 'undelivered', 'delivered', 'received'`, function(done) {
+    it (`ERROR: bad request when patched with any status other than 'preparing', 'delivering', 'received'`, function(done) {
       
       chai
         .request(app)
@@ -350,6 +349,8 @@ describe('CRUD transaction routes', function () {
     })
   })
 
+  let receivedTransactionId
+
   describe('confirm that the order is received by the customer > PATCH /transactions/:id/received', function () {
     
     it (`should return a transaction with updated delivery status to 'received' with the message: 'Updated transaction status!' when given customer access token`, function(done) {
@@ -359,29 +360,9 @@ describe('CRUD transaction routes', function () {
         .patch(`/transactions/${transaction._id}/received`)
         .set('access_token', currentCustomerAccessToken)
         .end(function (err, res) {
-          
-          expect(err).to.be.null
-          expect(res).to.have.status(200)
+          // console.log('TEST: ini res body pas transaction received', res.body);
+          receivedTransactionId = res.body.transaction._id 
 
-          expect(res.body).to.be.an('object')
-          expect(res.body.message).to.be.a('string')
-          expect(res.body.message).to.eql('Updated transaction status!')
-
-          expect(res.body.transaction).to.be.an('object')
-          expect(res.body.transaction.status).to.eql('received')
-          
-          done()
-        })
-    })
-
-    it (`should return a transaction with updated delivery status to 'received' with the message: 'Updated transaction status!' when given admin access token`, function(done) {
-      
-      chai
-        .request(app)
-        .patch(`/transactions/${transaction._id}/received`)
-        .set('access_token', currentAdminAccessToken)
-        .end(function (err, res) {
-          
           expect(err).to.be.null
           expect(res).to.have.status(200)
 
@@ -425,6 +406,25 @@ describe('CRUD transaction routes', function () {
 
           expect(res.body).to.be.an('object')
           expect(res.body.messages).to.be.an('array')
+          
+          done()
+        })
+    })
+
+    it ('ERROR: `You have already received this order!` when doing the action on an order that\'s already received', function(done) {
+      
+      chai
+        .request(app)
+        .patch(`/transactions/${receivedTransactionId}/received`)
+        .set('access_token', currentCustomerAccessToken)
+        .end(function (err, res) {
+          
+          expect(err).to.be.null
+          expect(res).to.have.status(403)
+
+          expect(res.body).to.be.an('object')
+          expect(res.body.messages).to.be.an('array')
+          expect(res.body.messages[0]).to.eql('You have already received this order!')
           
           done()
         })

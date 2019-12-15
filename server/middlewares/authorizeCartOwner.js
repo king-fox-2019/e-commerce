@@ -2,14 +2,10 @@ const Cart = require('../models/Cart')
 
 module.exports = (req, res, next) => {
   try {
-    // console.log("masuk authorize");
-    const _id = req.params.id
     const user = req.user.id
 
-    // console.log("ini id, user", _id, user)
-
     Cart
-      .findOne({ _id, user })
+      .findOne({ user })
       .then(user => {
 
         // console.log("ini user di authorize", user)
@@ -22,8 +18,8 @@ module.exports = (req, res, next) => {
         next()
       })
       .catch(next)
-  }
-  catch (error) {
-    next(error)
+
+  } catch (error) {
+    next(error) 
   }
 }

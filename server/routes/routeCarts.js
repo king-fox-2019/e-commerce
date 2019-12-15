@@ -1,27 +1,36 @@
 const router = require('express').Router()
 const ControllerCart = require('../controllers/cart')
 const authenticate = require('../middlewares/authenticate')
-const authorize = require('../middlewares/authorize')
+const authorizeCartOwner = require('../middlewares/authorizeCartOwner')
+
+router.get('/all', authenticate, ControllerCart.fetchMany)
 
 router.get('/', authenticate, ControllerCart.fetchOne)
 
 router.post(
-  '/products/:id/:qty',
+  '/products/:productId/:productInputQty',
   authenticate,
   ControllerCart.addOrUpdateQtyInCart
 )
 
 router.patch(
-  '/products/:id/:qty',
+  '/products/:productId/:productInputQty',
   authenticate,
-  authorize,
-  ControllerCart.updateProductQtyInCart
+  authorizeCartOwner,
+  ControllerCart.addOrUpdateQtyInCart
 )
 
-router.get(
+router.delete(
+  '/products/:productId',
+  authenticate,
+  authorizeCartOwner,
+  ControllerCart.removeProductFromCart
+)
+
+router.patch(
   '/:id/checkout',
   authenticate,
-  authorize,
+  authorizeCartOwner,
   ControllerCart.checkout
 )
 

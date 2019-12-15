@@ -20,7 +20,7 @@ const correctInput = {
 describe('CRUD users routes', function () {
   this.timeout(5000)
 
-  before(function () {
+  before(function (done) {
     chai
       .request(app)
       .post('/users/register')
@@ -32,10 +32,11 @@ describe('CRUD users routes', function () {
       .end(function (err, res) {
         if (err) console.log(err)
         currentAccessToken = res.body.access_token
+        done()
       })
   })
 
-  after(function () {
+  after(function (done) {
     if (process.env.NODE_ENV === 'testing') {
       User.deleteMany()
         .then(() => {
@@ -64,9 +65,7 @@ describe('CRUD users routes', function () {
         .post('/users/register')
         .send(correctInput)
         .end(function (err, res) {
-
           // console.log("ini response dari user register", res.body)
-
           expect(err).to.be.null
           expect(res).to.have.status(201)
 
@@ -77,7 +76,7 @@ describe('CRUD users routes', function () {
 
           expect(res.body.user.name).to.be.a('string')
           expect(res.body.user.email).to.be.a('string')
-          expect(res.body.user.password).to.be.a('string')
+          expect(res.body.user.password).to.be.a('undefined')
 
           done()
         })

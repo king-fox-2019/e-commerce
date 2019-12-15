@@ -6,19 +6,16 @@ const authenticate = require('../middlewares/authenticate')
 
 const upload = gcsUpload({
   limits: {
-    fileSize: 1e6 // in bytes
+    fileSize: Infinity // in bytes
   },
   gcsConfig: {
-    keyFilename: process.env.GOOGLE_KEY_FILE,
-    bucketName: process.env.GOOGLE_PROJECT_ID
+    keyFilename: process.env.GOOGLE_CLOUD_KEY_FILE,
+    bucketName: process.env.GOOGLE_CLOUD_BUCKET
   }
 })
 
 router.post('/upload-image', authenticate, upload.single('image'), (req, res, next) => {
-  try {
-    res.status(200).send(req.body.image)
-  }
-  catch(err) { next(err) }
+  res.status(200).send(req.body.image)
 })
 
 router.get('/', ControllerProduct.fetchAll)

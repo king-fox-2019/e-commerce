@@ -1,16 +1,29 @@
 const User = require('../models/User')
+const Cart = require('../models/Cart')
+
 const generateToken = require('../helpers/generateToken')
 const verifyHash = require('../helpers/verifyHash')
 
 class ControllerUser {
   static register(req, res, next) {
+
     const { name, email, password } = req.body
+
+    let access_token, user
+
     User
       .create({ name, email, password, role: 'customer' })
-      .then(user => {
-        const payload = { id: user._id, name, email }
-        const access_token = generateToken(payload)
+      .then(userCreated => {
+        user = { id: userCreated._id, name, email }
+        access_token = generateToken(user)
 
+        return Cart
+        .create({
+          user: user.id,
+          products: []
+        })
+      })
+      .then(() => {
         res.status(201).json({
           message: 'Successfully registered!',
           access_token, user
@@ -67,6 +80,9 @@ class ControllerUser {
     const { OAuth2Client } = require('google-auth-library');
     const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
+    // console.log('ini google id token', googleidtoken);
+    // console.log('ini google client id', process.env.GOOGLE_CLIENT_ID);
+
     let payload, name, email, password, picture
 
     client
@@ -75,6 +91,9 @@ class ControllerUser {
         audience: process.env.GOOGLE_CLIENT_ID
       })
       .then(ticket => {
+
+        // console.log('ini ticket pas google sign in', ticket);
+        
         payload = ticket.getPayload()
         name = payload.name
         email = payload.email
@@ -85,15 +104,24 @@ class ControllerUser {
           .findOne({ email })
       })
       .then(user => {
+
+        // console.log('ini user yg ditemuin pas google sign in', user)
+        
         if (!user) {
+
+          // console.log('masuk !user pas google sign in', name, email, password);
+          
           User
-            .create({
-              name, email, password, picture
-            })
+            .create({ name, email, password, role: 'customer' })
             .then(user => {
-              const id = user.id
-              const payload = { email, id }
+
+              // console.log('ini user pas create di google sign in', user);
+              
+              const id = user._id
+              const payload = { name, email, id }
               const access_token = generateToken(payload)
+
+              // console.log('ini token yg digenerate pas google sign in', access_token);
 
               res.status(201).json({
                 message: 'Successfully registered!',
@@ -103,10 +131,8 @@ class ControllerUser {
             .catch(next)
         }
         else {
-          payload = {
-            email: payload.email,
-            id: user.id
-          }
+          payload = { name, email, id: user._id }
+          
           const access_token = generateToken(payload)
 
           res.status(200).json({
