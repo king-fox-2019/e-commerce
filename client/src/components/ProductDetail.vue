@@ -55,7 +55,7 @@
           </div>
           <div class="owl-dots disabled"></div>
         </div> -->
-        <img src="https://images.unsplash.com/photo-1574327694472-d172fb4d5865?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1532&q=80" class="img-fluid" alt="">
+        <img :src="detailProduct.image" class="img-fluid" alt="">
         <div class="ribbon sale">
           <div class="theribbon">SALE</div>
           <div class="ribbon-background"></div>
@@ -69,22 +69,31 @@
       </div>
       <div class="col-md-6">
         <div class="box">
-          <h1 class="text-center">White Blouse Armani</h1>
+          <h1 class="text-center">{{detailProduct.name}}</h1>
           <p class="goToDescription">
             <a
               href="#details"
               class="scroll-to"
             >Scroll to product details, material &amp; care and sizing</a>
           </p>
-          <p class="price">$124.00</p>
-          <p class="text-center buttons">
+          <p class="price">${{detailProduct.price}}.00</p>
+          <form action="" method="post" @submit.prevent="addToCart">
+            <div class="form-group">
+              <label for="qty">Quantity: </label>
+              <input required id="qty" type="number" class="form-control" v-model="quantity"/>
+            </div>
+            <div class="form-group justify-content-center d-flex">
+              <button type="submit" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</button>
+            </div>
+          </form>
+          <!-- <p class="text-center buttons">
             <a href="basket.html" class="btn btn-primary">
               <i class="fa fa-shopping-cart"></i> Add to cart
             </a>
-          </p>
+          </p> -->
         </div>
         <div class="box" id="details">
-          <p>product detail bla bla</p>
+          <p>avaliable stock: {{detailProduct.stock}}</p>
         </div>
       </div>
     </div>
@@ -92,8 +101,42 @@
 </template>
 
 <script>
+import axios from '../config/api'
 export default {
-  name: 'DetailProduct'
+  name: 'DetailProduct',
+  data: function () {
+    return {
+      quantity: 1
+    }
+  },
+  computed: {
+    detailProduct () {
+      return this.$store.state.products.filter((product) => {
+        return product._id === this.$route.params.id
+      })[0]
+    }
+  },
+  methods: {
+    addToCart () {
+      axios({
+        method: 'PATCH',
+        url: `/user/cart`,
+        data: {
+          quantity: this.quantity,
+          ProductId: this.$route.params.id
+        },
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          this.$store.dispatch('fetchUser')
+        })
+        .catch(err => {
+          console.log(`err`, err.response)
+        })
+    }
+  }
 }
 </script>
 
