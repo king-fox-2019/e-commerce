@@ -27,10 +27,11 @@
       </div>
       <div class="nav-side">
         <b-navbar-nav>
-          <b-nav-item href="#"><i class="fas fa-shopping-bag" right></i></b-nav-item>
+          <b-nav-item @click="isLogin"><i class="fas fa-shopping-bag" right></i></b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
-          <b-nav-item to="/login">Masuk/Login</b-nav-item>
+          <b-nav-item v-if="(!this.login)" to="/login">Masuk/Login</b-nav-item>
+          <b-nav-item v-else @click.prevent="logout">Logout</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
           <b-nav-item href="#" right>
@@ -43,7 +44,45 @@
 </template>
 
 <script>
-export default {};
+import Swal from 'sweetalert2';
+
+export default {
+  methods: {
+    isLogin() {
+      if (this.login) {
+        this.$router.push('/my-cart');
+      } else {
+        this.$router.push('/login');
+      }
+    },
+    logout() {
+      Swal.fire({
+        title: 'Are you sure to Logout?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Logout!',
+      }).then((result) => {
+        if (result.value) {
+          Swal.fire({
+            title: 'Success!',
+            text: 'See you soon.....',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+          });
+          localStorage.removeItem('token');
+          this.$store.commit('SET_LOGIN', false);
+        }
+      });
+    },
+  },
+  computed: {
+    login() {
+      return this.$store.state.isLogin;
+    },
+  },
+};
 </script>
 
 <style scoped>

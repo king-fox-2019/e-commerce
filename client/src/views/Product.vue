@@ -6,7 +6,7 @@
     <div class="border-up"></div>
     <div class="d-flex p-2 bd-highlight header-item align-items-center">
       <div class="d-flex flex-column bd-highlight mb-3 desc-title">
-        <h1>Buy Gold</h1>
+        <h1>Logam Mulia</h1>
         <p>ANTAM LM gold bars are guaranteed authenticity and purity with LBMA
           (London Bullion Market Association) certificate. Immediately have
           LM ANTAM gold bars ranging from 0.5 gram fractions to 1000 gram fractions.</p>

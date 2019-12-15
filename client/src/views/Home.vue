@@ -66,10 +66,13 @@
       <div class="col buy">
         <div class="col p-2">
           <div>
-            <a class="btn btn-primary rounded-pill" href="#" role="button">BUY GOLD ></a>
+            <router-link to="/purchase/gold" class="btn btn-primary rounded-pill" role="button">
+            BUY GOLD ></router-link>
           </div>
           <div class="mt-2">
-            <a class="btn btn-primary rounded-pill" href="#" role="button">BUY SERIES BATIK ></a>
+            <router-link to="/purchase/batik-series" class="btn btn-primary rounded-pill"
+            role="button">
+            BUY SERIES BATIK ></router-link>
           </div>
           <div class="desc">
             <i class="far fa-clock"></i> last update: 10 Dec 2019 08:16:07

@@ -11,8 +11,13 @@ export default new Vuex.Store({
     emasSeries: [],
     cartEb: [],
     cartEs: [],
+    isLogin: false,
   },
   mutations: {
+    // set item SEMUA EMAS yang ada di Store, pada saat pemanggilan di Server
+    SET_LOGIN(state, payload) {
+      state.isLogin = payload;
+    },
     // set item SEMUA EMAS yang ada di Store, pada saat pemanggilan di Server
     SET_DATA(state, payload) {
       state.data = payload;
@@ -69,6 +74,14 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err.response);
         });
+    },
+    // pemanggilan LOGIN yang ada di server
+    login({ commit }, payload) {
+      return axios.post('users/login', payload);
+    },
+    // pemanggilan REGISTER yang ada di server
+    register({ commit }, payload) {
+      return axios.post('users/register', payload);
     },
   },
   modules: {

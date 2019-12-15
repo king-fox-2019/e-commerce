@@ -17,7 +17,6 @@ class productController {
     Product
       .find()
       .then( product => {
-        console.log(product)
         res.status(200).json(product)
       })
       .catch(next)
@@ -27,7 +26,6 @@ class productController {
     Product
       .find({ category: 'EB' })
       .then( product => {
-        console.log(product)
         res.status(200).json(product)
       })
       .catch(next)
@@ -37,7 +35,6 @@ class productController {
     Product
       .find({ category: 'SB' })
       .then( product => {
-        console.log(product)
         res.status(200).json(product)
       })
       .catch(next)

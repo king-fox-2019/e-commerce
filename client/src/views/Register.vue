@@ -12,20 +12,22 @@
           <b-card class="card">
             <b-card-text>
               <h2 class="title">Register Form </h2>
-              <b-form>
+              <b-form @submit.prevent="register">
                 <div class="d-flex bd-highlight mt-4">
                 <div class="p-2 w-100 bd-highlight register">
                   <div class="ml-4 mr-4 form">
-                      <b-form-group id="input-group-2" label="Full Name" class="label">
+                      <b-form-group id="fullName" label="Full Name" class="label">
                         <b-form-input
+                          v-model="fullName"
                           required
                           type="text"
                           placeholder="Enter your full name"
                           class="input"
                         ></b-form-input>
                       </b-form-group>
-                      <b-form-group id="input-group-2" label="Email" class="label">
+                      <b-form-group id="email" label="Email" class="label">
                         <b-form-input
+                          v-model="email"
                           required
                           type="email"
                           placeholder="Enter your email"
@@ -36,23 +38,26 @@
                 </div>
                 <div class="p-2 w-100 bd-highlight form-login">
                     <div class="ml-4 mr-4 form">
-                      <b-form-group id="input-group-2" label="Nationality Number" class="label">
+                      <b-form-group id="nationalityId" label="Nationality Number" class="label">
                         <b-form-input
+                          v-model="nationalityId"
                           required
                           type="number"
                           placeholder="Enter your id number"
                           class="input"
                         ></b-form-input>
                       </b-form-group>
-                      <b-form-group id="input-group-2" label="Password" class="label">
+                      <b-form-group id="password" label="Password" class="label">
                         <b-form-input
+                          v-model="password"
                           required
                           type="password"
                           placeholder="Enter your password"
                           class="input"
                         ></b-form-input>
                       </b-form-group>
-                      <b-button type="submit" variant="primary" class="indep mt-3">Login</b-button>
+                      <b-button type="submit" variant="primary" class="indep mt-3"
+                      @click.prevent="registerForm">Register</b-button>
                     </div>
                   </div>
                 </div>
@@ -71,8 +76,56 @@
 </template>
 
 <script>
-export default {
+import Swal from 'sweetalert2';
 
+export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+      fullName: '',
+      nationalityId: null,
+    };
+  },
+  methods: {
+    registerForm() {
+      const value = {
+        email: this.email,
+        password: this.password,
+        fullName: this.fullName,
+        nationalityId: this.nationalityId,
+      };
+      this.$store.dispatch('register', value)
+        .then(({ data }) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Register Successful, Welcome',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          this.email = '';
+          this.password = '';
+          this.fullName = '';
+          this.nationalityId = null;
+          localStorage.setItem('token', data.token);
+          this.$store.commit('SET_LOGIN', true);
+          this.$router.push('/');
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.response.data.message,
+          });
+        });
+    },
+  },
+  created() {
+    const valid = localStorage.getItem('token');
+    if (valid) {
+      this.$router.push('/');
+    }
+  },
 };
 </script>
 

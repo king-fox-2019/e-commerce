@@ -32,17 +32,19 @@
                 </div>
                 <div class="p-2 w-100 bd-highlight form-login">
                   <div class="ml-4 mr-4 form">
-                    <b-form>
-                      <b-form-group id="input-group-2" label="Email" class="label">
+                    <b-form @submit.prevent="login">
+                      <b-form-group id="email" label="Email" class="label">
                         <b-form-input
+                          v-model="email"
                           required
                           type="email"
                           placeholder="Enter your email"
                           class="input"
                         ></b-form-input>
                       </b-form-group>
-                      <b-form-group id="input-group-2" label="Password" class="label">
+                      <b-form-group id="password" label="Password" class="label">
                         <b-form-input
+                          v-model="password"
                           required
                           type="password"
                           placeholder="Enter your password"
@@ -68,7 +70,50 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+    };
+  },
+  methods: {
+    login() {
+      const value = {
+        email: this.email,
+        password: this.password,
+      };
+      this.$store.dispatch('login', value)
+        .then(({ data }) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Login Successful, Welcome',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          this.email = '';
+          this.password = '';
+          localStorage.setItem('token', data.token);
+          this.$store.commit('SET_LOGIN', true);
+          this.$router.push('/');
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.response.data.message,
+          });
+        });
+    },
+  },
+  created() {
+    const valid = localStorage.getItem('token');
+    if (valid) {
+      this.$router.push('/');
+    }
+  },
 };
 </script>
 
