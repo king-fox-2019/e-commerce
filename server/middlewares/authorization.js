@@ -25,7 +25,7 @@ const checkTransactionOwner = (req, res, next) => {
               
               throw ({
                 status: 401,
-                message: 'You are unauthorized'
+                message: 'You must login first'
               })
 
             }
@@ -42,22 +42,23 @@ const checkTransactionOwner = (req, res, next) => {
 
 const checkCartOwner = (req, res, next) => {
   try {
-    
+    console.log(req.params.cartId, 'params.cartid')
+    console.log(req.decodedId, 'req.decodedId')
     Cart
-      .findById({_id: req.params.id})
-        .then(cart => {
+      .findOne({_id: req.params.cartId})
+        .then(item => {
           
-          if(!cart) {
+          if(item.length <= 0) {
           
             throw ({
               status: 404,
-              message: 'Cart not found'
+              message: 'Product not found'
             })
           
           } else {
-            
-            if (Cart.owner.equals(req.decodedId)) {
-            
+            console.log(item)
+            if (item.userId.equals(req.decodedId)) {
+
               next()
             
             } else {

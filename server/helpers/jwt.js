@@ -4,7 +4,7 @@ const generateToken = (payload) => {
   return jwt.sign(payload, process.env.SECRET, { expiresIn: '24h' })
 }
 
-const verifyToken = (token) => {
+const verifyToken = (payload) => {
   return jwt.verify(payload, process.env.SECRET)
 }
 
