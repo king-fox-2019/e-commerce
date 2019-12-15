@@ -25,9 +25,11 @@ class ItemController {
       image,
       price,
       stock
-    }).then(item => {
-      res.status(200).json({ message: 'Item created', data: item })
     })
+      .then(item => {
+        res.status(200).json({ message: 'Item created', data: item })
+      })
+      .catch(next)
   }
 
   static updateItem(req, res, next) {

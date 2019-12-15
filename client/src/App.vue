@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <main-navbar></main-navbar>
+    <main-navbar v-if="!$route.path.includes('/admin')"></main-navbar>
     <router-view />
   </div>
 </template>
@@ -13,9 +13,7 @@ export default {
     'main-navbar': Navbar
   },
   created() {
-    this.$store.dispatch('FETCH_ITEMS').catch(err => {
-      console.log(err)
-    })
+    this.$store.dispatch('FETCH_ITEMS')
   }
 }
 </script>

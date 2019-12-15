@@ -41,7 +41,7 @@
       </div>
     </div>
 
-    <item-list></item-list>
+    <item-list :items="$store.state.items"></item-list>
   </div>
 </template>
 

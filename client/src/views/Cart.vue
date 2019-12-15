@@ -24,15 +24,15 @@
     <div class="mx-auto row w-100" id="cart">
       <router-link
         tag="div"
-        class="item col-12 d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-start my-3 rounded"
+        class="item col-12 p-0 d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-start my-3 rounded"
         v-for="item in items"
         :key="item.item._id"
         :to="`/items/${item.item._id}`"
       >
         <!-- <figure class="border flex-shrink-1"> -->
-        <b-img class="pt-2" :src="item.item.image" width="300" fluid></b-img>
+        <b-img :src="item.item.image" width="300" fluid></b-img>
         <!-- </figure> -->
-        <div class="mt-2 mt-md-0 text-center text-sm-left">
+        <div class="ml-0 ml-md-3 mt-2 mt-md-0 text-center text-sm-left">
           <h4 class="mb-0">{{ item.item.name }}</h4>
           <small class="text-muted">
             {{ item.amount }} pcs x
@@ -44,38 +44,6 @@
         </div>
       </router-link>
     </div>
-    <!-- <table class="table table-hover table-borderless ">
-      <thead class="thead-dark">
-        <tr>
-          <th v-for="field in fields" :key="field.key">{{ field.label }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in items" :key="item.item._id">
-          <td>
-            <img :src="item.item.image" width="200px" :alt="item.item.name" />
-          </td>
-          <td>{{ item.item.name }}</td>
-          <td>{{ item.item.price | formatCurrency }}</td>
-          <td>{{ item.amount }}</td>
-          <td>{{ (item.item.price * item.amount) | formatCurrency }}</td>
-        </tr>
-      </tbody>
-    </table>-->
-    <!-- <b-table striped hover :fields="fields" :items="items">
-      <template v-slot:cell(name)="data">
-        {{ data.item.item.name }}
-      </template>
-      <template v-slot:cell(price)="data">
-        {{ data.item.item.price | formatCurrency }}
-      </template>
-      <template v-slot:cell(qty)="data">
-        {{ data.item.amount }}
-      </template>
-      <template v-slot:cell(total)="data">
-        {{ (data.item.item.price * data.item.amount) | formatCurrency }}
-      </template>
-    </b-table>-->
   </div>
 </template>
 

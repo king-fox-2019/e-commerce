@@ -40,6 +40,17 @@ class AdminController {
       .status(201)
       .json({ message: 'Image stored', data: { image: req.body.image } })
   }
+
+  static checkSuperAdmin(req, res, next) {
+    Admin.find().then(admins => {
+      if (admins.length > 0) res.status(200).json()
+      else res.status(404).json()
+    })
+  }
+
+  static checkSession(req, res, next) {
+    res.status(200).json()
+  }
 }
 
 module.exports = AdminController

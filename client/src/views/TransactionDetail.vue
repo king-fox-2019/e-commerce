@@ -24,25 +24,24 @@
           size="lg"
           active-class
           to="/transactions"
+          >Back</b-button
         >
-          Back
-        </b-button>
         <b-button
           class="mx-2 my-2 my-sm-0"
           variant="primary"
           size="lg"
           v-if="transaction.status == 'delivering'"
+          @click="delivered"
+          >Confirm Delivered</b-button
         >
-          Confirm Delivered
-        </b-button>
         <b-button
           class="mx-2 my-2 my-sm-0"
           variant="outline-danger"
           size="lg"
           v-if="transaction.status == 'confirming'"
+          @click="cancel"
+          >Cancel Transaction</b-button
         >
-          Cancel Transaction
-        </b-button>
       </div>
       <div
         class="item col-12 d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-start my-3 rounded"
@@ -71,6 +70,66 @@ export default {
   data() {
     return {
       transaction: null
+    }
+  },
+  methods: {
+    delivered() {
+      const loader = this.$loading.show()
+      this.$store
+        .dispatch('CONFIRM_DELIVERED', this.transaction._id)
+        .then(({ data }) => {
+          this.$toasted.show(data.message)
+          this.$router.push('/transactions')
+        })
+        .catch(({ response }) => {
+          this.password = ''
+          if (response) {
+            const message = response.data.message
+            if (typeof message != 'string') {
+              response.data.message.forEach(msg => {
+                this.$toasted.show(msg, { className: 'bg-danger' })
+              })
+            } else {
+              this.$toasted.show(response.data.message, {
+                className: 'bg-danger'
+              })
+            }
+          } else {
+            this.$toasted.show('Something went wrong', {
+              className: 'bg-danger'
+            })
+          }
+        })
+        .finally(() => loader.hide())
+    },
+    cancel() {
+      const loader = this.$loading.show()
+      this.$store
+        .dispatch('CANCEL_TRANSACTION', this.transaction._id)
+        .then(({ data }) => {
+          this.$toasted.show(data.message)
+          this.$router.push('/transactions')
+        })
+        .catch(({ response }) => {
+          this.password = ''
+          if (response) {
+            const message = response.data.message
+            if (typeof message != 'string') {
+              response.data.message.forEach(msg => {
+                this.$toasted.show(msg, { className: 'bg-danger' })
+              })
+            } else {
+              this.$toasted.show(response.data.message, {
+                className: 'bg-danger'
+              })
+            }
+          } else {
+            this.$toasted.show('Something went wrong', {
+              className: 'bg-danger'
+            })
+          }
+        })
+        .finally(() => loader.hide())
     }
   },
   created() {
