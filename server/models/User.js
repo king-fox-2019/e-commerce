@@ -11,16 +11,15 @@ const userSchema = new Schema ({
     required: [true, 'Email cannot be empty'],
     match: [/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,'Your email is not valid'],
       validate:{
-          validator(value){
-              return User.findOne({
-                  email: value
-              })
-              .then(user => {
-                  if(user) return false
-                  else return true
-              })
-          },
-          message: 'Email already registered'
+        validator(value){
+          return User.findOne({
+            email: value
+          })
+          .then(user => {
+            return user ? false: true
+          })
+        },
+        message: 'Email is already registered'
       }
   },
   password:{
