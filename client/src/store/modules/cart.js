@@ -77,11 +77,14 @@ const actions = {
       url: '/cart',
       method: 'DELETE',
       headers: {
-        access_token: localStorage.getItem('token')
+        access_token: payload
       }
     })
       .then(({ data }) => {
         dispatch('fetchCart')
+      })
+      .catch(err => {
+        console.log(err)
       })
   }
 }

@@ -1,12 +1,16 @@
 import axios from '../../../api/server'
 
 const state = {
-  listProduct: []
+  listProduct: [],
+  currentProduct: {}
 }
 
 const mutations = {
   SET_LIST_PRODUCT (state, payload) {
     state.listProduct = payload
+  },
+  SET_CURRENT_PRODUCT (state, payload) {
+    state.currentProduct = payload
   }
 }
 
@@ -66,6 +70,32 @@ const actions = {
       }
     })
       .then(({ data }) => {
+        dispatch('fetchProduct')
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  },
+  getOneProduct ({ commit }, payload) {
+    return axios({
+      url: `/product/${payload.id}`,
+      method: 'GET',
+      headers: {
+        access_token: localStorage.getItem('token')
+      }
+    })
+  },
+  editProduct ({ dispatch }, payload) {
+    axios({
+      url: `/product/${payload.id}`,
+      method: 'PUT',
+      data: payload.data,
+      headers: {
+        access_token: localStorage.getItem('token')
+      }
+    })
+      .then(({ data }) => {
+        console.log(data)
         dispatch('fetchProduct')
       })
       .catch(err => {

@@ -2,7 +2,8 @@ import axios from '../../../api/server'
 
 const state = {
   isLogin: false,
-  session: ''
+  session: '',
+  gold: 0
 }
 
 const mutations = {
@@ -11,6 +12,9 @@ const mutations = {
   },
   SET_ROLE (state, payload) {
     state.session = payload
+  },
+  SET_USER_GOLD (state, payload) {
+    state.gold = payload
   }
 }
 
@@ -29,13 +33,46 @@ const actions = {
       data: payload
     })
   },
-  checkLogin ({ commit }) {
+  checkLogin ({ commit, dispatch }) {
     let valid = localStorage.getItem('token')
-    if (valid) {
+    let user = localStorage.getItem('user')
+    if (valid && user === 'admin') {
       commit('SET_IS_LOGIN', true)
+      commit('SET_ROLE', 'admin')
+    } else if (valid && user !== 'admin') {
+      commit('SET_IS_LOGIN', true)
+      commit('SET_ROLE', 'customer')
+      dispatch('getUserGold')
     } else {
       commit('SET_IS_LOGIN', false)
     }
+  },
+  getUserGold ({ commit }) {
+    axios({
+      url: '/user/gold',
+      method: 'GET',
+      headers: {
+        access_token: localStorage.getItem('token')
+      }
+    })
+      .then(({ data }) => {
+        commit('SET_USER_GOLD', data.gold)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  },
+  topUp ({ commit }, payload) {
+    return axios({
+      url: '/user/balance',
+      method: 'PUT',
+      data: {
+        balance: payload
+      },
+      headers: {
+        access_token: localStorage.getItem('token')
+      }
+    })
   }
 }
 

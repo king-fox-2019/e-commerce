@@ -79,6 +79,40 @@ class UserController {
         })  
         .catch(next)
     }
+
+    static getGold(req,res,next){
+        User.findOne({
+            _id: req.decoded.id
+        })
+        .then(user => {
+            res.status(200).json({
+                gold: user.balance
+            })
+        })
+        .catch(next)
+    }
+
+    static topUp(req,res,next){
+        User.findOne({
+            _id: req.decoded.id
+        })
+        .then(user => {
+            let newAmount = Number(user.balance) + Number(req.body.balance)
+            return User.findOneAndUpdate({
+                _id: req.decoded.id
+            },
+            {
+                $set : { balance:  newAmount }
+            },
+            {
+                new: true
+            })
+        })
+        .then(user => {
+            res.status(200).json(user)
+        })
+        .catch(next)
+    }
 }
 
 module.exports = UserController

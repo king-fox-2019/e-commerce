@@ -83,6 +83,7 @@ export default {
       this.$store.dispatch('user/login', payload)
         .then(({ data }) => {
           localStorage.setItem('token', data.token)
+          localStorage.setItem('user', data.user.username)
           this.$toast.success(`Welcome ${data.user.username} !`, 'OK', {
             position: 'topRight'
           })

@@ -143,7 +143,7 @@ export default {
             position: 'topRight'
           })
           this.$router.push('/shop')
-          this.$store.dispatch('cart/deleteMany')
+          this.$store.dispatch('cart/deleteMany', localStorage.getItem('token'))
         })
         .catch(err => {
           this.$toast.error(`${err.response.data.message}`, 'Error', {

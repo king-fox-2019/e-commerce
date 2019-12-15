@@ -27,14 +27,16 @@ const routes = [
     ]
   },
   {
-    path: '/product',
-    name: 'addproduct',
-    component: () => import(/* webpackChunkName: "mainpage" */ '../views/AddItem.vue')
-  },
-  {
     path: '/shop',
     name: 'shop',
-    component: () => import(/* webpackChunkName: "shop" */ '../views/Shop.vue')
+    component: () => import(/* webpackChunkName: "shop" */ '../views/Shop.vue'),
+    children: [
+      {
+        path: ':item',
+        name: 'item',
+        component: () => import(/* webpackChunkName: "item" */ '../components/ItemDetail.vue')
+      }
+    ]
   },
   {
     path: '/cart',
@@ -45,6 +47,11 @@ const routes = [
     path: '/transaction',
     name: 'transaction',
     component: () => import(/* webpackChunkName: "transaction" */ '../views/Transaction.vue')
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import(/* webpackChunkName: "admin" */ '../views/AddItem.vue')
   }
 
 ]

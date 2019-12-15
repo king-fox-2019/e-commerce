@@ -51,6 +51,25 @@ const actions = {
           console.log(err)
         })
     }
+  },
+  sendItem ({ context }, payload) {
+    console.log('masuk vuex')
+    return axios({
+      url: `/transaction/${payload.id}/sent`,
+      method: 'PUT',
+      headers: {
+        access_token: payload.token
+      }
+    })
+  },
+  confirmedItem ({ context }, payload) {
+    return axios({
+      url: `/transaction/${payload.id}/received`,
+      method: 'PUT',
+      headers: {
+        access_token: payload.token
+      }
+    })
   }
 }
 

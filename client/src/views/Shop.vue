@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="container d-flex flex-wrap justify-center">
-            <v-img id="shop-card" src="../assets/img/black_template.png" v-for="data in listProduct" :key="data._id" class="mx-6 my-10" max-height="200px" :contain="true" max-width="150px">
+        <div class="container d-flex flex-wrap justify-center" v-if="$route.path == '/shop'">
+            <v-img id="shop-card" src="../assets/img/black_template.png" v-for="data in listProduct" :key="data._id" class="mx-6 my-10" max-height="200px" :contain="true" max-width="150px" @click.prevent="showDetail(data._id)">
                 <v-hover v-slot:default="{ hover }">
                     <v-expand-transition>
                         <div class="container mt-8 d-flex flex-column align-center" style="height: 100%;">
@@ -37,6 +37,7 @@
                 </v-hover>
             </v-img>
         </div>
+        <router-view></router-view>
     </div>
 </template>
 
@@ -66,6 +67,9 @@ export default {
             position: 'topRight'
           })
         })
+    },
+    showDetail (id) {
+      this.$router.push(`/shop/${id}`)
     }
   },
   created () {
