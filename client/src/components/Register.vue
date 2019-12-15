@@ -44,8 +44,10 @@ export default {
           localStorage.setItem('token', data.token)
           if (data.user.role === `admin`) {
             localStorage.setItem('isAdmin', true)
+            this.$emit('setIsAdmin', true)
           }
           this.$router.push('/')
+          this.$emit('setIsLogin', true)
         })
         .catch(err => {
           console.log(err)

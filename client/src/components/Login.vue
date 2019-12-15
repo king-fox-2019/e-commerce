@@ -48,6 +48,7 @@ export default {
 
           if (data.user.role === `admin`) {
             localStorage.setItem('isAdmin', true)
+            this.$emit('setIsAdmin', true)
           }
         })
         .catch(err => {

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Navbar :isLogin="isLogin" @setIsLogin="setIsLogin"></Navbar>
-    <router-view @alert="alert" @setIsLogin="setIsLogin"></router-view>
+    <Navbar :isLogin="isLogin" @setIsLogin="setIsLogin" :isAdmin="isAdmin" @setIsAdmin="setIsAdmin"></Navbar>
+    <router-view @alert="alert" @setIsLogin="setIsLogin" @setIsAdmin="setIsAdmin"></router-view>
     <!-- <Footer /> -->
   </div>
 </template>
@@ -14,7 +14,8 @@ export default {
   name: 'App',
   data: function () {
     return {
-      isLogin: false
+      isLogin: false,
+      isAdmin: false
     }
   },
   components: {
@@ -39,6 +40,9 @@ export default {
     },
     setIsLogin (status) {
       this.isLogin = status
+    },
+    setIsAdmin (status) {
+      this.isAdmin = status
     }
   },
   created () {

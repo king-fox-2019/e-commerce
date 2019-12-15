@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <!-- <h1>ACCOUNT</h1> -->
-    <router-view @alert="alert" @setIsLogin="setIsLogin"></router-view>
+    <router-view @alert="alert" @setIsLogin="setIsLogin" @setIsAdmin="setIsAdmin"></router-view>
   </div>
 </template>
 
@@ -14,6 +14,9 @@ export default {
     },
     setIsLogin (status) {
       this.$emit('setIsLogin', status)
+    },
+    setIsAdmin (status) {
+      this.$emit('setIsAdmin', status)
     }
   }
 }

@@ -110,6 +110,7 @@ export default {
       }
     },
     confirmDelete () {
+      const id = this.productDetailed._id
       this.$buefy.dialog.confirm({
         title: 'Deleting product',
         message:
@@ -117,10 +118,8 @@ export default {
         confirmText: 'Delete Product',
         type: 'is-dark',
         size: 'is-small',
-        canCancel: 'button',
         hasIcon: true,
         onConfirm: () => {
-          const id = this.productDetailed._id
           this.axios
             .delete(`/products/${id}`, {
               headers: {
@@ -130,7 +129,7 @@ export default {
             .then(({ data }) => {
               // console.log(data, 'data deleted')
               // this.$emit('remove')
-              this.$buefy.toast.open('Account deleted!')
+              this.$buefy.toast.open('Product deleted!')
               this.$router.push('/collections')
             })
             .catch(err => {

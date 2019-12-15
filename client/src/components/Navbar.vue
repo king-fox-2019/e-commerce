@@ -31,14 +31,15 @@
 
 <script>
 export default {
-  props: ['isLogin'],
+  props: ['isLogin', 'isAdmin'],
   methods: {
     logout () {
       this.$emit('setIsLogin', false)
       this.$router.push('/')
       localStorage.removeItem('token')
-      if (localStorage.removeItem('isAdmin')) {
+      if (localStorage.getItem('isAdmin')) {
         localStorage.removeItem('isAdmin')
+        this.$emit('setIsAdmin', false)
       }
     }
   },
@@ -46,10 +47,10 @@ export default {
     // isLogin () {
     //   return localStorage.getItem('token')
     // },
-    isAdmin () {
-      console.log(localStorage.getItem('isAdmin'))
-      return localStorage.getItem('isAdmin')
-    }
+    // isAdmin () {
+    //   console.log(localStorage.getItem('isAdmin'))
+    //   return localStorage.getItem('isAdmin')
+    // }
   }
 }
 </script>

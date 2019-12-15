@@ -1,21 +1,22 @@
 <template>
   <div>
-    <h1>TRANSACTION</h1>
+    <h1>TRANSACTION SUMMARY</h1>
     <div class="is-divider" data-content="OR"></div>
     <!-- untuk v-for dlm layout -->
-    {{transaction}}
-
-    <section>
-        <b-table
-            :content="content"
-            :columns="columns">
-        </b-table>
-    </section>
+    <!-- {{transaction}} -->
   <div>
-    <div>
-    transaction summary
+
+    <div class="row">
+      <div class="col">id</div>
+      <div>status</div>
+      <div>total billing</div>
+      <div>date</div>
+      <div>customer</div>
+      <div>products</div>
+
     </div>
 
+    <br>
     <div> id : {{transaction[0]._id}}</div>
     <div>status : {{transaction[0].status}}</div>
     <div>total billing : {{transaction[0].total}}</div>
@@ -23,60 +24,63 @@
     <div>customer : {{transaction[0].carts[0].user.username}}</div>
     <div>products : {{transaction[0].carts[0].product.name}}</div>
   </div>
-    <!-- chart js  -->
-    <div class="small">
-      <line-chart v-if="isAdmin" :chart-data="datacollection"></line-chart>
+  <div>
+    <br>
+    <div>
+    AAAAAAAAAAAAAAAAAA ini utk admin
     </div>
-    <!-- chart js -->
+    <br>
+    <div> id : {{transaction[1]._id}}</div>
+    <div>status : {{transaction[1].status}}</div>
+    <!-- <div>total billing : {{transaction[1].total}}</div> -->
+     <div>Total : {{formatPrice}}</div>
+    <div>date: {{transaction[1].createdAt}}</div>
+    <div>customer : {{transaction[1].carts[0].user.username}}</div>
+    <div>products : {{transaction[1].carts[0].product.name}}</div>
+    <div>products : {{transaction[1].carts[1].product.name}}</div>
+        <!-- nanti transaction[1].carts harus di looping -->
+    <button v-if="transaction[1].status === 'on hold for delivery confirmation'" @click="deliv" class="button is-light">Confirm</button>
+
+<button @click="$router.push(`/transaction/statistic`)" class="button is-light">statistic</button>
+<router-view></router-view>
+  </div>
+    <div>
+    <br>
+    <div>
+    AAAAAAAAAAAAAAAAAA ini utk customer
+    </div>
+    <br>
+    <div> id : {{transaction[1]._id}}</div>
+    <div>status : {{transaction[1].status}}</div>
+    <!-- <div>total billing : {{transaction[1].total}}</div> -->
+    <div>Total : {{formatPrice}}</div>
+    <div>date: {{transaction[1].createdAt}}</div>
+    <div>customer : {{transaction[1].carts[0].user.username}}</div>
+    <div>products : {{transaction[1].carts[0].product.name}}</div>
+    <div>products : {{transaction[1].carts[1].product.name}}</div>
+        <!-- nanti transaction[1].carts harus di looping -->
+    <button v-if="transaction[1].status === 'delivered'" @click="received" class="button is-light">Receive</button>
+  </div>
+
   </div>
 </template>
 
 <script>
-// import { Bar, Line } from "vue-chartjs"
-import LineChart from '../configs/LineChart'
 
 export default {
   name: 'transaction',
   data: function () {
     return {
-      transaction: [],
-      datacollection: null,
-      content: [
-        { 'id': 1, 'contributor': 'Jesse Simmons', 'posts': 2, 'comments': 5 },
-        { 'id': 2, 'contributor': 'John Jacobs', 'posts': 11, 'comments': 42 },
-        { 'id': 3, 'contributor': 'Tina Gilbert', 'posts': 0, 'comments': 7 },
-        { 'id': 4, 'contributor': 'Clarence Flores', 'posts': 4, 'comments': 4 },
-        { 'id': 5, 'contributor': 'Anne Lee', 'posts': 1, 'comments': 2 }
-      ],
-      columns: [
-        {
-          field: 'id',
-          label: 'ID',
-          width: '100',
-          numeric: true,
-          subheading: 'Total:'
-        },
-        {
-          field: 'contributor',
-          label: 'Contributor'
-        },
-        {
-          field: 'posts',
-          label: 'Posts',
-          subheading: 18
-        },
-        {
-          field: 'comments',
-          label: 'Comments',
-          subheading: 60
-        }
-      ]
+      transaction: []
     }
   },
-  components: {
-    LineChart
-  },
   methods: {
+    received () {
+      this.transaction[1].status = 'received'
+    },
+    deliv () {
+      this.transaction[1].status = 'delivered'
+    },
     fetchTransaction () {
       // console.log('ke fetch transaction')
 
@@ -92,51 +96,19 @@ export default {
           this.transaction = data
         })
         .catch(console.log)
-    },
-    fillData () {
-      this.datacollection = {
-        // labels: [this.getRandomInt(), this.getRandomInt()],
-        labels: ['January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July',
-          'August',
-          'September',
-          'October',
-          'November',
-          'December'],
-        datasets: [
-          {
-            label: 'Profit',
-            backgroundColor: '#f87979',
-            // data: [this.getRandomInt(), this.getRandomInt()]
-            data: [8, 79, 7, 60, 95, 89, 0, 4, 8, 15, 69, 8]
-          },
-          {
-            label: 'Loss',
-            backgroundColor: '#f81267',
-            // data: [this.getRandomInt(), this.getRandomInt()]
-            data: [22, 11, 37, 7, 8, 67, 90, 0, 0, 0, 0, 8]
-          }
-        ]
-      }
-    },
-    getRandomInt () {
-      return Math.floor(Math.random() * (50 - 5 + 1)) + 5
     }
+
   },
   created () {
     this.fetchTransaction()
   },
-  mounted () {
-    this.fillData()
-  },
+
   computed: {
     isAdmin () {
       return localStorage.getItem('isAdmin')
+    },
+    formatPrice () {
+      return `IDR ${this.transaction[0].total.toLocaleString()}`
     }
     // bikin looping bulanan,
     // [0,1,2,..11] index

@@ -89,7 +89,21 @@ const routes = [
   {
     path: '/transaction',
     name: 'transaction',
-    component: () => import(/* webpackChunkName: "transaction" */ '../views/Transaction.vue')
+    component: () => import(/* webpackChunkName: "transaction" */ '../views/Transaction.vue'),
+    children: [
+      {
+        path: 'statistic',
+        name: 'statistic',
+        component: () => import(/* webpackChunkName: "statistic" */ '../components/Chart.vue'),
+        beforeEnter (to, from, next) {
+          if (localStorage.getItem('isAdmin')) {
+            next()
+          } else {
+            next('/transaction')
+          }
+        }
+      }
+    ]
   }
   // {
   //   path: '/user',

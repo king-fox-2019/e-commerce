@@ -81,12 +81,11 @@ export default {
         confirmText: 'Delete Cart',
         type: 'is-dark',
         size: 'is-small',
-        canCancel: 'button',
         hasIcon: true,
         onConfirm: () => {
-          const id = this.productDetailed._id
+          const id = this.cart._id
           this.axios
-            .delete(`/products/${id}`, {
+            .delete(`/carts/${id}`, {
               headers: {
                 token: localStorage.getItem('token')
               }
@@ -94,7 +93,7 @@ export default {
             .then(({ data }) => {
               // console.log(data, 'data deleted')
               // this.$emit('remove')
-              this.$buefy.toast.open('Account deleted!')
+              this.$buefy.toast.open('Cart deleted!')
               this.$router.push('/collections')
             })
             .catch(err => {
