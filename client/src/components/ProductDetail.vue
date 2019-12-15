@@ -86,11 +86,6 @@
               <button type="submit" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</button>
             </div>
           </form>
-          <!-- <p class="text-center buttons">
-            <a href="basket.html" class="btn btn-primary">
-              <i class="fa fa-shopping-cart"></i> Add to cart
-            </a>
-          </p> -->
         </div>
         <div class="box" id="details">
           <p>avaliable stock: {{detailProduct.stock}}</p>
@@ -132,8 +127,12 @@ export default {
         .then(({ data }) => {
           this.$store.dispatch('fetchUser')
         })
-        .catch(err => {
-          console.log(`err`, err.response)
+        .catch(() => {
+          this.$swal.fire(
+            'Out of Stock',
+            'This item is on popular demand',
+            'error'
+          )
         })
     }
   }
