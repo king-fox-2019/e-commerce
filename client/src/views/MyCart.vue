@@ -6,6 +6,23 @@
       </router-link>
       Shoping Cart
     </div>
+    <div class="d-flex flex-row bd-highlight justify-content-center mb-5 mt-5">
+      <div class="p-2 col-3 bd-highlight">
+        <div class="ml-3 mr-3 head active">
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+      </div>
+      <div class="p-2 col-3 bd-highlight">
+        <div class=" ml-3 mr-3 head">
+          <i class="far fa-money-bill-alt mr-2"></i>
+        </div>
+      </div>
+      <div class="p-2 col-3 bd-highlight">
+        <div class=" ml-3 mr-3 head">
+          <i class="fas fa-check"></i>
+        </div>
+      </div>
+    </div>
     <div class="d-flex bd-highlight">
       <div class="p-2 flex-grow-1 bd-highlight item p-4">
           <div class="row tax">
@@ -44,9 +61,15 @@
                         <br> {{ item.weight }} gr
                       </td>
                       <td>Rp. {{item.price.toLocaleString("id")}}</td>
-                      <td>{{item.qty}}</td>
+                      <td><span class="input-group-text qty"> {{item.qty}} </span></td>
                       <td>Rp. {{(item.qty * item.price).toLocaleString("id")}}</td>
-                      <td></td>
+                      <td>
+                        <b-button @click.prevent="plus(item)"
+                        variant="primary" class="indep op">
+                        <i class="fas fa-plus"></i></b-button>
+                        <b-button @click.prevent="destroy(item)"
+                        variant="primary" class="indep op">
+                        <i class="fas fa-minus"></i></b-button></td>
                     </tr>
                   </tbody>
                 </table>
@@ -67,9 +90,15 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 import CartOrder from '../components/CardOrder.vue';
 
 export default {
+  data() {
+    return {
+      status: 'onGoing',
+    };
+  },
   name: 'Cart',
   components: {
     CartOrder,
@@ -77,6 +106,40 @@ export default {
   methods: {
     backShop() {
       this.$router.push('/purchase/gold');
+    },
+    plus(item) {
+      let cartItem = this.cartList;
+      cartItem.push(item);
+      this.$store.commit('SET_CART', cartItem);
+    },
+    destroy(item) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Back to Shopping this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+      }).then((result) => {
+        if (result.value) {
+          let cartItem = this.cartList;
+          let index = null;
+          for (let i = 0; i < cartItem.length; i += 1) {
+            if (cartItem[i]._id === item._id) {
+              index = i;
+              break;
+            }
+          }
+          cartItem.splice(index, 1);
+          this.$store.commit('SET_CART', cartItem);
+          Swal.fire(
+            'Deleted!',
+            'Your item has been deleted.',
+            'success',
+          );
+        }
+      });
     },
   },
   computed: {
@@ -188,5 +251,31 @@ export default {
   .indep:hover {
     background-color: #927020 !important;
     border: #927020 !important;
+  }
+
+  .qty {
+    width: 50px !important
+  }
+
+  .op {
+    border-radius: 0px !important;
+    font-size: 10px
+  }
+
+  .head {
+    height: 120px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #927020;
+    border: 1px solid #927020;
+    font-size: 62px
+  }
+
+  .active {
+    color: white;
+    background-color: #23427e;
+    border: 1px solid #23427e;
   }
 </style>

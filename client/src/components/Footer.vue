@@ -5,12 +5,12 @@
         <div class="row">
           <div class="col">
             <h5>Products and Services</h5>
-            <a href="">Home</a><br>
+            <a to="/">Home</a><br>
             <a href="">Custome Product</a><br>
             <a href="">Service</a>
           </div>
           <div class="col mt-4">
-            <a href="">Buy Gold</a><br>
+            <a href="/purchase/gold">Buy Gold</a><br>
             <a href="">Gold Series Indonesia</a>
           </div>
         </div>
