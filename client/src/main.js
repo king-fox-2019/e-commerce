@@ -11,7 +11,7 @@ Vue.use(Buefy)
 Vue.use(VueCharts)
 
 Vue.prototype.axios = axios.create({
-  baseURL: 'http://localhost:3003'
+  baseURL: 'http://localhost:3004'
 })
 
 new Vue({

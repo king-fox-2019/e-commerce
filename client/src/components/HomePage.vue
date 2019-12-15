@@ -3,7 +3,7 @@
     <section class="home-section">
       <div class="front">
         <!-- <div class="pict"> -->
-          <figure class="image is-rounded">
+          <figure class="image">
           <img src="../assets/homepage.jpg" alt="tembikar" weight="1000" height="1000">
           </figure>
         <!-- </div> -->

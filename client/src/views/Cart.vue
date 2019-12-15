@@ -1,13 +1,14 @@
 <template>
   <div class="about">
     <h1>CART</h1>
+    <hr>
     <!-- {{carts}} -->
     <div class="is-divider" data-content="OR"></div>
     <div class="detil" v-for="(cart, index) in carts" :key="index" >
       <DetailCart :cart="cart" @remove="getAllCart" />
     </div>
     <div>
-      <button class="button is-light"  @click="checkout">checkout</button>
+      <button class="button is-black"  @click="checkout">checkout</button>
     </div>
   </div>
 </template>
@@ -76,15 +77,37 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Gelasio&display=swap');
+
 h1 {
-  font-size: 50px;
+  font-size: 37px;
   padding-bottom: 20px;
+  font-weight: 10;
+  font-family: 'Gelasio', serif;
+  letter-spacing: 4px;
+  text-align: left;
+  margin-left: 12vw;
 }
 
 .detil {
   width: 1600px;
   margin: auto;
-
 }
 
+hr {
+  width: 75vw !important;
+  border: 1px solid rgb(226, 221, 221) !important;
+  margin-left: 12%;
+}
+
+.button {
+  font-family: 'Josefin Sans', sans-serif;
+  text-transform: uppercase;
+  border-radius: 0 !important;
+  font-size: 14px !important;
+  padding-top : 15px 32px;
+  text-align: center;
+  width: 9%;
+  height: 42px !important;
+}
 </style>

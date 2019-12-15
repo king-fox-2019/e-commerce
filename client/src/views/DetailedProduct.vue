@@ -6,45 +6,53 @@
     <!-- kasi toast added to your cart, biar user bs browse belanjaan lain lg -->
 
     <div class="pageProduct">
-      <div class="productImage">
-        <figure class="image is-128x128">
-        <img :src="productDetailed.imageSource" />
+       <div class="productImage">
+        <figure class="image">
+          <img :src="productDetailed.imageSource" weight="1000" height="1000" />
         </figure>
       </div>
       <div class="productInfo">
-        <h1>{{productDetailed.name}}</h1>
-        <p class="infoText">{{productDetailed.description}}</p>
-        <p class="price">
-          <!-- {{productDetailed.price}} -->
-          {{formatPrice}}
-        </p>
-        <p class="stock">{{productDetailed.stock}}</p>
+        <h1
+          style="font-family: Playfair Display; serif; font-size: 50px; letter-spacing: 8px; font-weight: 900;"
+        >{{productDetailed.name}}</h1>
+        <br>
+        <div class="detil">
+        <p class="infoText" style="font-family: 'Josefin Sans', sans-serif;">{{productDetailed.description}}</p>
+        <p class="stock" style="font-family: 'Josefin Sans', sans-serif;">stock : {{productDetailed.stock}}</p>
+        <p class="price" style="font-family: 'Josefin Sans', sans-serif; letter-spacing: 1px;">{{formatPrice}}</p>
+        <br>
+ <!-- increment -->
+        <div v-if="!isAdmin" class="numberContainer">
+          <b-field>
+            <b-numberinput
+              min="1"
+              :max="productDetailed.stock"
+              type="is-dark"
+              size="is-small"
+              v-model="number"
+              controls-position="compact"
+              controls-rounded
+            ></b-numberinput>
+          </b-field>
+        </div>
+        <!-- increment  -->
+        <br>
+        <button class="button is-black" v-if="!isAdmin" @click="addedToCart">add to cart</button>
+        </div>
+        <br>
+      <!-- isAdmin  -->
+      <div v-if="isAdmin">
+      <div>
+        <button
+          class="button is-black"
+          @click="$router.push(`/products/update/${productDetailed._id}`)"
+        >update</button>
+      </div>
+      <br>
+      <div>
+        <button class="button is-black" @click="confirmDelete">delete</button>
       </div>
     </div>
-
-    <!-- increment -->
-    <div v-if="!isAdmin" class="numberContainer">
-      <b-field>
-        <b-numberinput
-          min="1"
-          :max="productDetailed.stock"
-          type="is-dark"
-          size="is-small"
-          v-model="number"
-          controls-position="compact"
-          controls-rounded
-        ></b-numberinput>
-      </b-field>
-    </div>
-    <!-- increment  -->
-
-    <button class="button is-light" v-if="!isAdmin" @click="addedToCart">add to cart</button>
-    <div v-if="isAdmin">
-      <div>
-        <button class="button is-light" @click="$router.push(`/products/update/${productDetailed._id}`)">update</button>
-      </div>
-      <div>
-        <button class="button is-light" @click="confirmDelete">delete</button>
       </div>
     </div>
   </div>
@@ -157,13 +165,16 @@ export default {
 
 <style lang="scss" scoped>
 @import "~bulma/sass/utilities/_all";
+@import url("https://fonts.googleapis.com/css?family=Gelasio&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Playfair+Display&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Abel|Barlow|Josefin+Sans|Varela+Round&display=swap');
 
 // $dustyPink: #B29578;
 $primary: red;
 
 .numberContainer {
   width: 100px;
-  margin: auto;
+  margin-left: 1px;
   color: $primary;
 }
 .container {
@@ -175,6 +186,53 @@ $primary: red;
 
 figure {
   margin: auto;
+}
+
+img {
+  /* object-fit: cover; */
+  height: 50vh !important;
+  width: 50vh !important;
+  margin-left: 7vw;
+}
+
+.productImage {
+  display: flex;
+  flex-direction: row;
+  margin-left: 15vw;
+  margin-top: 50px;
+}
+
+.pageProduct {
+  display: flex;
+  flex-direction: row;
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-left: 60px;
+  margin-top: 70px;
+}
+
+.detil {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 20px;
+}
+
+.button {
+  font-family: 'Josefin Sans', sans-serif;
+  text-transform: uppercase;
+  border-radius: 0 !important;
+  font-size: 14px !important;
+  padding-top : 15px 32px;
+ text-align: center;
+  width: 55%;
+  height: 42px !important;
+}
+
+.button:hover {
+  background-color: rgb(56, 57, 58) !important;
 }
 
 @import "~bulma";

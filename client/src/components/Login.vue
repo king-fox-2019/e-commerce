@@ -1,19 +1,24 @@
 <template>
-    <div class="container RegisterLogin">
+  <div class="container RegisterLogin">
     <div class="wrapper">
-      <div class="image" data-type="bg" data-src="../assets/login.jpg" style="background-image: url('../assets/login.jpg');"></div>
-      <img src="../assets/login1.jpg" alt="login image">
+      <!-- <div class="image" data-type="bg" data-src="../assets/login.jpg" style="background-image: url('../assets/login.jpg');"></div> -->
+      <img src="../assets/login1.jpg" alt="login image" />
       <div class="text">
         <div class="container text">
           <h4>Login</h4>
           <form @submit.prevent="login">
-            <input v-model="email" class="input" type="email" placeholder="Email" value>
-            <input v-model="password" class="input" type="password" placeholder="Password" value>
-            <div >
-              <b-button native-type="submit">Login</b-button>
+            <input v-model="email" class="input" type="email" placeholder="Email" value />
+            <input v-model="password" class="input" type="password" placeholder="Password" value />
+            <div class="btns">
+              <!-- <span> -->
+                <button type="submit" class="button is-light">Login</button>
+              <!-- </span> -->
             </div>
-            <div class="button second">
-              <span @click="$router.push('/users/register')" class="button-text">I don't have account</span>
+            <div class="button">
+              <span
+                @click="$router.push('/users/register')"
+                class="button-text"
+              >I don't have account</span>
             </div>
           </form>
         </div>
@@ -35,10 +40,11 @@ export default {
     login () {
       console.log('hayolo login gakkkkk')
 
-      this.axios.post(`/users/login`, {
-        email: this.email,
-        password: this.password
-      })
+      this.axios
+        .post(`/users/login`, {
+          email: this.email,
+          password: this.password
+        })
         .then(({ data }) => {
           this.$emit('setIsLogin', true)
           console.log(data, 'iyaaaaaaaa')
@@ -57,10 +63,13 @@ export default {
         })
     }
   }
-
 }
 </script>
 
-<style>
-
+<style scoped>
+img {
+  /* object-fit: cover; */
+  height: 50vh !important;
+  width: 38vh !important;
+}
 </style>

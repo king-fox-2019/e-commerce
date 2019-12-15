@@ -2,7 +2,7 @@
   <div class="about">
     <div  class="container">
       <div class="columns is-multiline">
-        <div v-for="(product, index) in productList" :key="index" class="column is-half">
+        <div v-for="(product, index) in productList" :key="index" class="column is-one-third">
           <ProductCard :product="product" />
         </div>
       </div>

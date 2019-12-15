@@ -1,26 +1,32 @@
 <template>
+<div>
   <div class="columns">
     <div class="column">
+      <figure class="image is-126x126">
       <img :src="cart.product.imageSource">
+      </figure>
     </div>
-      <div class="column">
-        <div>{{cart.product.name}}</div>
+      <div class="column" style="text-align: left; margin-top: 2%; margin-left: 9%;">
+        <div style="font-family: 'Gelasio', serif; font-weight: 900; font-size: 17px;letter-spacing: 2px;">{{cart.product.name}}</div>
         <!-- {{cart.product}} -->
-        <div>{{price}}</div>
+        <div style="font-family: 'Josefin Sans', sans-serif; letter-spacing: 1px;">stock: {{cart.product.stock}}</div>
+        <div style="font-family: 'Josefin Sans', sans-serif; letter-spacing: 1px;">{{price}}</div>
       </div>
-      <div class="column">
+      <div class="column" style="text-align: left; margin-top: 3%;">
         <!-- {{ cart.amount }} -->
          <!-- increment  -->
           <div class="container">
             <b-button type="is-text"  @click="updateDown" :disabled="cart.amount === 1"><i class="fas fa-minus"></i></b-button>
-            <div>{{cart.amount}}</div>
+            <div style="margin-top: 6%; margin-left: 10%; margin-right: 10%;">{{cart.amount}}</div>
             <b-button type="is-text" @click="updateUp" :disabled="cart.amount >= cart.product.stock"><i class="fas fa-plus"></i></b-button>
           </div>
           <!-- increment  -->
       </div>
-      <button class="button is-light" @click="confirmDelete" ><span style="cursor: pointer;">delete</span></button>
-      <div class="column">{{ totalPrice }}</div>
+      <div  class="column" style="margin-top: 4%;" @click="confirmDelete" ><span style="cursor: pointer; font-family: 'Josefin Sans', sans-serif; letter-spacing: 2px;">Delete</span></div>
+      <div class="column" style="margin-top: 4%; font-family: 'Josefin Sans', sans-serif; letter-spacing: 1px;">{{ totalPrice }}</div>
   </div>
+  <hr>
+</div>
 </template>
 
 <script>
@@ -127,9 +133,13 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Gelasio&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Abel|Barlow|Josefin+Sans|Varela+Round&display=swap');
+
 img {
   width: 160px;
   height: 160px;
+  margin: auto;
 }
 columns {
   width: 90px !important;
@@ -137,8 +147,18 @@ columns {
 .container {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
   width: 90px !important;
+}
+
+hr {
+  width: 75vw !important;
+  border: 1px solid rgb(226, 221, 221) !important;
+  margin-left: 5%;
+}
+
+.column {
+  width: 100vw;
 }
 
 </style>
