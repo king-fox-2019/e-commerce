@@ -5,12 +5,18 @@ const Product = require('../models/product')
 class Controller {
 
     static showAllProducts(req, res, next) {
+        console.log('masuk show all products');
+        
         Product
             .find()
             .then((products) => {
-                res.status(400).json(products)
+                // console.log(products);
+                res.status(200).json(products)
             })
-            .catch(next);
+            .catch((err)=>{
+                console.log('masuk errornya');
+                next(err)
+            });
     }
 
     static addProduct(req, res, next) {
@@ -45,9 +51,11 @@ class Controller {
     // }
 
     static deleteProduct(req, res, next) {
+        console.log(req.params.id);
         Product.findOneAndRemove(req.params.id)
-            .then(product => {
-                res.status(200).json(product)
+            .then(data => {
+                return res.status(200).json(data)
+                
             })
             .catch(next);
     }
@@ -63,7 +71,8 @@ class Controller {
 
         Product.findOneAndUpdate(req.params.id, objectForPatch)
             .then((product) => {
-                res.status(200).json(product)
+                return res.status(200).json(product)
+                
             })
             .catch(next)
     }

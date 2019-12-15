@@ -1,20 +1,22 @@
 <template>
   <div id="app">
     <Navbar />
-    <div id="nav">
+    <!-- <div id="nav"> -->
       <!-- <router-link to="/">Home</router-link>| -->
       <!-- <router-link to="/about">About</router-link> -->
-    </div>
+    <!-- </div> -->
     <router-view />
   </div>
 </template>
 
 <script>
-import Navbar from "./components/Navbar";
+import Navbar from './components/Navbar';
+import Home from './views/Home';
 
 export default {
   components: {
-    Navbar
+    Navbar,
+    Home
   }
 };
 </script>
@@ -26,6 +28,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  overflow-x: hidden;
 }
 
 #nav {

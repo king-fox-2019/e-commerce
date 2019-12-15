@@ -26,7 +26,7 @@ class Controller {
                     let userPassword = deHash(req.body.password, user.password)
                     if (userPassword) {
                         let token = genToken({ id: user._id, name: user.name })
-                        res.status(200).json({ token })
+                        res.status(200).json({ token, user })
                     } else {
                         next({ status: 403, msg: "Incorrect Password" })
                     }
@@ -44,12 +44,13 @@ class Controller {
         })
             .then((user) => {
                 let token = genToken({ id: user._id, name: user.name })
-                res.status(200).json({ token })
+                res.status(200).json({ token, user })
             })
             .catch(next);
     }
 
     static showCart(req, res, next) {
+        console.log('show cart');
         User
             .findById(req.decode.id)
             .populate('cart')

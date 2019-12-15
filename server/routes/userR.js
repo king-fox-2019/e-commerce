@@ -12,13 +12,13 @@ router.post('/login', ControllerUser.login)
 
 router.post('/register', ControllerUser.register)
 
-router.use(authenticating)
+// router.use(authenticating)
 
-router.get('/cart', ControllerUser.showCart)
+router.get('/cart', authenticating, ControllerUser.showCart)
 
-router.patch('/:id', ControllerUser.addCart)
+router.patch('/:id', authenticating, ControllerUser.addCart)
 
-router.put('/:id', ControllerUser.removeCart)
+router.put('/:id', authenticating, ControllerUser.removeCart)
 
 
 module.exports = router

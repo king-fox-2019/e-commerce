@@ -8,18 +8,18 @@ const { authenticating, authorizating } = require('../middlewares/auth')
 
 router.get('/', ControllerProduct.showAllProducts)
 
-router.use(authenticating)
+// router.use(authenticating) cant get req.params
 
-router.post('/add', ControllerProduct.addProduct)
+router.post('/', authenticating, ControllerProduct.addProduct)
 
 // <!-- this one for tokopedia looks like e-commerce -->
 // router.get('/myproduct', ControllerProduct.myproduct)
 
-router.use(authorizating)
+// router.use(authorizating)
 
-router.delete('/:id', ControllerProduct.deleteProduct)
+router.delete('/:id', authorizating, ControllerProduct.deleteProduct)
 
-router.patch('/:id', ControllerProduct.updateProductData)
+router.patch('/:id', authorizating, ControllerProduct.updateProductData)
 
 
 module.exports = router

@@ -6,6 +6,7 @@ const Product = require('../models/product')
 
 
 function authenticating(req, res, next) {
+    // console.log(req.params);
     try {
         req.decode = verify(req.headers.access_token)
         console.log(req.decode);
@@ -27,14 +28,18 @@ function authenticating(req, res, next) {
 }
 
 function authorizating(req, res, next) {
+    console.log('masuk autho');
+    authenticating(req, res, next)
     try {
-        req.decode = verify(req.headers.access_token)
+        console.log('masuk try', req.params);
+        // req.decode = verify(req.headers.access_token)
         Product.findById(req.params.id)
             .then((product) => {
+                console.log(req.params);
                 if (!product) {
-                    throw ({ status: 404, msg: 'Product not found' })
+                    next ({ status: 404, msg: 'Product not found' })
                 } else if (product.owner != req.decode.id) {
-                    throw ({ status: 403, msg: "This product not belongs to you, sir!!" })
+                    next ({ status: 403, msg: "This product not belongs to you, sir!!" })
                 } else {
                     next()
                 }
@@ -44,6 +49,7 @@ function authorizating(req, res, next) {
         next({status: 500, msg: "Something went wrong"})
     }
 }
+
 
 module.exports = {
     authenticating,
