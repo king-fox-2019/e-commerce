@@ -2,7 +2,7 @@
   <div class="mb-4 mt-4 shadow" style="background-color: white;">
     <div class="border p-3" style="width: 100%">
       <div class="d-flex justify-content-between">
-        <h4>{{ index + 1 }}. Trasaction ID: {{ transaction._id }}</h4>
+        <h4>{{ index + 1 }}. Receipt Number: {{ transaction._id }}</h4>
         <slot></slot>
       </div>
       <div class="container">
@@ -30,7 +30,7 @@
 
         <div class="d-flex justify-content-between">
           <div>
-            Status: <span style="color: green" v-if="transaction.status">Delivered</span> <span style="color: red" v-else>On process</span>
+            Status: <span style="color: green" v-if="transaction.status"> Delivered </span> <span style="color: red" v-else> On process </span>
           </div>
           <div>
             Rp. {{ totalPrice }}

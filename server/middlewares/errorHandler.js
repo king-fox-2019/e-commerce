@@ -18,7 +18,7 @@ function errorHandler(err, req, res, next) {
   } else if (err.message.name === 'JsonWebTokenError') {
     res.status(status).json({ message: err.message.message })
   } else if(err.message == 'Cannot read property \'originalname\' of undefined') {
-    res.status(400).json({ message: 'Please upload new image' })
+    next()
   } else {
     res.status(status).json({ message })
   }

@@ -61,23 +61,19 @@ class UserController {
     let loggedUser = req.loggedUser
     let cartQuantity
     let isDuplicate = false
-    if(!product_id || !quantity) {
+    if (!product_id || !quantity) {
       res.status(400).json({ message: 'bad request' })
     } else {
       User.findOne({ _id: loggedUser.id })
         .populate('cart.product_id')
         .then(user => {
           user.cart.forEach(product => {
-            // if(Number(product.product_id.stock) <= Number(product.quantity)) {
-            //   throw ({ status: 400, message: 'Sorry, that is all the stock we got' })
-            // } else {
-              if (product.product_id._id == product_id) {
-                cartQuantity = product.quantity
-                isDuplicate = true
-              }
-            // }
+            if (product.product_id._id == product_id) {
+              cartQuantity = product.quantity
+              isDuplicate = true
+            }
           })
-  
+
           if (isDuplicate) {
             const totalQuantity = Number(cartQuantity) + Number(quantity)
             User.updateOne({ _id: loggedUser.id, 'cart.product_id': product_id }, { $set: { 'cart.$.quantity': totalQuantity } })
@@ -97,7 +93,7 @@ class UserController {
               .catch(next)
           }
         })
-      .catch(next)
+        .catch(next)
     }
   }
 
@@ -106,7 +102,7 @@ class UserController {
     let loggedUser = req.loggedUser
     let isExist = false
     let quantity = -1
-    if(!product_id) {
+    if (!product_id) {
       res.status(400).json({ message: 'bad request' })
     } else {
       User.findOne({ _id: loggedUser.id })
@@ -117,7 +113,7 @@ class UserController {
               isExist = true
             }
           })
-  
+
           if (isExist && quantity > 0) {
             return User.updateOne({ _id: loggedUser.id, 'cart.product_id': product_id }, { $set: { 'cart.$.quantity': quantity } })
           } else {
@@ -152,7 +148,7 @@ class UserController {
   static removeCart(req, res, next) {
     const userId = req.loggedUser.id
     const { product_id } = req.body
-    if(!product_id) {
+    if (!product_id) {
       res.status(400).json({ message: 'bad request' })
     } else {
       User.updateOne({ _id: userId }, { $pull: { cart: { product_id } } })

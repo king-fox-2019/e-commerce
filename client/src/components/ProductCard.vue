@@ -1,12 +1,12 @@
 <template>
   <div class="col-lg-4 col-md-6 mb-4">
     <div class="card h-100">
-      <a href="#">
-        <img class="card-img-top card-imgg" :src=ProductData.image alt="product-image" />
-      </a>
+      <div class="card-imgg">
+        <img class="card-img-top" :src=ProductData.image alt="product-image" style="object-fit: contain; height: 200px; width: 200px"/>
+      </div>
       <div class="card-body">
         <h4 class="card-title">
-          <a href="#">{{ ProductData.name }}</a>
+          <span>{{ ProductData.name }}</span>
         </h4>
         <h5>Price: Rp.{{ ProductData.price }}</h5>
         <h6>Stock: {{ ProductData.stock }}</h6>
@@ -37,8 +37,6 @@ export default {
 
 <style scoped>
 .card-imgg {
-  object-fit: contain;
-  height: 200px;
-  width: 200px;
+  padding: 5px;
 }
 </style>

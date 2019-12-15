@@ -13,6 +13,8 @@
           <hr>
           <b-button variant="info" @click.prevent="viewTransactions"> <i class="fas fa-receipt"></i> Transaction List </b-button>
           <hr>
+          <b-button variant="info" @click.prevent="viewChart"> <i class="fas fa-chart-line"></i> Statistics </b-button>
+          <hr>
         </div>
 
         <div class="col-lg-9">
@@ -36,6 +38,9 @@ export default {
     },
     viewTransactions () {
       this.$router.push('/admin/transactions')
+    },
+    viewChart () {
+      this.$router.push('/admin/chart')
     }
   }
 }

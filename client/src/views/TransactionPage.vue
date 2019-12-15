@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid p-0 conTrans">
+  <div class="container-fluid p-0 conTrans mb-4">
     <div class="container d-flex justify-content-center" style="width: 100%">
       <div class="mb-4" style="width: 100%">
         <div class="d-flex justify-content-center mt-4 mb-4" style="font-size: 250%; background-color: aquamarine;">
@@ -10,7 +10,7 @@
 
       </div>
     </div>
-    <b-button variant="warning" @click.prevent="goBack"> <i class="fas fa-arrow-circle-left"></i> Back </b-button>
+    <b-button class="shadow" variant="success" @click.prevent="goBack"> <i class="fas fa-arrow-circle-left"></i> Back </b-button>
   </div>
 </template>
 

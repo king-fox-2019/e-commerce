@@ -65,6 +65,11 @@ const routes = [
         path: 'transactions',
         name: 'Admin-Transaction',
         component: () => import(/* webpackChunkName: "adminTransaction" */ '../views/AdminTransactionList.vue')
+      },
+      {
+        path: 'chart',
+        name: 'Chart',
+        component: () => import(/* webpackChunkName: "adminTransaction" */ '../views/ChartPage.vue')
       }
     ]
   }

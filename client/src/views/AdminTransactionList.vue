@@ -4,6 +4,7 @@
       <div style="display: flex; flex-direction: column; align-content: flex-start; justify-content: flex-start; text-align: left;">
         <small>Customer Name: {{ transaction.user_id.username }}</small>
         <small>Customer Email: {{ transaction.user_id.email }}</small>
+        <small>Transaction Date: {{ new Date(transaction.createdAt).toDateString() }}</small>
       </div>
     </AdminTransactionCard>
   </div>

@@ -36,8 +36,7 @@ class TransactionController{
 
       user.cart.forEach(product=>{        
         if(product.product_id.stock - product.quantity < 0){
-          
-          throw { status: 400, message: 'stock not enough' }
+          throw { status: 400, message: `Sorry we do not have any more stock for this item: ===${product.product_id.name}===, we only have ${product.product_id.stock} piece(s) available for now` }
         }
       })
 
@@ -49,7 +48,6 @@ class TransactionController{
 
       let cartTransaction = user.cart
       
-      console.log(cartTransaction)
       for(let cart in cartTransaction){
         const product_id = cartTransaction[cart].product_id._id
         cartTransaction[cart].product_id = product_id
