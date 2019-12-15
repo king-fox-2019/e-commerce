@@ -13,6 +13,10 @@ module.exports = {
         res.status(403).json({errors: err.message});
         break;
 
+      case 'ProductNotFound':
+        res.status(404).json({errors: err.message})
+        break
+
       default:
         res.status(500).json(err);
         break;
