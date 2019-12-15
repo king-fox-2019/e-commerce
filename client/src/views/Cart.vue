@@ -83,7 +83,11 @@ export default {
           this.$store.dispatch('fetchUser')
         })
         .catch(err => {
-          console.log(`err`, err.response)
+          this.$swal.fire(
+            'sumting wong',
+            err,
+            'error'
+          )
         })
     }
   }

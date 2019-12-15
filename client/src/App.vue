@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <navbar class="navbar" @set-login="setLogin"></navbar>
-    <router-view @set-login="setLogin"/>
+    <navbar class="navbar"></navbar>
+    <router-view/>
   </div>
 </template>
 
@@ -11,11 +11,6 @@ import Navbar from './components/Navbar.vue'
 export default {
   components: {
     Navbar
-  },
-  methods: {
-    setLogin: function () {
-      console.log('login emit dari children')
-    }
   }
 }
 </script>
