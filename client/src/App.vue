@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar :isLogin="isLogin" @setIsLogin="setIsLogin" :isAdmin="isAdmin" @setIsAdmin="setIsAdmin"></Navbar>
-    <router-view @alert="alert" @setIsLogin="setIsLogin" @setIsAdmin="setIsAdmin"></router-view>
+    <router-view @alert="alert" @setIsLogin="setIsLogin" @setIsAdmin="setIsAdmin" :isAdmin="isAdmin"></router-view>
     <!-- <Footer /> -->
   </div>
 </template>
@@ -48,6 +48,9 @@ export default {
   created () {
     if (localStorage.getItem('token')) {
       this.isLogin = true
+    }
+    if (localStorage.getItem('isAdmin')) {
+      this.isAdmin = true
     }
   }
 }

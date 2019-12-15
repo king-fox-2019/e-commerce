@@ -1,14 +1,21 @@
 <template>
   <div class="about">
-    <h1>CART</h1>
+    <h1> YOUR CART</h1>
     <hr>
     <!-- {{carts}} -->
     <div class="is-divider" data-content="OR"></div>
+
+    <div v-if="carts.length > 1">
     <div class="detil" v-for="(cart, index) in carts" :key="index" >
       <DetailCart :cart="cart" @remove="getAllCart" />
     </div>
     <div>
-      <button class="button is-black"  @click="checkout">checkout</button>
+      <button class="button is-black" style="margin-bottom: 20px;" @click="checkout">checkout</button>
+    </div>
+    </div>
+
+    <div v-if="carts.length === 0">
+      <div style="font-family: 'Josefin Sans', sans-serif; font-size: 20px;">There is no product in your cart</div>
     </div>
   </div>
 </template>
@@ -76,8 +83,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import url('https://fonts.googleapis.com/css?family=Gelasio&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Abel|Barlow|Josefin+Sans|Varela+Round&display=swap');
 
 h1 {
   font-size: 37px;

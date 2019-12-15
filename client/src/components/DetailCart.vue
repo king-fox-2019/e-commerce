@@ -3,7 +3,7 @@
   <div class="columns">
     <div class="column">
       <figure class="image is-126x126">
-      <img :src="cart.product.imageSource">
+      <img style="margin-right: 4%;" :src="cart.product.imageSource">
       </figure>
     </div>
       <div class="column" style="text-align: left; margin-top: 2%; margin-left: 9%;">
@@ -152,9 +152,9 @@ columns {
 }
 
 hr {
-  width: 75vw !important;
+  width: 80vw !important;
   border: 1px solid rgb(226, 221, 221) !important;
-  margin-left: 5%;
+  margin-left: 3%;
 }
 
 .column {

@@ -56,8 +56,8 @@ class TransactionController {
   }
   static update(req, res, next) {
     let id = req.params.id
-    const { userId, carts, total } = req.body
-    Transaction.findByIdAndUpdate(id, { userId, carts, total }, { omitUndefined: true, new: true, runValidators: true, useFindAndModify: false } )
+    const { userId, carts, total, status } = req.body
+    Transaction.findByIdAndUpdate(id, { userId, carts, total, status }, { omitUndefined: true, new: true, runValidators: true, useFindAndModify: false } )
       .then(transaction => {
         res.status(200).json(transaction)
       })

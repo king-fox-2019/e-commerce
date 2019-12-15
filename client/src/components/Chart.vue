@@ -46,13 +46,13 @@ export default {
             // data: [this.getRandomInt(), this.getRandomInt()]
             // data: [8, 79, 7, 60, 95, 89, 0, 4, 8, 15, 69, 8]
             data: this.onRecap
-          },
-          {
-            label: 'Loss',
-            backgroundColor: '#f81267',
-            // data: [this.getRandomInt(), this.getRandomInt()]
-            data: [22, 11, 37, 7, 8, 67, 90, 0, 0, 0, 0, 8]
           }
+          // {
+          //   label: 'Loss',
+          //   backgroundColor: '#f81267',
+          //   data: [this.getRandomInt(), this.getRandomInt()],
+          //   data: [22, 11, 37, 7, 8, 67, 90, 0, 0, 0, 0, 8]
+          // }
         ]
       }
     }
