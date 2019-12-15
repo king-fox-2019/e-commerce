@@ -269,33 +269,39 @@ HTTP STATUS CODE: 200
 #### New Customer
 
 ```http
-POST /new customer
+POST /new customers
 ```
 
-Digunakan untuk mendaftarkan cuatomer baru kedalam sistem. Endpoint ini hanya bisa di akses dengan auth level admin.
+Digunakan untuk mendaftarkan cuatomer baru kedalam sistem. 
 
 ##### Request Header
 
-| Key  | Tipe Data | Required | Keterangan |
-| ---- | --------- | -------- | ---------- |
-|      |           |          |            |
-
-##### Request Body
-
-| Key  | Tipe Data | Required | Keterangan |
-| ---- | --------- | -------- | ---------- |
-|      |           |          |            |
-|      |           |          |            |
-|      |           |          |            |
+| Key      | Tipe Data | Required | Keterangan          |
+| -------- | --------- | -------- | ------------------- |
+| name     | string    | true     | Nama Customer       |
+| email    | string    | true     | Alamat Email        |
+| phone    | string    | true     | Nomor Handphone     |
+| password | string    | true     | Minimal 6 Character |
 
 ##### Response
 
 ```http
-HTTP STATUS CODE: 200
+HTTP STATUS CODE: 201
 ```
 
 ```json
-
+{
+    "code": 201,
+    "status": "success",
+    "message": "new user has been registred !!!",
+    "admin": {
+        "_id": "jas9bh39sjasbd.....",
+        "name": "JhonDoe",
+        "email": "JhonDoe@email.com",
+        "phone": "08123456789",
+        "status": "active"
+    }
+}
 ```
 
 ------------------------------------
@@ -303,16 +309,16 @@ HTTP STATUS CODE: 200
 #### Get Customer List
 
 ```http
-GET /customer
+GET /customers
 ```
 
 Digunakan untuk mendapatkan list semua customer dalam sistem e-commerce. Endpoint ini hanya bisa diakses dengan auth level admin.
 
 ##### Request Header
 
-| Key  | Tipe Data | Required | Keterangan |
-| ---- | --------- | -------- | ---------- |
-|      |           |          |            |
+| Key          | Tipe Data | Required | Keterangan                     |
+| ------------ | --------- | -------- | ------------------------------ |
+| access_token | string    | true     | access_token dengan role admin |
 
 ##### Response
 
@@ -321,7 +327,26 @@ HTTP STATUS CODE: 200
 ```
 
 ```json
-
+{
+    "code": 200,
+    "status": "success",
+    "customers": [
+    	{
+            "_id": "jas9bh39sjasbd.....",
+            "name": "JhonDoe",
+            "email": "JhonDoe@email.com",
+            "phone": "08123456789",
+            "status": "active"
+    	},
+		{
+            "_id": "jas9bh39sjasbd.....",
+            "name": "JhonDoe",
+            "email": "JhonDoe@email.com",
+            "phone": "08123456789",
+            "status": "active"
+    	}
+    ]
+}
 ```
 
 ----------------------------------
