@@ -27,7 +27,8 @@
       </div>
       <div class="nav-side">
         <b-navbar-nav>
-          <b-nav-item @click="isLogin"><i class="fas fa-shopping-bag" right></i></b-nav-item>
+          <b-nav-item @click="isLogin"><i class="fas fa-shopping-bag" right></i>
+          <b-badge v-if="(this.login)" variant="warning"> {{ cart }} </b-badge></b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
           <b-nav-item v-if="(!this.login)" to="/login">Masuk/Login</b-nav-item>
@@ -72,7 +73,9 @@ export default {
             confirmButtonText: 'Ok',
           });
           localStorage.removeItem('token');
+          this.$store.commit('SET_NULL_CART');
           this.$store.commit('SET_LOGIN', false);
+          this.$router.push('/');
         }
       });
     },
@@ -80,6 +83,10 @@ export default {
   computed: {
     login() {
       return this.$store.state.isLogin;
+    },
+    cart() {
+      let item = this.$store.state.cart;
+      return item.length;
     },
   },
 };

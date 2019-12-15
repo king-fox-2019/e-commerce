@@ -39,33 +39,32 @@
 export default {
   methods: {
     addToCart() {
-      this.$router.push('/my-cart');
+      const login = this.isLogin();
+      if (login) {
+        this.$router.push('/my-cart');
+      } else {
+        this.$router.push('/login');
+      }
+    },
+    isLogin() {
+      return this.$store.state.isLogin;
     },
   },
   computed: {
-    emasBatang() {
-      return this.$store.state.cartEb;
-    },
-    emasSeries() {
-      return this.$store.state.cartEs;
+    cartItem() {
+      return this.$store.state.cart;
     },
     sum() {
       let sum = 0;
-      this.emasBatang.forEach((batang) => {
-        sum += batang.price;
-      });
-      this.emasSeries.forEach((batang) => {
-        sum += batang.price;
+      this.cartItem.forEach((item) => {
+        sum += item.price;
       });
       return sum;
     },
     tax() {
       let tax = 0;
-      this.emasBatang.forEach((batang) => {
-        tax += batang.price;
-      });
-      this.emasSeries.forEach((batang) => {
-        tax += batang.price;
+      this.cartItem.forEach((item) => {
+        tax += item.price;
       });
       return tax * 10 / 100;
     },

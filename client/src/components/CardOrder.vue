@@ -34,29 +34,20 @@ export default {
     },
   },
   computed: {
-    emasBatang() {
-      return this.$store.state.cartEb;
-    },
-    emasSeries() {
-      return this.$store.state.cartEs;
+    cartList() {
+      return this.$store.state.cart;
     },
     sum() {
       let sum = 0;
-      this.emasBatang.forEach((batang) => {
-        sum += batang.price;
-      });
-      this.emasSeries.forEach((batang) => {
-        sum += batang.price;
+      this.cartList.forEach((item) => {
+        sum += item.price;
       });
       return sum;
     },
     tax() {
       let tax = 0;
-      this.emasBatang.forEach((batang) => {
-        tax += batang.price;
-      });
-      this.emasSeries.forEach((batang) => {
-        tax += batang.price;
+      this.cartList.forEach((item) => {
+        tax += item.price;
       });
       return tax * 10 / 100;
     },

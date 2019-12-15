@@ -9,9 +9,8 @@ export default new Vuex.Store({
     data: [],
     emasBatang: [],
     emasSeries: [],
-    cartEb: [],
-    cartEs: [],
     isLogin: false,
+    cart: [],
   },
   mutations: {
     // set item SEMUA EMAS yang ada di Store, pada saat pemanggilan di Server
@@ -30,18 +29,13 @@ export default new Vuex.Store({
     SET_SERIES(state, payload) {
       state.emasSeries = payload;
     },
-    // set penambahan EMAS BATANG CART yang ada di Store, pada saat user proses CART
-    SET_CART_EB(state, payload) {
-      state.cartEb = payload;
-    },
-    // set penambahan EMAS SERIES CART yang ada di Store, pada saat user proses CART
-    SET_CART_ES(state, payload) {
-      state.cartEs = payload;
+    // set penambahan EMAS CART yang ada di Store, pada saat user proses CART
+    SET_CART(state, payload) {
+      state.cart = payload;
     },
     // reset CART yang ada di Store, setelah selesai proses CART
     SET_NULL_CART(state) {
-      state.cartEb = [];
-      state.cartEs = [];
+      state.cart = [];
     },
   },
   actions: {

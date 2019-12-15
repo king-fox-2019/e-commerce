@@ -49,9 +49,10 @@ export default {
     };
   },
   methods: {
-    addCart(id) {
-      this.cart.push(id);
-      this.$store.commit('SET_CART_ES', this.cart);
+    addCart(data) {
+      this.cart = this.$store.state.cart;
+      this.cart.push(data);
+      this.$store.commit('SET_CART', this.cart);
     },
     showModal(data) {
       this.item = data;
@@ -61,6 +62,9 @@ export default {
   computed: {
     data() {
       return this.$store.state.emasSeries;
+    },
+    cartItem() {
+      return this.$store.state.cart;
     },
   },
   created() {
