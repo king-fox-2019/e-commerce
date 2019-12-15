@@ -3,13 +3,13 @@ const { authenticate, authorizationCustomer, authorizationAdmin } = require('../
 const TransactionController = require('../controllers/transaction')
 
 // get all transaction
-router.get('/', authenticate, authorizationAdmin, TransactionController.getAllTransaction)
+router.get('/', authenticate, TransactionController.getAllTransaction)
 
 // get all user transaction
-router.get('/user', authenticate, authorizationCustomer, TransactionController.getUserTransaction)
+router.get('/user', authenticate, TransactionController.getUserTransaction)
 
 // create transaction
-router.post('/', authenticate, authorizationCustomer, TransactionController.createTransaction)
+router.post('/', authenticate, TransactionController.createTransaction)
 
 // update status sent
 router.put('/:id/sent', authenticate, authorizationAdmin, TransactionController.sentProduct)

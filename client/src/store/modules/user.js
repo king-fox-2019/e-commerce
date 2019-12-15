@@ -1,12 +1,16 @@
 import axios from '../../../api/server'
 
 const state = {
-  isLogin: false
+  isLogin: false,
+  session: ''
 }
 
 const mutations = {
   SET_IS_LOGIN (state, payload) {
     state.isLogin = payload
+  },
+  SET_ROLE (state, payload) {
+    state.session = payload
   }
 }
 

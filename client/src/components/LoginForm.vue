@@ -87,6 +87,7 @@ export default {
             position: 'topRight'
           })
           this.$store.commit('user/SET_IS_LOGIN', true)
+          this.$store.commit('user/SET_ROLE', data.user.role)
           this.$router.push('/')
         })
         .catch(err => {

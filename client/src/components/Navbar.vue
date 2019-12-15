@@ -15,6 +15,7 @@
         <v-btn text class="mx-4" @click.prevent="moveStory"><span class="grey--text darken-3">Story</span></v-btn>
         <v-btn text class="mx-4"><span class="grey--text darken-3">Heropedia</span></v-btn>
         <v-btn text class="mx-4"><span class="grey--text darken-3" @click.prevent="$router.push('/shop')">Shop</span></v-btn>
+        <v-btn text class="mx-4" v-if="isLogin"><span class="grey--text darken-3" @click.prevent="$router.push('/transaction')">Transaction</span></v-btn>
       </v-toolbar-items>
     </div>
 
@@ -32,6 +33,7 @@
           :left="left"
           :overlap="overlap"
           class="align-self-center mr-8"
+          v-if="isLogin"
         >
           <template v-slot:badge>
           <span>{{cartItem}}</span>
@@ -74,6 +76,7 @@ export default {
       this.$toast.success('Logout Success!', 'OK', {
         position: 'topRight'
       })
+      this.$router.push('/')
     },
     openCart () {
       this.$router.push('/cart')
