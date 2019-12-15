@@ -15,13 +15,13 @@ export default {
   methods: {
     getdata () {
       let dataDay = []
-      for (let i = 0; i < 30; i++) {
+      for (let i = 0; i < 31; i++) {
         dataDay[i] = 0
       }
       this.transactions.forEach(transaction => {
         let month = transaction.createdAt.split('-')[2]
         let day = month.split('T')[0]
-        for (let i = 1; i <= 30; i++) {
+        for (let i = 1; i <= 31; i++) {
           if (Number(day) === i) {
             let total = 0
             transaction.products.forEach(product => {

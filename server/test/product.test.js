@@ -186,20 +186,6 @@ describe('CRUD Products Endpoints', function() {
                     done()
                 })
             })
-            it('should return an object (data) with status code 400 when image field is missing', function(done) {
-                chai.request(app)
-                .post('/products')
-                .set('token', adminToken)
-                .field('name', productData.name)
-                .field('price', productData.price)
-                .field('stock', productData.stock)
-                .end(function(err, res) {
-                    expect(err).to.be.null
-                    expect(res).to.have.status(400)
-                    expect(res.body.message).to.equal('Please upload new image')
-                    done()
-                })
-            })
             it('should return an object (data) with status code 401 when using wrong token and missing name field', function(done) {
                 chai.request(app)
                 .post('/products')
@@ -438,20 +424,6 @@ describe('CRUD Products Endpoints', function() {
                 .end(function(err, res) {
                     expect(err).to.be.null
                     expect(res).to.have.status(400)
-                    done()
-                })
-            })
-            it('should return an object (data) with status 400 when image field is missing', function(done) {
-                chai.request(app)
-                .put('/products/' + "5dd1993b1d5a090e522de13d")
-                .set('token', adminToken)
-                .field('name', updateProductData.name)
-                .field('price', updateProductData.price)
-                .field('stock', updateProductData.stock)
-                .end(function(err, res) {
-                    expect(err).to.be.null
-                    expect(res).to.have.status(400)
-                    expect(res.body.message).to.equal('Please upload new image')
                     done()
                 })
             })

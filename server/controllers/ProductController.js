@@ -36,26 +36,30 @@ class ProductController {
   static updateField(req, res, next) {
     let { id } = req.params
     let { name, price, stock, image } = req.body
-    if(req.file) {
-      Product.findById({ _id: id })
-        .then(product => {
-          gcsDelete(product.image)
-          return Product.findByIdAndUpdate({ _id: id }, { $set: { name, price: Number(price), stock, image } }, { runValidators: true, omitUndefined: true, new: true })
-        })
-        .then(result => {
-          res.status(200).json(result)
-        })
-        .catch(next)
+    if(!name || !price || !stock) {
+      res.send(400).json({ message: 'bad request' })
     } else {
-      Product.findById({ _id: id })
-        .select('image')
-        .then(product => {
-          return Product.findByIdAndUpdate({ _id: id }, { $set: { name, price: Number(price), stock, image: product.image } }, { runValidators: true, omitUndefined: true, new: true })
-        })
-        .then(result => {
-          res.status(200).json(result)
-        })
-        .catch(next)
+      if(req.file) {
+        Product.findById({ _id: id })
+          .then(product => {
+            gcsDelete(product.image)
+            return Product.findByIdAndUpdate({ _id: id }, { $set: { name, price: Number(price), stock, image } }, { runValidators: true, omitUndefined: true, new: true })
+          })
+          .then(result => {
+            res.status(200).json(result)
+          })
+          .catch(next)
+      } else {
+        Product.findById({ _id: id })
+          .select('image')
+          .then(product => {
+            return Product.findByIdAndUpdate({ _id: id }, { $set: { name, price: Number(price), stock, image: product.image } }, { runValidators: true, omitUndefined: true, new: true })
+          })
+          .then(result => {
+            res.status(200).json(result)
+          })
+          .catch(next)
+      }
     }
   }
 

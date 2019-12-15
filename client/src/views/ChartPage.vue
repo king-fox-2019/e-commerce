@@ -1,5 +1,6 @@
 <template>
-  <div class="card">
+  <div class="card mt-4" style="padding: 20px;">
+    <h3> Sales Statistics </h3>
     <ChartLine :transactions=transactions></ChartLine>
   </div>
 </template>
@@ -11,21 +12,8 @@ export default {
   components: {
     ChartLine
   },
-  computed: {
-    transactions () {
-      return this.$store.state.transactions
-    }
-  },
-  methods: {
-    getUserTransactions () {
-      this.$store.dispatch('getUserTransactions')
-    },
-    goBack () {
-      this.$router.push('/')
-    }
-  },
   created () {
-    this.getUserTransactions()
+    this.$store.dispatch('getAdminTransactions')
   }
 
 }
