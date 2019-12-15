@@ -41,6 +41,12 @@ export default {
 
   .card {
     cursor: pointer;
+    img {
+      transition: all 0.5s ease;
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
   }
 }
 

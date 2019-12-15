@@ -23,6 +23,10 @@ export default new Vuex.Store({
     },
     GET_ITEM_DETAIL(context, id) {
       return server.get(`items/${id}`)
+    },
+    GET_TRANSACTION_DETAIL(context, id) {
+      const access_token = localStorage.getItem('access_token')
+      return server.get(`transactions/${id}`, { headers: { access_token } })
     }
   },
   modules: { user: userModule }
