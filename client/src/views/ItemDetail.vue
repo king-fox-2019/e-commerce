@@ -33,6 +33,7 @@
               :max="item.stock"
               :step="1"
               v-model="amount"
+              v-if="onSession"
             >
               <!-- <p>Your value is</p>
               {{ ipm_value }}-->

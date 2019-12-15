@@ -33,6 +33,15 @@ const routes = [
     name: 'transactions',
     component: () =>
       import(/* webpackChunkName: "transactions" */ '@/views/Transaction.vue')
+  },
+  {
+    path: '/transactions/:id',
+    name: 'transaction-detail',
+    component: () =>
+      import(
+        /* webpackChunkName: "transaction-detail" */ '@/views/TransactionDetail.vue'
+      ),
+    props: true
   }
 ]
 

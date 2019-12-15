@@ -5,7 +5,7 @@
     :variant="$route.path == '/' ? 'navbar' : 'primary'"
     fixed="top"
   >
-    <b-navbar-brand to="/">LaZaloPedia</b-navbar-brand>
+    <b-navbar-brand to="/" exact>LaZaloPedia</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
