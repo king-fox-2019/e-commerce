@@ -1,5 +1,12 @@
 const mongoose = require("mongoose");
-mongoose.connect(`mongodb://localhost:27017/e-commerce-${process.env.NODE_ENV}`, 
+let URI
+if (process.env.NODE_ENV === "development") {
+  URI = process.env.URL_DB
+}
+if (process.env.NODE_ENV === "test") {
+  URI = process.env.URL_DB_TEST
+}
+mongoose.connect(URI, 
   { 
     useNewUrlParser: true ,
     useUnifiedTopology: true,

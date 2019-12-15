@@ -43,9 +43,8 @@ const routes = [
     name: 'cart',
     component: () => import(/* webpackChunkName: "cart" */ '../views/Cart.vue'),
     beforeEnter: (to, from, next) => {
-      // alert(localStorage.getItem('access_token'))
       if (!localStorage.getItem('access_token')) {
-        alert('shit')
+        router.push('account/signin')
       }
       next()
     }

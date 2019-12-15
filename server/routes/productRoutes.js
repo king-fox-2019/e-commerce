@@ -17,7 +17,7 @@ product.get("/:productId", productController.showProduct)
 
 product.use(authentication)
 product.post("/", productController.addProduct)
-product.patch("/:productId", authorization, productController.editProduct);
-product.delete("/:productId", authorization, productController.deleteProduct);
+product.patch("/:productId", productController.editProduct);
+product.delete("/:productId", productController.deleteProduct);
 
 module.exports = product;

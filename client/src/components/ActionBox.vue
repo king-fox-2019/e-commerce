@@ -9,7 +9,6 @@
     >
       
       <b-form-input
-        id="input-qty"
         type="number"
         min="1"
         :max="prod.stock"

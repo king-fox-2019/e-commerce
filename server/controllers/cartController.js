@@ -35,7 +35,6 @@ class CartController {
   }
 
   static showCart(req, res, next) {
-    console.log(req.decoded._id)
     Cart.find({ userId: req.decoded._id })
       .populate('productId')
       .then(items => {
@@ -47,12 +46,14 @@ class CartController {
 
   static deleteItem(req, res, next) {
     let amount = Number(req.body.amount)
-    Product.findByIdAndUpdate(req.params.productId, {
-      $inc: { stock: +amount}
-    })
+    Cart.findById(req.params.cartId)
+      .then(cart => {
+        return Product.findByIdAndUpdate(cart.productId, {
+          $inc: { stock: +amount}
+        })
+      })
       .then(n => {
-        if (!n) next({ code: 404, message: 'product not found'})
-        return Cart.findOneAndDelete({ productId: req.params.productId })
+        return Cart.findByIdAndDelete(req.params.cartId)
       })
       .then(n => {
         res.status(200).json({ message: 'successfully deleted'})

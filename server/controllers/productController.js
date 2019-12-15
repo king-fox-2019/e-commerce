@@ -14,6 +14,7 @@ class ProductController {
       .then(product => {
         res.status(201).json(product)
       })
+      .catch(next)
   }
 
   
@@ -35,16 +36,18 @@ class ProductController {
 
   static editProduct(req, res, next) {
     const update = {};
-      const productId = req.params.productId;
-      const { name, price, stock } = req.body;
-      if (name) update.title = title;
-      if (price) update.content = content;
-      if (stock) update.created_at = created_at;
-      Product.findByIdAndUpdate(productId, update)
-        .then(product => {
-          res.status(200).json(product)
-        })
-        .catch(next);
+    const productId = req.params.productId;
+    console.log(productId, '*****')
+    const { name, price, stock, description } = req.body;
+    if (name) update.name = name;
+    if (price) update.price = price;
+    if (stock) update.stock = stock;
+    if (description) update.description = description;
+    Product.findByIdAndUpdate(productId, update)
+      .then(product => {
+        res.status(200).json(product)
+      })
+      .catch(next);
   }
 
   static deleteProduct(req, res, next) {

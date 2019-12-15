@@ -35,6 +35,7 @@ export default {
 			})
         .then(({ data }) => {
           this.cart = data
+          console.log(data, '<<<')
         })
         .catch(err => {
           console.log(err)
@@ -54,7 +55,7 @@ export default {
         if (result.value) {
           axios({
             method: 'delete',
-            url: `/cart/${item.productId._id}`,
+            url: `/cart/${item._id}`,
             data: {
               amount: item.amount
             },

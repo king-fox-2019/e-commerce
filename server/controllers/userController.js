@@ -4,7 +4,6 @@ const { generateToken } = require("../helpers/jwt");
 
 class userController {
   static signup(req, res, next) {
-    console.log(req.body)
     const payload = {}
     let access_token = ''
     const { username, email, password } = req.body
