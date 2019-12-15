@@ -16,7 +16,7 @@ class UserController{
         User.create({ email,password,name,cart })
             .then(user => {
                 let access_token = generate({id:user._id})
-                res.status(200).json({access_token})
+                res.status(201).json({access_token})
             })
             .catch(next)
     }
