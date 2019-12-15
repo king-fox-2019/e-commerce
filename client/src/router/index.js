@@ -38,12 +38,12 @@ const routes = [
       {
         path: 'gold',
         name: 'purchaseGold',
-        component: () => import(/* webpackChunkName: "purchaseGold" */ '../views/Product.vue'),
+        component: () => import(/* webpackChunkName: "purchaseGold" */ '../components/GoldProduct.vue'),
       },
       {
         path: 'batik-series',
         name: 'purchaseBatikSeries',
-        component: () => import(/* webpackChunkName: "purchaseBatikSeries" */ '../views/Product.vue'),
+        component: () => import(/* webpackChunkName: "purchaseBatikSeries" */ '../components/SeriesProduct.vue'),
       },
     ],
   },

@@ -13,7 +13,9 @@
       </div>
     </div>
     <div class="d-flex bd-highlight">
-      <div class="p-2 flex-grow-1 bd-highlight p-4">Flex item</div>
+      <div class="p-2 flex-grow-1 bd-highlight p-4">
+        <router-view />
+      </div>
       <div class="p-2 bd-highlight cart-item p-4">
         <CartItem />
       </div>

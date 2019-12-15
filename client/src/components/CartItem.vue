@@ -8,17 +8,19 @@
       <div>
         <div class="row">
           <b-card-text class="col-5">Item Price</b-card-text>
-          <div class="col-7 value">Rp. {{ this.item.toLocaleString("id") }}</div>
+          <div class="col-7 value">Rp. {{ this.sum.toLocaleString("id") }}</div>
           <div class="w-100"></div>
           <b-card-text class="col col-5">Tax</b-card-text>
-          <div class="col-7 value">Rp. {{ tax.toLocaleString("id") }}</div>
+          <div class="col-7 value">Rp. {{ this.tax.toLocaleString("id") }}</div>
           <div class="w-100"></div>
           <b-card-text class="col-5">Total Price</b-card-text>
-          <div class="col-7 value"> <strong> Rp. {{ total.toLocaleString("id") }} </strong></div>
+          <div class="col-7 value"> <strong> Rp.
+            {{ (this.sum + this.tax).toLocaleString("id") }} </strong></div>
         </div>
       </div>
       <hr>
-      <b-button variant="success" class="addToCart"><i class="far fa-money-bill-alt mr-2" right></i>
+      <b-button variant="success" @click.prevent="addToCart" class="addToCart">
+        <i class="far fa-money-bill-alt mr-2" right></i>
       <strong> Add To Cart</strong></b-button>
     </b-card>
     <b-card class="card-2 mt-4">
@@ -35,17 +37,37 @@
 
 <script>
 export default {
-  data() {
-    return {
-      item: 0,
-    };
+  methods: {
+    addToCart() {
+      this.$router.push('/my-cart');
+    },
   },
   computed: {
-    tax() {
-      return this.item * 10 / 100;
+    emasBatang() {
+      return this.$store.state.cartEb;
     },
-    total() {
-      return this.item + this.tax;
+    emasSeries() {
+      return this.$store.state.cartEs;
+    },
+    sum() {
+      let sum = 0;
+      this.emasBatang.forEach((batang) => {
+        sum += batang.price;
+      });
+      this.emasSeries.forEach((batang) => {
+        sum += batang.price;
+      });
+      return sum;
+    },
+    tax() {
+      let tax = 0;
+      this.emasBatang.forEach((batang) => {
+        tax += batang.price;
+      });
+      this.emasSeries.forEach((batang) => {
+        tax += batang.price;
+      });
+      return tax * 10 / 100;
     },
   },
 };

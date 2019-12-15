@@ -8,15 +8,32 @@
         <img :src="item.image" class="card-img-top mx-auto mt-3">
         <div class="card-body">
           <h4 class="card-title">{{ item.name }}</h4>
-          <a href="#" class="card-link">Lihat Detail</a>
+          <a href="#" @click.prevent="showModal(item)" class="card-link">View Details</a>
         </div>
       </div>
+      <Modal :data="item" />
     </div>
   </div>
 </template>
 
 <script>
+import Modal from './ModalDetail.vue';
+
 export default {
+  components: {
+    Modal,
+  },
+  data() {
+    return {
+      item: null,
+    };
+  },
+  methods: {
+    showModal(data) {
+      this.item = data;
+      this.$bvModal.show('modal-lg');
+    },
+  },
   computed: {
     data() {
       return this.$store.state.emasSeries.slice(0, 3);
