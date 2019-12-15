@@ -25,7 +25,7 @@
       >
             <div class="modal-header">
               <h5 class="modal-title">Customer login</h5>
-              <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+              <button type="button" @click="$bvModal.hide('login-modal')" aria-label="Close" class="close">
                 <span aria-hidden="true">×</span>
               </button>
             </div>
@@ -49,9 +49,11 @@
               </form>
               <p class="text-center text-muted">Not registered yet?</p>
               <p class="text-center text-muted">
-                <a href="/register">
-                  <strong>Register now</strong>
-                </a>! It is easy and done in 1 minute and gives you access to special discounts and much more!
+                <router-link to="/register">
+                  <a href="#">
+                    <strong>Register now</strong>
+                  </a>! It is easy and done in 1 minute and gives you access to special discounts and much more!
+                </router-link>
               </p>
             </div>
       </b-modal>
@@ -59,7 +61,7 @@
     </div>
     <nav class="navbar navbar-expand-lg">
       <div class="container">
-        <a href="index.html" class="navbar-brand home">
+        <a href="#" class="navbar-brand home" @click.prevent="testSwal">
           <img
             src="../assets/logo.png"
             style="height: 72px; width: auto"
@@ -93,7 +95,7 @@
             <span class="sr-only">Toggle search</span>
             <i class="fa fa-search"></i>
           </button>
-          <a href="basket.html" class="btn btn-outline-secondary navbar-toggler">
+          <a href="#" class="btn btn-outline-secondary navbar-toggler">
             <i class="fa fa-shopping-cart"></i>
           </a>
         </div>
@@ -153,6 +155,13 @@ export default {
     }
   },
   methods: {
+    testSwal () {
+      this.$swal.fire(
+        'The Internet?',
+        'That thing is still around?',
+        'error'
+      )
+    },
     toRegister () {
       this.$router.push('/register')
     },
@@ -174,7 +183,11 @@ export default {
           this.$router.push('/products')
         })
         .catch(({ response }) => {
-          console.log(response, 'masuk err comp')
+          this.$swal.fire(
+            'Access Denied',
+            'wrong email or password',
+            'error'
+          )
         })
     }
   }

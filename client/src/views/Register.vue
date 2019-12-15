@@ -81,12 +81,21 @@ export default {
           this.$router.push('/products')
         })
         .catch(({ response }) => {
-          console.log(response, 'masuk err comp')
+          this.$swal.fire(
+            'Access Denied',
+            'wrong email or password',
+            'error'
+          )
         })
     },
     register: function () {
-      if (!this.confirmPassword === this.registerPassword) {
+      if (this.confirmPassword !== this.registerPassword) {
         // handle error
+        return this.$swal.fire(
+          'Access Denied',
+          'confirm password',
+          'error'
+        )
       } else {
         axios({
           method: 'POST',
@@ -99,8 +108,12 @@ export default {
           .then(({ data }) => {
             this.$router.push('/products')
           })
-          .catch(err => {
-            console.log(`err`, err.response)
+          .catch(() => {
+            this.$swal.fire(
+              'Access Denied',
+              'wrong email or password',
+              'error'
+            )
           })
       }
     }
