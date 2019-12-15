@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const TransactionController = require('../controllers/transactionController')
+const TransactionController = require('../controllers/TransactionController')
 const { authentication, transactionAuthentication, adminAuthorization } = require('../middlewares/auth')
 
 router.use(authentication)
