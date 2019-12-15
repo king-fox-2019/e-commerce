@@ -2,7 +2,7 @@
 
 **Login User**
 ----
-  Returns json data token of user
+  Returns json data token of user and user name
 
 * **BASE URL**
   `http://localhost:3000`
@@ -25,18 +25,21 @@
   * **Code:** 200 <br />
     **Content:** 
     ````javascript 
-        { access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c } 
+        { 
+          name: 'john doe'
+          access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c 
+        } 
     ````
  
 * **Error Response:**
 
-  * **Code:** 404 NOT FOUND <br />
-    **Content:** `{ message : "User doesn't exist" }`
+  * **Code:** 400 NOT FOUND <br />
+    **Content:** `{ message : "Invalid email or password" }`
 
   OR
 
-  * **Code:** 401 UNAUTHORIZED <br />
-    **Content:** `{ message : "Email or Password is incorrect" }`
+  * **Code:** 404 NOT FOUND <br />
+    **Content:** `{ message : "User not found" }`
 
 * **Sample Call:**
 
@@ -54,7 +57,7 @@
 
 **Register User**
 ----
-  Returns json data token of user
+  Returns json data token of user and user name
 
 * **BASE URL**
   `http://localhost:3000`
@@ -78,13 +81,16 @@
   * **Code:** 201 <br />
     **Content:** 
     ````javascript 
-        { access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c } 
+        { 
+          name: 'john doe'
+          access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c 
+        }
     ````
  
 * **Error Response:**
 
   * **Code:** 400 BAD REQUEST <br />
-    **Content:** `{ message : "Name can not be empty, Email can not be empty, Email not valid, Email already registered, Password at least have 6 character" }`
+    **Content:** `{ message : "Name can not be empty, Email can not be empty, Email not valid, Email already registered, Password cannot be empty, Password at least have 6 character" }`
 
 
 * **Sample Call:**
