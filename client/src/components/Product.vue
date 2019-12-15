@@ -18,9 +18,6 @@
             <b-card-sub-title class="mb-4" id="sub-title">{{product.name.split('-')[1]}}</b-card-sub-title>
             <b-card-text>
                 {{product.description.slice(0,80)}}...
-                
-                    <!-- <a class="card-link" href="" @click.prevent="$route.push(`/detail`)">more</a> -->
-                     
                     <a class="card-link" href="" data-toggle="modal" data-target="#exampleModalLong"  @click="index = i">more</a>
                 
             </b-card-text>
@@ -28,9 +25,8 @@
                 <hr>
 
             <b-card-body id="card-body-bottom">
-            <b-card-sub-title id="card-body-price" class="mb-4">idr.{{product.price}}</b-card-sub-title>
+            <b-card-sub-title id="card-body-price" class="mb-4">Rp. {{product.price.toLocaleString()}}</b-card-sub-title>
             <b-button @click.prevent="testPush(product._id)" pill variant="primary" size="sm" style="width:100px"><i class="fas fa-cart-plus" style="margin-right:5px"></i> Buy </b-button>
-            <b-button v-if="userRole" pill variant="primary" size="sm" style="margin-left:10px"> delete </b-button>
             </b-card-body>
         </b-card>
 
@@ -38,7 +34,7 @@
     </div>
 
     
-          <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content" style="border-radius:20px">
                
@@ -127,6 +123,7 @@ export default {
 }
 
 #product-card{
+
     min-height: 700px;
     box-shadow: 15px 10px 70px -13px rgba(0,0,0,0.15);
     transition: all .2s ease-in-out;

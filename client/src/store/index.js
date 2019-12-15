@@ -1,4 +1,4 @@
-import Vuex, { createNamespacedHelpers } from 'vuex'
+import Vuex from 'vuex'
 import Vue from 'vue'
 import Swal from 'sweetalert2'
 import router from '../router/index'
@@ -87,10 +87,122 @@ export default new Vuex.Store({
     CLEAR_TRANSACTION_HISTORY(state){
       state.detailCart = []
       state.deliveryCost = 0
+    },
+    ADD_PRODUCT(state,payload){
+      state.product.push(payload)
     }
   },
   actions: {
+    editProduct({commit},payload){
+      console.log(commit,payload)
+      GetData({
+        method: 'put',
+        url : `/products/${payload.productId}`,
+        headers : {
+          token : localStorage.getItem('token')
+        },
+        data : {
+          name : payload.name,
+          description : payload.description,
+          price : payload.price
+        }
+      })
+      .then(({data}) => {
+        console.log(data)
+        Swal.fire(
+          `Successfully updated`,
+          'Data will be updated soon',
+          'success'
+          )
+          this.dispatch('fetchProduct')
+        })
+      .catch(({response}) =>{
+        console.log(response)
+      })
+    },
+    removeItem({commit},payload){
+      console.log(commit)
+      Swal.fire({
+        title: 'Remove this transaction?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, remove it!'
+        
+      }).then((result) => {
 
+      if (result.value) {
+        GetData({
+          method: 'delete',
+          url : `/products/${payload}`,
+          headers : {
+            token : localStorage.getItem('token')
+          },
+        })
+        .then(({data}) => {
+          console.log(data)
+          this.dispatch('fetchProduct')
+          Swal.fire(
+            `Successfully removed`,
+            'Data will be updated soon',
+            'success'
+          )
+        })
+        .catch(({response}) =>{
+          console.log(response)
+        })
+      }
+    })
+  },
+    addStock({commit},payload){
+      console.log(commit)
+      GetData({
+        method: 'post',
+        url : `/stocks/${payload.productId}`,
+        headers : {
+          token : localStorage.getItem('token')
+        },
+        data : {
+          number : payload.number,
+          stock: payload.stock
+        }
+      })
+      .then(({data}) => {
+        console.log(data)
+        Swal.fire(
+          `Success`,
+          'Data will be updated soon',
+          'success'
+        )
+      })
+      this.dispatch('fetchProduct')
+      .catch(({response}) =>{
+        console.log(response)
+      })
+    },
+    addProduct({commit},payload){
+      GetData({
+        method: 'post',
+        url : `/products/`,
+        headers : {
+          token : localStorage.getItem('token')
+        },
+        data : payload
+      })
+      .then(({data}) => {
+        commit('ADD_PRODUCT',data)
+        Swal.fire(
+          `Success`,
+          'Successfully add the product',
+          'success'
+        )
+          // commit('GET_TRANSACTION_HISTORY',data)
+      })
+      .catch(({response}) =>{
+        console.log(response)
+      })
+    },
     deleteTransaction({commit},payload){
       Swal.fire({
         title: 'Remove this transaction?',
@@ -164,7 +276,7 @@ export default new Vuex.Store({
       })
       .then(({data}) => {
         Swal.fire(
-          `${data,message}`,
+          `${data.message}`,
           'Please confirm when the item arrived',
           'success'
         )
@@ -238,6 +350,7 @@ export default new Vuex.Store({
               'Please confirm when the item arrived',
               'success'
             )
+            console.log(data)
             // console.log('create Transaction Success',data,commit)
             router.push('/')
             this.dispatch('getAllTransaction')

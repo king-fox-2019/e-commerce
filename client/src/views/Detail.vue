@@ -23,7 +23,7 @@
             </div>
             </div>
         </div>
-    </div>
+      </div>
     
     <!-- <div class="about"> -->
     <div class="hero-picture" id='product-hero'>
@@ -110,7 +110,11 @@
           if(localStorage.getItem('token')){
             
             if(this.amount === 0 || this.size === 0){
-              alert('please insert data')
+              Swal.fire({
+                icon: 'error',
+                title: 'Field cannot be blank',
+                text: 'Insert size and amount',
+              })
             }else{
               await this.$store.dispatch('addToCart',{
                 id,
@@ -126,7 +130,12 @@
           }
            
           }else{
-            alert('login first')
+            Swal.fire({
+              icon: 'error',
+              title: 'Please login/register first',
+              text: 'You need to logged in before purchase!',
+            })
+            // alert('login first')
           }
         }
       },

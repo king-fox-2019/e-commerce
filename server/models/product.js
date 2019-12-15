@@ -20,9 +20,6 @@ const ProductShema = new Schema ({
         type : Schema.Types.ObjectId,
         ref: "Stock"
     }],
-    tags : [{
-        type : String
-    }]
 })
 
 const Product = mongoose.model('Product',ProductShema)

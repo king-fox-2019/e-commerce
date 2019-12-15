@@ -29,9 +29,9 @@ class productController{
             description : req.body.description,
             price : req.body.price,
             images : req.body.images,
-            tags : req.body.tags
         }) 
             .then(product => {
+                console.log('successfully created')
                 res.status(201).json(product)
             })
             .catch(err => {
@@ -55,14 +55,14 @@ class productController{
     }
 
     static update(req,res,next){
-        const {name,description,price,images,tags} = req.body
-        if(!name || !description || !price || !tags || !images ){
+        const {name,description,price} = req.body
+        if(!name || !description || !price){
             throw {
                 status : 400,
                 message : 'name, description, price,cand stock cannot be blank'
             }
         }
-        Product.findOneAndUpdate({_id : req.params.id}, {name,description,price,tags,images}, { new : true})
+        Product.findOneAndUpdate({_id : req.params.id}, {name,description,price}, { new : true})
             .then(product => {
                 res.status(201).json(product)
             })

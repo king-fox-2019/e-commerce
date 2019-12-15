@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: Home,
   },
   {
     path: '/detail/:id',
@@ -35,8 +35,33 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Transaction.vue')
   },
   {
-    path: '/admin',
+    path: '/admin/',
     name: 'admin',
+    children: [{
+      name:'transactionHistory',
+      path: '',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '../components/AdminTransaction.vue')
+    },
+    {
+      name:'addItems',
+      path: 'add',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '../components/AdminAddItem.vue')
+    },
+    {
+      name:'listItems',
+      path: 'listitem',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '../components/AdminListItems.vue')
+    },
+  ],
     // beforeEnter: (to, from, next) => {
     //   if(localStorage.getItem('token')){
     //     next()

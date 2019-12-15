@@ -34,7 +34,7 @@ router.post('/:id',transactionController.addToCart)
 router.use('/',authorization)
 router.post('/',upload.array('images'),productController.create)
 router.delete('/:id',productController.delete)
-router.put('/:id',upload.array('images'),productController.update)
+router.put('/:id',productController.update)
 
 
 module.exports = router

@@ -35,7 +35,7 @@
 
                 <div class="form-group">
                 <label for="inputZip">Zip</label>
-                <input v-model="postalCode" type="text" class="form-control" placeholder="12345" required>
+                <input v-model="postalCode" type="number" class="form-control" placeholder="12345" required>
                 </div>
         
             <button type="submit" class="btn btn-primary">checkout</button>
