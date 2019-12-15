@@ -12,10 +12,12 @@ const upload = require('gcs-upload')({
   }
 })
 
+admin.get('/', AdminController.checkSuperAdmin)
 admin.post('/signup', AdminController.superAdminSignUp)
 admin.post('/signin', AdminController.adminSignIn)
 
 admin.use(authorizeAdmin)
+admin.get('/checksession', AdminController.checkSession)
 admin.post('/image', upload.single('image'), AdminController.imageHandler)
 admin.get('/items', ItemController.getAllItems)
 admin.post('/items', ItemController.createNewItem)

@@ -24,11 +24,11 @@ module.exports = {
         if (!transaction) throw createError(404, 'Transaction not found')
         else if (transaction.customer == req.user.id) {
           if (req.body.status) {
-            if (req.body.status == 'done') next()
+            if (req.body.status == 'done' || req.body.status == 'failed') next()
             else
               throw createError(
                 403,
-                "You don't have access to modify this transaction status to other than 'done'"
+                "You don't have access to modify this transaction status to other than 'done' or 'failed"
               )
           } else next()
         } else

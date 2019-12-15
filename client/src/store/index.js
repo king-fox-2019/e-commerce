@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import userModule from './userModule'
+import adminModule from './adminModule'
 
 const server = require('../api/server')
 
@@ -29,5 +30,5 @@ export default new Vuex.Store({
       return server.get(`transactions/${id}`, { headers: { access_token } })
     }
   },
-  modules: { user: userModule }
+  modules: { user: userModule, admin: adminModule }
 })

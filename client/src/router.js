@@ -42,6 +42,46 @@ const routes = [
         /* webpackChunkName: "transaction-detail" */ '@/views/TransactionDetail.vue'
       ),
     props: true
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () =>
+      import(/* webpackChunkName: "admin" */ '@/views/Admin.vue'),
+    children: [
+      {
+        path: 'dashboard',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin" */ '@/components/AdminDashboard.vue'
+          )
+      },
+      {
+        path: 'items',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-items" */ '@/components/AdminItems.vue'
+          )
+      },
+      {
+        path: 'transactions',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-transactions" */ '@/components/AdminTransactions.vue'
+          )
+      }
+    ]
+  },
+  {
+    path: '/admin/*',
+    beforeEnter(to, from, next) {
+      localStorage.clear()
+      next('/')
+    }
+  },
+  {
+    path: '*',
+    redirect: '/'
   }
 ]
 

@@ -97,6 +97,22 @@ export default {
         .then(({ data }) => {
           commit('SET_USER_TRANSACTIONS', data.data)
         })
+    },
+    CONFIRM_DELIVERED(context, id) {
+      const access_token = localStorage.getItem('access_token')
+      return server.patch(
+        `transactions/${id}`,
+        { status: 'done' },
+        { headers: { access_token } }
+      )
+    },
+    CANCEL_TRANSACTION(context, id) {
+      const access_token = localStorage.getItem('access_token')
+      return server.patch(
+        `transactions/${id}`,
+        { status: 'failed' },
+        { headers: { access_token } }
+      )
     }
   }
 }
