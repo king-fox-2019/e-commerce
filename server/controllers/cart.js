@@ -4,12 +4,11 @@ const Cart = require('../models/Cart')
 const Transaction = require('../models/Transaction')
 
 class ControllerCart {
-  static fetchOne(req, res, next) {
-    // console.log("ini user", req.user)
+  static fetchMany(req, res, next) {
     const user = req.user.id
 
     Cart
-      .findOne({ user })
+      .find({ user })
       .populate('products.product')
       .then(cart => {
         // console.log('ini cart dari fetchOne', cart);
@@ -18,124 +17,156 @@ class ControllerCart {
       .catch(next)
   }
 
-  static addOrUpdateQtyInCart(req, res, next) {
-    const { id, qty } = req.params
+  static fetchOne(req, res, next) {
+    // console.log("ini user", req.user)
     const user = req.user.id
 
-    // console.log('ini product id', id)
-    // console.log("ini user", req.user.id);
-    // console.log('ini product', product);
-
-    Product
-      .findById(id)
-      .then(product => {
-
-        // console.log('ini product dari hasil POST /carts', product)
-
-        if (!product) throw {
-          name: 'NotFound',
-          status: 404,
-          message: 'Product not found!'
-        }
-        else if (product.qty < qty) throw {
-          name: 'ExceededStock',
-          status: 400,
-          message: 'The quantity of products you requested exceeded our stock!'
-        }
-
-        return Cart.findOne({ user })
-      })
-
+    Cart
+      .findOne({ user, isCheckedOut: false })
+      .populate('products.product')
       .then(cart => {
-        if (!cart) {
-          return Cart
-            .create({
-              user,
-              products: [{ product: id, qty }]
-            })
-        }
-
-        // console.log('3 >>> ini cart products', cart.products)
-
-        let updatedProducts = []
-        updatedProducts.push({ product: id, qty })
-
-        // console.log('6 >>> ini updatedProducts', updatedProducts)
-
-        cart.products.forEach(product => {
-
-          // console.log('ini product forEach', product.product, id)
-
-          if (String(product.product) === String(id)) {
-
-            // console.log('5 >>> ini product', product.product, product._id)
-
-            product.qty += Number(qty)
-          }
-          updatedProducts.push(product)
-        })
-
-        cart.products = updatedProducts
-        const newCart = cart.products
-
-        // console.log('4 >>> ini new cart', updatedProducts)
-
-        return Cart
-          .findOneAndUpdate({ user }, {
-            products: newCart
-          }, { runValidator: true, new: true })
-      })
-
-      .then(cart => {
-
-        res.status(201).send({
-          message: 'Successfully added/updated item(s) into the cart!',
-          cart
-        })
-
+        // console.log('ini cart dari fetchOne', cart);
+        res.status(200).json({ cart })
       })
       .catch(next)
   }
 
-  static updateProductQtyInCart(req, res, next) {
-    const { id, qty } = req.params
-    const user = req.user.id
-    Cart
-      .findOne({ user })
-      .then(cart => {
-        let updatedProducts = []
-        cart.products.forEach(product => {
-          // console.log('1 >>> ini product._id', id, product._id);
-          if (String(id) === String(product._id)) {
-            // console.log('2 >>> ini product_id', product_id);
-            product.qty = qty
+  static async addOrUpdateQtyInCart(req, res, next) {
+    try {
+      const { productId, productInputQty } = req.params
+      const user = req.user.id
+
+      // -> Check whether the product actually exists or not
+      let product = await Product
+        .findById(productId)
+
+      if (!product) throw {
+        status: 404,
+        message: 'Product not found!'
+      }
+
+      // -> Check whether the inputQty exceeds the actual stock
+      if (productInputQty > product.qty) throw {
+        status: 400,
+        message: 'The quantity of products you requested exceeded our stock!'
+      }
+
+      // -> Find an active cart
+      let activeCart = await Cart.findOne(
+        { user, isCheckedOut: false }
+      )
+      let cart
+
+      // -> When there's none, create one and fill it with selected products
+      if (!activeCart) {
+        cart = await Cart.create(
+          {
+            user,
+            products: [
+              {
+                product: productId,
+                qty: productInputQty
+              }
+            ]
           }
-          updatedProducts.push(product)
-        })
+        )
+        res.status(201).json(
+          { message: 'Added product(s) to cart!', cart }
+        )
+        return
+      }
+      // console.log('ini product id nya', productId)
 
-        // console.log('ini updated products', updatedProducts)
+      // -> If there's an active cart, find one with the selected product
+      let activeCartWithProduct = await Cart.findOne(
+        { user, isCheckedOut: false, 'products.product': productId }
+      )
 
-        return Cart.findOneAndUpdate({ user }, {
-          products: updatedProducts
-        }, { runValidator: true, new: true })
+      // -> If there's no product with the same id, push it to the cart
+      if (!activeCartWithProduct) {
+        // console.log('masuk !product')
+        cart = await Cart
+          .findOneAndUpdate(
+            { _id: activeCart._id },
+            {
+              $push:
+              {
+                products: {
+                  product: productId,
+                  qty: productInputQty
+                }
+              }
+            }, { runValidator: true, new: true }
+          )
+        // console.log('ini cart pas add/updateQtyInCart', cart);
+      } else {
+
+        // -> If the product already exist, update its quantity with the new value
+        cart = await Cart
+          .findOneAndUpdate(
+            {
+              _id: activeCartWithProduct._id,
+              'products.product': productId
+            },
+            {
+              '$set':
+              {
+                'products.$.qty': productInputQty
+              }
+            }, { runValidator: true, new: true }
+          )
+        // console.log('ini cart yg direturn', cart)
+      }
+
+      res.status(201).json(
+        { message: 'Added product(s) to cart!', cart }
+      )
+
+    } catch (error) {
+
+      next(error)
+    }
+  }
+
+  static async removeProductFromCart(req, res, next) {
+    try {
+      const user = req.user.id
+      const { productId } = req.params
+
+      let productFound = await Cart
+        .findOne(
+          { user, isCheckedOut: false, 'products.product': productId }
+        )
+      // console.log('productFound di removeProductFromCart', productFound)
+      if (!productFound) throw {
+        status: 404,
+        message: 'Product not found!'
+      }
+
+      let cart = await Cart
+        .findOneAndUpdate(
+          { user, isCheckedOut: false, 'products.product': productId },
+          { '$pull': { 'products': { 'product': productId } } },
+          { runValidators: true, new: true }
+        )
+
+      res.status(200).json({
+        message: 'Removed item(s) from the cart!', cart
       })
-      .then(cart => {
-        res.status(200).send({
-          message: 'Successfully updated product\'s quantity!',
-          cart
-        })
-      })
-      .catch(next)
+
+    } catch (error) {
+      next(error)
+    }
   }
 
   static async checkout(req, res, next) {
     try {
       const { id } = req.params
-
+      // console.log('4 >>> masuk cart checkout, ini id', id)
       let cart = await Cart
         .findById(id)
         .populate('products.product')
-
+      // console.log('3 >>> ini isi dari cart pas checkout', cart)
       if (cart.isCheckedOut) throw {
         name: 'NoActiveCart',
         status: 400,
@@ -168,11 +199,15 @@ class ControllerCart {
       let transaction = await Transaction
         .create({
           cart: id, totalPrice
-        }) 
-
+        })
+      
+      transaction = await transaction
+        .populate('cart').execPopulate()
+      // console.log('ini transaction pas di cart checkout', cart)
       res.status(201).json({
         message: 'Successfully checked out your cart!', transaction
       })
+
     } catch (error) {
       next(error)
     }

@@ -12,11 +12,11 @@ const transactionSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['undelivered', 'delivered', 'received'],
+    enum: ['preparing', 'delivering', 'received'],
     required: true,
-    default: 'undelivered'
+    default: 'preparing'
   }
-})
+}, { timestamps: true })
 
 const Transaction = mongoose.model ('Transaction', transactionSchema)
 module.exports = Transaction

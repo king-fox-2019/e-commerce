@@ -12,7 +12,7 @@ const userSchema = new Schema({
   email: {
     type: String,
     required: [true, 'Please input your email!'],
-    unique: [true, 'Email address has already been used!'],
+    unique: true,
     validate: [{
       validator: function (email) {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -30,11 +30,11 @@ const userSchema = new Schema({
   },
 
   role: {
-    type: 'String',
-    default: 'Customer'
+    type: String,
+    default: 'customer'
   }
 
-})
+}, { timestamps: true })
 
 userSchema.pre('save', function (next) {
   const hash = generateHash(this.password)

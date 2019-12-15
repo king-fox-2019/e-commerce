@@ -15,7 +15,7 @@ let currentAccessToken = 'initialvalue'
 let currentProductId = 'initialId'
 
 let falseProductId = '5dca8ec2d156447b4d42cc24'
-let prevQty = 5
+let prevQty = 1
 
 let currentCartId = ''
 let checkedOutCartId = ''
@@ -54,7 +54,7 @@ describe('CRUD cart routes', function () {
   })
 
   after(function (done) {
-    console.log('masuk ke after hooks');
+    // console.log('masuk ke after hooks');
     if (process.env.NODE_ENV === 'testing') {
       
       User.deleteMany()
@@ -77,22 +77,19 @@ describe('CRUD cart routes', function () {
 
   describe('add a product to cart > POST /carts', function () {
     // this.timeout(5000)
-
-    it('should return the newly added items with the message: \'Successfully added item(s) to the cart!\'', function (done) {
+    it.only('should return the newly added items with the message: \'Successfully added item(s) to the cart!\'', function (done) {
 
       // console.log('ini current product id pas add product', currentProductId)
-      // console.log('ini access token sekarang di add a product to cart', currentAccessToken)
 
       chai
         .request(app)
         .post(`/carts/products/${currentProductId}/${prevQty}`)
         .set('access_token', currentAccessToken)
         .end(function (err, res) {
-
-          // console.log("1 >>> ini response dari product add", JSON.stringify(res.body, null, 2))
           // console.log("ini response dari product add", res.body)
 
           prevQty = res.body.cart.products[res.body.cart.products.length - 1].qty
+
           expect(err).to.be.null
           expect(res).to.have.status(201)
 
@@ -106,7 +103,7 @@ describe('CRUD cart routes', function () {
         })
     })
 
-    it('should return the previously added item with updated quantity when the item id already existed in the cart', function (done) {
+    it.only('should return the previously added item with updated quantity when the item id already existed in the cart', function (done) {
       const newQty = 2
 
       chai
@@ -116,7 +113,6 @@ describe('CRUD cart routes', function () {
         .end(function (err, res) {
 
           // console.log('ini currentProductId', currentProductId);
-          // console.log("2 >>> ini response dari product add", JSON.stringify(res.body, null, 2))
 
           expect(err).to.be.null
           expect(res).to.have.status(201)
@@ -128,30 +124,31 @@ describe('CRUD cart routes', function () {
           expect(res.body.cart).to.be.an('object')
           expect(res.body.cart).to.have.any.keys('_id', 'userId', 'products')
 
-          expect(res.body.cart.products[res.body.cart.products.length - 1].qty).to.eql(prevQty + newQty)
+          expect(res.body.cart.products[res.body.cart.products.length - 1].qty).to.eql(newQty)
 
           done()
         })
     })
 
-    it('ERROR: item not found, should return an error message \'Product not found!\'', function (done) {
+    it.only('ERROR: item not found, should return an error message \'Product not found!\'', function (done) {
       chai
         .request(app)
         .post(`/carts/products/${falseProductId}/${prevQty}`)
         .set('access_token', currentAccessToken)
         .end(function (err, res) {
-          // console.log('ini res body pas expected 404', JSON.stringify(res.body, null, 2));
+          // console.log('ini res body pas expected 404', JSON.stringify(res.body, nullprevQty + newQty, 2));
           expect(err).to.be.null
           expect(res).to.have.status(404)
 
           expect(res.body).to.be.an('object')
           expect(res.body.messages).to.be.an('array')
+          expect(res.body.messages[0]).to.eql('Product not found!')
 
           done()
         })
     })
 
-    it('ERROR: requested quantity of products is unavailable, should return an error message \'The quantity of products you requested exceeded our stock!\'', function (done) {
+    it.only('ERROR: requested quantity of products is unavailable, should return an error message \'The quantity of products you requested exceeded our stock!\'', function (done) {
       chai
         .request(app)
         .post(`/carts/products/${currentProductId}/100`)
@@ -162,6 +159,7 @@ describe('CRUD cart routes', function () {
 
           expect(res.body).to.be.an('object')
           expect(res.body.messages).to.be.an('array')
+          expect(res.body.messages[0]).to.eql('The quantity of products you requested exceeded our stock!')
 
           done()
         })
@@ -169,7 +167,7 @@ describe('CRUD cart routes', function () {
   })
 
   describe('fetch user\'s cart > GET /carts', function () {
-    it('should return a cart populated with products', function (done) {
+    it.only('should return a cart populated with products', function (done) {
       chai
         .request(app)
         .get('/carts')
@@ -187,7 +185,7 @@ describe('CRUD cart routes', function () {
         })
     })
 
-    it('ERROR: unauthorized, should return this when the user has no access token', function (done) {
+    it.only('ERROR: unauthorized, should return this when the user has no access token', function (done) {
       chai
         .request(app)
         .get('/carts')
@@ -205,17 +203,16 @@ describe('CRUD cart routes', function () {
   })
 
   describe('check out a cart > GET carts/:cartId/checkout', function () {
-    it('should return new transaction populated with user cart', function (done) {
+    it.only('should return new transaction populated with user cart', function (done) {
       chai
         .request(app)
-        .get(`/carts/${currentCartId}/checkout`)
+        .patch(`/carts/${currentCartId}/checkout`)
         .set('access_token', currentAccessToken)
         .end(function (err, res) {
-
-          // console.log('ini res body pas cart checkout', res.body)
-
-          checkedOutCartId = res.body.transaction.cart
-
+          // console.log('1 >>> ini res body pas cart checkout', res.body)
+          checkedOutCartId = res.body.transaction.cart._id
+          // console.log('2 >>> ini checkedOutCartId', checkedOutCartId)
+          
           expect(err).to.be.null
           expect(res).to.have.status(201)
 
@@ -223,19 +220,19 @@ describe('CRUD cart routes', function () {
           expect(res.body.message).to.eql('Successfully checked out your cart!')
 
           expect(res.body.transaction).to.be.an('object')
-          expect(res.body.transaction.status).to.eql('undelivered')
+          expect(res.body.transaction.status).to.eql('preparing')
           expect(res.body.transaction.totalPrice).to.be.above(0)
 
           done()
         })
     })
 
-    it('ERROR: this cart has already been checked out, should return this when the user has no cart to checkout', function (done) {
+    it.only('ERROR: this cart has already been checked out, should return this when the user has no cart to checkout', function (done) {
       chai
         .request(app)
-        .get(`/carts/${checkedOutCartId}/checkout`)
+        .patch(`/carts/${checkedOutCartId}/checkout`)
         .end(function (err, res) {
-
+          // console.log('ini res body pas tes ERROR: this cart has already been checked out', res.body);
           expect(err).to.be.null
           expect(res).to.have.status(401)
 
@@ -246,10 +243,10 @@ describe('CRUD cart routes', function () {
         })
     })
 
-    it('ERROR: unauthorized, should return this when the user has no access token', function (done) {
+    it.only('ERROR: unauthorized, should return this when the user has no access token', function (done) {
       chai
         .request(app)
-        .get(`/carts/${currentCartId}/checkout`)
+        .patch(`/carts/${currentCartId}/checkout`)
         .end(function (err, res) {
 
           expect(err).to.be.null

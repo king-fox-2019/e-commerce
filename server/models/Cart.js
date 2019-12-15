@@ -26,7 +26,7 @@ const cartSchema = new Schema({
     type: Boolean,
     default: false // when cart checkOut status is true -> push it to transactions
   }
-})
+}, { timestamps: true })
 
 const Cart = mongoose.model('Cart', cartSchema)
 

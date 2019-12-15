@@ -9,14 +9,16 @@ const authorizeUserTransaction = require('../middlewares/authorizeUserTransactio
 router.get('/', authenticate, authorizeAdmin, ControllerTransaction.fetchAll)
 
 router.get(
+  '/user', authenticate, ControllerTransaction.fetchUserTransactions
+)
+
+router.get(
   '/:id',
   checkObjectIdValidity,
   authenticate,
   authorizeUserTransaction,
   ControllerTransaction.fetchOne
 )
-
-// NEXT TO TEST VVVV
 
 router.patch(
   '/:id',
