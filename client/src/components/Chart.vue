@@ -11,6 +11,8 @@
 import LineChart from '../configs/LineChart'
 
 export default {
+  name: 'Chart',
+  props: ['onRecap'],
   data: function () {
     return {
       datacollection: null
@@ -42,7 +44,8 @@ export default {
             label: 'Profit',
             backgroundColor: '#f87979',
             // data: [this.getRandomInt(), this.getRandomInt()]
-            data: [8, 79, 7, 60, 95, 89, 0, 4, 8, 15, 69, 8]
+            // data: [8, 79, 7, 60, 95, 89, 0, 4, 8, 15, 69, 8]
+            data: this.onRecap
           },
           {
             label: 'Loss',

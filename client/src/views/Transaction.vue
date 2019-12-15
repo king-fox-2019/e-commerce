@@ -17,12 +17,12 @@
     </div>
 
     <br>
-    <div> id : {{transaction[0]._id}}</div>
-    <div>status : {{transaction[0].status}}</div>
-    <div>total billing : {{transaction[0].total}}</div>
-    <div>date: {{transaction[0].createdAt}}</div>
-    <div>customer : {{transaction[0].carts[0].user.username}}</div>
-    <div>products : {{transaction[0].carts[0].product.name}}</div>
+    <div> id : {{transactions[0]._id}}</div>
+    <div>status : {{transactions[0].status}}</div>
+    <div>total billing : {{transactions[0].total}}</div>
+    <div>date: {{transactions[0].createdAt}}</div>
+    <div>customer : {{transactions[0].carts[0].user.username}}</div>
+    <div>products : {{transactions[0].carts[0].product.name}}</div>
   </div>
   <div>
     <br>
@@ -30,19 +30,19 @@
     AAAAAAAAAAAAAAAAAA ini utk admin
     </div>
     <br>
-    <div> id : {{transaction[1]._id}}</div>
-    <div>status : {{transaction[1].status}}</div>
-    <!-- <div>total billing : {{transaction[1].total}}</div> -->
+    <div> id : {{transactions[1]._id}}</div>
+    <div>status : {{transactions[1].status}}</div>
+    <!-- <div>total billing : {{transactions[1].total}}</div> -->
      <div>Total : {{formatPrice}}</div>
-    <div>date: {{transaction[1].createdAt}}</div>
-    <div>customer : {{transaction[1].carts[0].user.username}}</div>
-    <div>products : {{transaction[1].carts[0].product.name}}</div>
-    <div>products : {{transaction[1].carts[1].product.name}}</div>
-        <!-- nanti transaction[1].carts harus di looping -->
-    <button v-if="transaction[1].status === 'on hold for delivery confirmation'" @click="deliv" class="button is-light">Confirm</button>
+    <div>date: {{transactions[1].createdAt}}</div>
+    <div>customer : {{transactions[1].carts[0].user.username}}</div>
+    <div>products : {{transactions[1].carts[0].product.name}}</div>
+    <div>products : {{transactions[1].carts[1].product.name}}</div>
+        <!-- nanti transactions[1].carts harus di looping -->
+    <button v-if="transactions[1].status === 'on hold for delivery confirmation'" @click="deliv" class="button is-light">Confirm</button>
 
 <button @click="$router.push(`/transaction/statistic`)" class="button is-light">statistic</button>
-<router-view></router-view>
+<router-view :onRecap="onRecap"></router-view>
   </div>
     <div>
     <br>
@@ -50,16 +50,16 @@
     AAAAAAAAAAAAAAAAAA ini utk customer
     </div>
     <br>
-    <div> id : {{transaction[1]._id}}</div>
-    <div>status : {{transaction[1].status}}</div>
-    <!-- <div>total billing : {{transaction[1].total}}</div> -->
+    <div> id : {{transactions[1]._id}}</div>
+    <div>status : {{transactions[1].status}}</div>
+    <!-- <div>total billing : {{transactions[1].total}}</div> -->
     <div>Total : {{formatPrice}}</div>
-    <div>date: {{transaction[1].createdAt}}</div>
-    <div>customer : {{transaction[1].carts[0].user.username}}</div>
-    <div>products : {{transaction[1].carts[0].product.name}}</div>
-    <div>products : {{transaction[1].carts[1].product.name}}</div>
-        <!-- nanti transaction[1].carts harus di looping -->
-    <button v-if="transaction[1].status === 'delivered'" @click="received" class="button is-light">Receive</button>
+    <div>date: {{transactions[1].createdAt}}</div>
+    <div>customer : {{transactions[1].carts[0].user.username}}</div>
+    <div>products : {{transactions[1].carts[0].product.name}}</div>
+    <div>products : {{transactions[1].carts[1].product.name}}</div>
+        <!-- nanti transactions[1].carts harus di looping -->
+    <button v-if="transactions[1].status === 'delivered'" @click="received" class="button is-light">Receive</button>
   </div>
 
   </div>
@@ -68,18 +68,18 @@
 <script>
 
 export default {
-  name: 'transaction',
+  name: 'transactions',
   data: function () {
     return {
-      transaction: []
+      transactions: []
     }
   },
   methods: {
     received () {
-      this.transaction[1].status = 'received'
+      this.transactions[1].status = 'received'
     },
     deliv () {
-      this.transaction[1].status = 'delivered'
+      this.transactions[1].status = 'delivered'
     },
     fetchTransaction () {
       // console.log('ke fetch transaction')
@@ -93,7 +93,7 @@ export default {
         .then(({ data }) => {
           // console.log(data, 'dari transaction ada data apa yg mau ditampilin')
 
-          this.transaction = data
+          this.transactions = data
         })
         .catch(console.log)
     }
@@ -102,19 +102,41 @@ export default {
   created () {
     this.fetchTransaction()
   },
-
   computed: {
     isAdmin () {
       return localStorage.getItem('isAdmin')
     },
     formatPrice () {
-      return `IDR ${this.transaction[0].total.toLocaleString()}`
+      return `IDR ${this.transactions[0].total.toLocaleString()}`
+    },
+    onRecap () {
+      let dataSet = []
+      // let month = this.transactions[1].createdAt.split('-')[1]
+
+      // for (let i = 1; i <= 12; i++) {
+      //   if (Number(month) === i) {
+      //     dataSet[i - 1] = month
+      //   }
+      // }
+      for (let i = 0; i < 12; i++) {
+        dataSet[i] = 0
+      }
+
+      this.transactions.forEach(transaction => {
+        let month = transaction.createdAt.split('-')[1]
+
+        for (let i = 1; i <= 12; i++) {
+          // console.log(month, 'lengkap gak bulan nya')
+          // console.log(i, 'log i')
+
+          if (Number(month) === i) {
+            dataSet[i - 1] += Number(transaction.total)
+            console.log(dataSet[i - 1], 'ggggggggggggggggggg')
+          }
+        }
+      })
+      return dataSet
     }
-    // bikin looping bulanan,
-    // [0,1,2,..11] index
-    // kalau bulan nya 02, arr[1] += totalbill
-    // result [700.000, 390.000, 900.000, ... 299.000] ini yg ditampilin di chart
-    // dan jumlah yg terjual, itung amount di transaction
   }
 }
 </script>
