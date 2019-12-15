@@ -40,6 +40,13 @@ export default new Vuex.Store({
         .then(({ data }) => {
           context.commit('FETCH_PRODUCTS', data)
         })
+        .catch(err => {
+          this.$swal.fire(
+            'sumting wong',
+            err,
+            'error'
+          )
+        })
     },
     fetchUser (context) {
       return new Promise(function (resolve, reject) {
@@ -55,7 +62,11 @@ export default new Vuex.Store({
             resolve()
           })
           .catch(err => {
-            console.log(`err`, err.response)
+            this.$swal.fire(
+              'sumting wong',
+              err,
+              'error'
+            )
             reject(err)
           })
       })
@@ -77,7 +88,11 @@ export default new Vuex.Store({
             resolve()
           })
           .catch(err => {
-            console.log(`err`, err.response)
+            this.$swal.fire(
+              'sumting wong',
+              err,
+              'error'
+            )
             reject(err)
           })
       })
