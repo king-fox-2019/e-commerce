@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <div id="top">
+    <div id="top" v-if="!$store.state.isLogin">
       <div class="container d-flex justify-content-end">
             <ul class="d-flex menu list-inline mb-0">
               <li class="list-inline-item">
@@ -23,8 +23,6 @@
         aria-hidden="true"
         class="modal fade"
       >
-        <!-- <div class="modal-dialog modal-sm"> -->
-          <!-- <div class="modal-content"> -->
             <div class="modal-header">
               <h5 class="modal-title">Customer login</h5>
               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
@@ -34,7 +32,7 @@
             <div class="modal-body">
               <form action="" method="post" @submit.prevent="setLogin">
                 <div class="form-group">
-                  <input id="email-modal" type="text" placeholder="email" class="form-control" />
+                  <input id="email-modal" type="text" placeholder="email" v-model="email" class="form-control" />
                 </div>
                 <div class="form-group">
                   <input
@@ -42,6 +40,7 @@
                     type="password"
                     placeholder="password"
                     class="form-control"
+                    v-model="password"
                   />
                 </div>
                 <div class="form-group justify-content-center d-flex">
@@ -55,8 +54,6 @@
                 </a>! It is easy and done in 1 minute and gives you access to special discounts and much more!
               </p>
             </div>
-          <!-- </div> -->
-        <!-- </div> -->
       </b-modal>
       <!-- MODAL LOGIN  END-->
     </div>
@@ -125,16 +122,16 @@
                   <span>Search</span>
                 </a>
             </div>
-            <div id="basket-overview" class="navbar-collapse collapse d-none d-lg-block">
+            <div id="basket-overview" class="navbar-collapse collapse d-none d-lg-block" v-if="$store.state.isLogin">
               <router-link to="/cart" class="nav-link">
                 <a href="#" class="btn btn-primary navbar-btn">
                   <i class="fa fa-shopping-cart"></i>
-                  <span>3 items in cart</span>
+                  <span>{{$store.state.user.carts.length}} items in cart</span>
                 </a>
               </router-link>
             </div>
-            <div id="logout-btn" class="navbar-collapse collapse d-none d-lg-block">
-              <a href="#" class="btn btn-primary navbar-btn">
+            <div id="logout-btn" class="navbar-collapse collapse d-none d-lg-block" v-if="$store.state.isLogin">
+              <a href="#" class="btn btn-primary navbar-btn" @click.prevent="logOut">
                 <span>Log Out</span>
                 <i class="fa fa-sign-out"></i>
               </a>
@@ -149,12 +146,36 @@
 <script>
 export default {
   name: 'Navbar',
+  data: function () {
+    return {
+      email: '',
+      password: ''
+    }
+  },
   methods: {
-    toRegister: function () {
+    toRegister () {
       this.$router.push('/register')
     },
-    setLogin: function () {
-      this.$emit('set-login')
+    logOut () {
+      this.$store.commit('LOGOUT')
+      this.$router.push('/')
+    },
+    setLogin () {
+      let payload = {
+        email: this.email,
+        password: this.password
+      }
+      this.$store
+        .dispatch('login', payload)
+        .then(_ => {
+          this.$bvModal.hide('login-modal')
+          this.email = ''
+          this.password = ''
+          this.$router.push('/products')
+        })
+        .catch(({ response }) => {
+          console.log(response, 'masuk err comp')
+        })
     }
   }
 }

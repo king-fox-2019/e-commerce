@@ -11,22 +11,18 @@
           <a href="#">contact us</a>, our customer service center is working for you 24/7.
         </p>
         <hr />
-        <form action="" method="post">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input id="name" type="text" class="form-control" />
-          </div>
+        <form action="" method="post" @submit.prevent="register">
           <div class="form-group">
             <label for="email">Email</label>
-            <input id="email" type="text" class="form-control" />
+            <input required autofocus id="email" type="text" class="form-control" v-model="registerEmail"/>
           </div>
           <div class="form-group">
             <label for="password">Password</label>
-            <input id="password" type="password" class="form-control" />
+            <input required id="password" type="password" class="form-control" v-model="registerPassword"/>
           </div>
           <div class="form-group">
-            <label for="password">Confirm Password</label>
-            <input id="password" type="password" class="form-control" />
+            <label for="confirmPassword">Confirm Password</label>
+            <input required id="confirmPassword" type="password" class="form-control" v-model="confirmPassword"/>
           </div>
           <div class="form-group justify-content-center d-flex">
             <button type="submit" class="btn btn-primary">Register</button>
@@ -42,11 +38,11 @@
         <form action="" @submit.prevent="setLogin" method="post">
           <div class="form-group">
             <label for="email">Email</label>
-            <input id="email" type="text" class="form-control" />
+            <input id="email" type="text" class="form-control" v-model="email"/>
           </div>
           <div class="form-group">
             <label for="password">Password</label>
-            <input id="password" type="password" class="form-control" />
+            <input id="password" type="password" class="form-control" v-model="password"/>
           </div>
           <div class="form-group justify-content-center d-flex">
             <button type="submit" class="btn btn-primary">Log In</button>
@@ -59,11 +55,54 @@
 </template>
 
 <script>
+import axios from '../config/api'
 export default {
   name: 'Register',
+  data: function () {
+    return {
+      email: '',
+      password: '',
+      registerEmail: '',
+      registerPassword: '',
+      confirmPassword: ''
+    }
+  },
   methods: {
     setLogin: function () {
-      this.$emit('set-login')
+      let payload = {
+        email: this.email,
+        password: this.password
+      }
+      this.$store
+        .dispatch('login', payload)
+        .then(_ => {
+          this.email = ''
+          this.password = ''
+          this.$router.push('/products')
+        })
+        .catch(({ response }) => {
+          console.log(response, 'masuk err comp')
+        })
+    },
+    register: function () {
+      if (!this.confirmPassword === this.registerPassword) {
+        // handle error
+      } else {
+        axios({
+          method: 'POST',
+          url: `/user/register`,
+          data: {
+            email: this.registerEmail,
+            password: this.registerPassword
+          }
+        })
+          .then(({ data }) => {
+            this.$router.push('/products')
+          })
+          .catch(err => {
+            console.log(`err`, err.response)
+          })
+      }
     }
   }
 }
