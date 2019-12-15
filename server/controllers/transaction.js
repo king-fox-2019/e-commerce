@@ -10,7 +10,7 @@ class TransactionController {
             status: 'onprocess'
         })
         .then(transaction => {
-            res.status(200).json(transaction)
+            res.status(201).json(transaction)
         })
         .catch(next)
     }

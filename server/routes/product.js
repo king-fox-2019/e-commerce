@@ -14,6 +14,9 @@ router.get('/:id', authenticate, ProductController.getOneProduct)
 // update product
 router.put('/:id', authenticate, authorizationAdmin, ProductController.updateProduct)
 
+// update stock
+router.put('/:id/stock', authenticate, ProductController.updateStock)
+
 // delete product
 router.delete('/:id', authenticate, authorizationAdmin, ProductController.deleteProduct)
 

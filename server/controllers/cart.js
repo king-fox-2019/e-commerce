@@ -2,7 +2,7 @@ const Cart = require('../models/cart')
 
 class CartController {
     static createCart(req,res,next){
-        const { productId,amount,cost } = req.body
+        const { productId,amount } = req.body
         Cart.findOne({
             productId: productId
         })
@@ -21,8 +21,7 @@ class CartController {
             }else{
                 return Cart.create({
                     productId,
-                    amount,
-                    cost
+                    amount
                 })
             }
         })
@@ -37,9 +36,11 @@ class CartController {
         Cart.findOne({
             productId: id
         })
+        .populate('productId')
         .then(cart => {
             let newAmount = cart.amount + 1
-            if(cart.amount < newAmount){
+            console.log(cart.productId.stock, newAmount)
+            if(cart.productId.stock < newAmount){
                 throw({
                     code: 400,
                     message: 'Stock item is not sufficient'
@@ -67,6 +68,7 @@ class CartController {
         Cart.findOne({
             productId: id
         })
+        .populate('productId')
         .then(cart => {
             let newAmount = cart.amount - 1
             if(newAmount < 0){
@@ -75,7 +77,7 @@ class CartController {
                     message: 'Item cannot be negative item'
                 })
             }else{
-                Cart.findOneAndUpdate({
+                return Cart.findOneAndUpdate({
                     productId: id
                 },
                 {
@@ -116,6 +118,7 @@ class CartController {
 
     static getAllProduct(req,res,next){
         Cart.find({})
+            .populate('productId')
             .then(carts => {
                 res.status(200).json(carts)
             })

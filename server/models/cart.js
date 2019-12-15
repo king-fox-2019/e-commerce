@@ -8,9 +8,6 @@ const cartSchema = new Schema({
     amount:{
         type: Number
     },
-    cost:{
-        type: Number
-    },
     UserId:{
         type: Schema.Types.ObjectId,
         ref: 'User'

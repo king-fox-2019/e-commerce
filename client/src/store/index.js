@@ -9,9 +9,29 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
-    cart: Cart,
-    product: Product,
-    user: User,
-    transaction: Transaction
+    cart: {
+      namespaced: true,
+      actions: Cart.actions,
+      mutations: Cart.mutations,
+      state: Cart.state
+    },
+    product: {
+      namespaced: true,
+      actions: Product.actions,
+      mutations: Product.mutations,
+      state: Product.state
+    },
+    user: {
+      namespaced: true,
+      actions: User.actions,
+      mutations: User.mutations,
+      state: User.state
+    },
+    transaction: {
+      namespaced: true,
+      actions: Transaction.actions,
+      mutations: Transaction.mutations,
+      state: Transaction.state
+    }
   }
 })

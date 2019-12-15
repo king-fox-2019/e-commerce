@@ -6,17 +6,17 @@
       lazy-validation
     >
       <v-text-field
-        v-model="name"
-        :counter="20"
-        :rules="nameRules"
-        label="Name"
+        v-model="email"
+        :rules="emailRules"
+        label="E-mail"
         required
       ></v-text-field>
 
       <v-text-field
-        v-model="email"
-        :rules="emailRules"
-        label="E-mail"
+        v-model="password"
+        :rules="passwordRules"
+        label="Password"
+        type="password"
         required
       ></v-text-field>
 
@@ -33,7 +33,7 @@
         class="mr-4"
         @click="validate"
       >
-        Validate
+        Login
       </v-btn>
 
       <v-btn
@@ -53,15 +53,14 @@ export default {
   data () {
     return {
       valid: true,
-      name: '',
-      nameRules: [
-        v => !!v || 'Name is required',
-        v => (v && v.length <= 20) || 'Name must be less than 20 characters'
-      ],
       email: '',
       emailRules: [
         v => !!v || 'E-mail is required',
         v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
+      ],
+      password: '',
+      passwordRules: [
+        v => !!v || 'Password is required'
       ],
       checkbox: false
     }
@@ -70,10 +69,31 @@ export default {
     validate () {
       if (this.$refs.form.validate()) {
         this.snackbar = true
+        this.login()
       }
     },
     reset () {
       this.$refs.form.reset()
+    },
+    login () {
+      let payload = {
+        email: this.email,
+        password: this.password
+      }
+      this.$store.dispatch('user/login', payload)
+        .then(({ data }) => {
+          localStorage.setItem('token', data.token)
+          this.$toast.success(`Welcome ${data.user.username} !`, 'OK', {
+            position: 'topRight'
+          })
+          this.$store.commit('user/SET_IS_LOGIN', true)
+          this.$router.push('/')
+        })
+        .catch(err => {
+          this.$toast.error(`${err.response.data.message}`, 'Error', {
+            position: 'topRight'
+          })
+        })
     }
   }
 }

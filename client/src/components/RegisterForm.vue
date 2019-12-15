@@ -23,6 +23,14 @@
         ></v-text-field>
 
         <v-text-field
+          v-model="address"
+          :rules="addressRules"
+          label="Address"
+          required
+          class="grey--text"
+        ></v-text-field>
+
+        <v-text-field
         v-model="password"
         :rules="passwordRules"
         label="Password"
@@ -43,7 +51,7 @@
           class="mr-4"
           @click="validate"
         >
-          Validate
+          Register
         </v-btn>
 
         <v-btn
@@ -79,6 +87,10 @@ export default {
         v => !!v || 'Password is required',
         v => (v && v.length >= 6) || 'Password min 6 characters'
       ],
+      address: '',
+      addressRules: [
+        v => !!v || 'Address is required'
+      ],
       checkbox: false
     }
   },
@@ -86,10 +98,31 @@ export default {
     validate () {
       if (this.$refs.form.validate()) {
         this.snackbar = true
+        this.registerForm()
       }
     },
     reset () {
       this.$refs.form.reset()
+    },
+    registerForm () {
+      let payload = {
+        username: this.name,
+        email: this.email,
+        password: this.password,
+        address: this.address
+      }
+      this.$store.dispatch('user/register', payload)
+        .then(({ data }) => {
+          this.$toast.success(`Register ${data.user.username} Success!`, 'OK', {
+            position: 'topRight'
+          })
+          this.$router.push('/user-control/login')
+        })
+        .catch(err => {
+          this.$toast.error(`${err.response.data.message}`, 'Error', {
+            position: 'topRight'
+          })
+        })
     }
   }
 }

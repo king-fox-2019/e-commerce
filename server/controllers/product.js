@@ -2,9 +2,10 @@ const Product = require('../models/product')
 
 class ProductController {
     static createProduct(req,res,next){
-        const { name,image,price,stock,category } = req.body
+        const { name,image,price,stock,category,desc } = req.body
         Product.create({
             name,
+            desc,
             image,
             price,
             stock,
@@ -54,6 +55,29 @@ class ProductController {
                 res.status(200).json(product)
             })
             .catch(next)
+    }
+
+    static updateStock(req,res,next){
+        const { amount } = req.body
+        Product.findOne({
+            _id: req.params.id
+        })
+        .then(product => {
+            let newAmount = product.stock - amount
+            return Product.findOneAndUpdate({
+                _id: req.params.id
+            },
+            {
+                $set : { stock : newAmount }
+            },
+            {
+                new: true
+            })
+        })
+        .then(product => {
+            res.status(200).json(product)
+        })
+        .catch(next)
     }
 
     static deleteProduct(req,res,next){
