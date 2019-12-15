@@ -8,37 +8,36 @@
         @mouseenter="checkoutHover = true"
         @mouseleave="checkoutHover = false"
         @click="checkoutCart"
-        >{{
+        v-if="items"
+      >
+        {{
           checkoutHover
             ? 'Checkout'
-            : items
-            ? `Total: ${formatCurrencry(
+            : `Total: ${formatCurrencry(
                 items
                   .map(item => item.item.price * item.amount)
                   .reduce((r, i) => r + i)
               )}`
-            : 'Total: '
-        }}</b-button
-      >
+        }}
+      </b-button>
     </div>
     <div class="mx-auto row w-100" id="cart">
       <router-link
         tag="div"
-        class="col-12 d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-start my-3 rounded"
+        class="item col-12 d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-start my-3 rounded"
         v-for="item in items"
         :key="item.item._id"
-        id="item"
         :to="`/items/${item.item._id}`"
       >
         <!-- <figure class="border flex-shrink-1"> -->
         <b-img class="pt-2" :src="item.item.image" width="300" fluid></b-img>
         <!-- </figure> -->
-        <div class="mt-2 mt-md-0  text-center text-sm-left">
+        <div class="mt-2 mt-md-0 text-center text-sm-left">
           <h4 class="mb-0">{{ item.item.name }}</h4>
-          <small class="text-muted"
-            >{{ item.amount }} pcs x
-            {{ item.item.price | formatCurrency }}</small
-          >
+          <small class="text-muted">
+            {{ item.amount }} pcs x
+            {{ item.item.price | formatCurrency }}
+          </small>
           <h5 class="mt-4">
             {{ (item.item.price * item.amount) | formatCurrency }}
           </h5>
@@ -62,7 +61,7 @@
           <td>{{ (item.item.price * item.amount) | formatCurrency }}</td>
         </tr>
       </tbody>
-    </table> -->
+    </table>-->
     <!-- <b-table striped hover :fields="fields" :items="items">
       <template v-slot:cell(name)="data">
         {{ data.item.item.name }}
@@ -76,7 +75,7 @@
       <template v-slot:cell(total)="data">
         {{ (data.item.item.price * data.item.amount) | formatCurrency }}
       </template>
-    </b-table> -->
+    </b-table>-->
   </div>
 </template>
 
@@ -147,7 +146,7 @@ export default {
   created() {
     this.$store.dispatch('FETCH_USER_DATA').then(() => {
       if (!this.$store.state.user.onSession) {
-        this.$router.replace('/')
+        this.$router.replace('/session?from=/cart&on=signin')
       }
     })
   }
@@ -160,7 +159,7 @@ export default {
   padding-top: 5.7rem;
 
   #cart {
-    #item {
+    .item {
       cursor: pointer;
       border: 1px solid transparent;
 
