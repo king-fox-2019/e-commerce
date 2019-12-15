@@ -53,12 +53,16 @@ function transactionAuthentication(req, res, next) {
 
   Transaction.findOne({ _id: id })
     .then(transaction => {
-      if(transaction.user_id == req.loggedUser.id) {
-        next()
-      }
-      else {
-        next({ status: 401, message: 'Not authorized, this transaction does not belong to you' })
-      }
+      if(!transaction) {
+        next({ status: 404, message: "transaction not found" })
+      } else {
+        if(transaction.user_id == req.loggedUser.id) {
+          next()
+        }
+        else {
+          next({ status: 401, message: 'Not authorized, this transaction does not belong to you' })
+        }
+      }  
     })
     .catch(next)
 }

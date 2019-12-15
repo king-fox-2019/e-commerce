@@ -45,6 +45,13 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "admin" */ '../views/AdminPage.vue'),
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem('role') === 'admin') {
+        next()
+      } else {
+        this.$router.push('/')
+      }
+    },
     children: [
       {
         path: '',

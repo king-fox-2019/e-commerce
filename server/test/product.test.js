@@ -336,6 +336,18 @@ describe('CRUD Products Endpoints', function() {
                     done()
                 })
             })
+            it('should return an object with message You are not authorized (using other token than admin token) and status 401', function(done) {
+                chai.request(app)
+                .delete('/products/' + '5dd1982bdae8cd0d9871997f')
+                .set('token', customerToken)
+                .end(function(err, res) {
+                    expect(err).to.be.null
+                    expect(res).to.have.status(401)
+                    expect(res.body).to.be.an('object').to.have.any.keys('message')
+                    expect(res.body.message).to.equal('You are not authorized')
+                    done()
+                })
+            })
         })
     })
     describe('UPDATE /products/:id', function() {
