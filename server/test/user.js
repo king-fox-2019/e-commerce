@@ -321,6 +321,35 @@ describe("User Routes", function () {
             done()
           })
       })
+      it("should send an error with 400 status code because missing password value", function (done) {
+        const withOutPassword = { ...userLogin }
+        withOutPassword.password = ''
+        chai.request(app)
+          .post('/users/login')
+          .send(withOutPassword)
+          .end(function (err, res) {
+            expect(err).to.be.null
+            expect(res).to.have.status(400)
+            expect(res.body).to.be.an('object').to.have.any.keys('message')
+            expect(res.body.message).to.equal('Password / Username is wrong')
+            done()
+          })
+      })
+      it("should send an error with 400 status code because missing password and email value", function (done) {
+        const withOutAll = { ...userLogin }
+        delete withOutAll.email
+        withOutAll.password = ''
+        chai.request(app)
+          .post('/users/login')
+          .send(withOutAll)
+          .end(function (err, res) {
+            expect(err).to.be.null
+            expect(res).to.have.status(400)
+            expect(res.body).to.be.an('object').to.have.any.keys('message')
+            expect(res.body.message).to.equal('Password / Username is wrong')
+            done()
+          })
+      })
     })
   })
 })

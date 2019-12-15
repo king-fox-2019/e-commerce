@@ -30,7 +30,7 @@
 export default {
   methods: {
     addToCart() {
-      this.$router.push('/my-cart');
+      this.$router.push('/');
     },
   },
   computed: {

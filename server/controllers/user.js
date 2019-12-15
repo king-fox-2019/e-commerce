@@ -33,6 +33,7 @@ class userController {
     User
       .findOne(value)
       .then(userData => {
+        // console.log(userData)
         if (userData && comparePassword(req.body.password, userData.password)) {
           let token = generateToken({ id: userData.id })
           let user = {
@@ -44,7 +45,7 @@ class userController {
           }
           res.status(200).json(user)
         } else {
-          next({ status: 400, message: `Password / Username is wrong` })
+          throw ({ status: 400, message: `Password / Username is wrong` })
         }
       })
       .catch(next)

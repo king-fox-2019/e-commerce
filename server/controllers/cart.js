@@ -2,7 +2,8 @@
 
 class cartController {
   static create(req, res, next) {
-
+    console.log(req.decoded)
+    console.log(req.body)
   }
   static read(req, res, next) {
 
