@@ -6,7 +6,8 @@ export default {
     _id: '',
     username: '',
     email: '',
-    cart: {}
+    cart: {},
+    transactions: []
   },
   mutations: {
     SET_SESSION(state, session) {
@@ -23,6 +24,9 @@ export default {
     },
     SET_USER_CART(state, cart) {
       state.cart = cart
+    },
+    SET_USER_TRANSACTIONS(state, transactions) {
+      state.transactions = transactions
     }
   },
   actions: {
@@ -84,6 +88,14 @@ export default {
         .then(response => {
           context.dispatch('FETCH_USER_CART')
           return response
+        })
+    },
+    FETCH_USER_TRANSACTIONS({ commit }) {
+      const access_token = localStorage.getItem('access_token')
+      server
+        .get('/user/transactions', { headers: { access_token } })
+        .then(({ data }) => {
+          commit('SET_USER_TRANSACTIONS', data.data)
         })
     }
   }

@@ -22,7 +22,10 @@ admin.post('/items', ItemController.createNewItem)
 admin.get('/items/:id', ItemController.getOneItem)
 admin.patch('/items/:id', ItemController.updateItem)
 admin.get('/transactions', TransactionController.getAllTransactions)
-admin.get('user/:id/transactions', TransactionController.getAllUserTransactions)
+admin.get(
+  'user/:id/transactions',
+  TransactionController.getAdminAllUserTransactions
+)
 admin.get('/transactions/:id', TransactionController.getOneTransaction)
 admin.patch('/transactions/:id', TransactionController.updateTransactionStatus)
 

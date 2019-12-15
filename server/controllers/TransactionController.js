@@ -70,6 +70,12 @@ class TransactionController {
   }
 
   static getAllUserTransactions(req, res, next) {
+    Transaction.find({ customer: req.user._id }).then(transactions => {
+      res.status(200).json({ data: transactions })
+    })
+  }
+
+  static getAdminAllUserTransactions(req, res, next) {
     Transaction.find({ customer: req.params.id }).then(transactions => {
       res.status(200).json({ data: transactions })
     })
