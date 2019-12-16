@@ -55,7 +55,6 @@ export default {
   },
   methods: {
     onSuccess(googleUser) {
-      console.log("masuk component");
       let gProfile = googleUser.getBasicProfile();
       const payload = {
         gProfile
