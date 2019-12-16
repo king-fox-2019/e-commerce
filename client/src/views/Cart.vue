@@ -2,30 +2,27 @@
 <v-content>
   <v-container>
     <v-list two-line>
-      <template v-for="(product, index) in carts">
+      <template v-for="(product, index) in printCart">
         <v-list-tile :key="product._id">
           <v-list-tile-avatar>
-            <img :src="product.image">
+            <img :src="product.ProductId.image">
           </v-list-tile-avatar>
 
           <v-list-tile-content>
-            <v-list-tile-title v-html="product.name"></v-list-tile-title>
-            <v-list-tile-sub-title v-html="product.description"></v-list-tile-sub-title>
+            <v-list-tile-title><h2>{{ product.ProductId.name }}</h2></v-list-tile-title>
+            <br>
+            <v-list-tile-sub-title ><h4>{{ product.ProductId.description }}</h4></v-list-tile-sub-title>
           </v-list-tile-content>
-
-          <v-list-tile>
-            {{product.price}}
-          </v-list-tile>
 
           <v-list-tile-action>
             <v-text-field label="Quantity" reverse :value="product.quantity"></v-text-field>
           </v-list-tile-action>
 
           <v-list-tile>
-            {{product.price * product.quantity}}$
+            Rp.{{product.ProductId.price * product.quantity}},-
           </v-list-tile>
 
-        <v-divider v-if="index + 1 < products.length" :key="index"></v-divider>
+        <v-divider v-if="index + 1 < printCart.length" :key="index"></v-divider>
         </v-list-tile>
       </template>
     </v-list>
@@ -49,37 +46,8 @@ export default {
   }),
   methods: {
     checkout: function () {
-      axios({
-        url: `${this.$store.state.baseUrl}/users/cart`,
-        method: 'POST',
-        headers: {
-          access_token: localStorage.getItem('access_token')
-        },
-        data: {
-          products: this.cart
-        }
-      })
-        .then(({ data }) => {
-          console.log(data)
-        })
-        .catch(err => {
-          this.error = err
-        })
     },
     deleteCart: function () {
-      axios({
-        url: `${this.$store.state.baseUrl}/users/updateCart`,
-        method: 'GET',
-        headers: {
-          access_token: localStorage.getItem('access_token')
-        }
-      })
-        .then(({ data }) => {
-          console.log(data)
-        })
-        .catch(err => {
-          this.error = err
-        })
       axios({
         url: `${this.$store.state.baseUrl}/users/cart`,
         method: 'PATCH',
@@ -87,8 +55,9 @@ export default {
           access_token: localStorage.getItem('access_token')
         }
       })
-        .then(({ data }) => {
-          console.log(data)
+        .then(() => {
+          console.log('masuk delete')
+          this.$store.commit('setDelete')
         })
         .catch(err => {
           this.error = err
@@ -96,7 +65,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['cart'])
+    ...mapState(['printCart'])
   }
 }
 </script>

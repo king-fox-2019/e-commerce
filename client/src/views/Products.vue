@@ -32,7 +32,7 @@
 <script>
 
 import { mapState } from 'vuex'
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   name: 'Products',
@@ -44,60 +44,85 @@ export default {
     detail: function (id) {
       this.$router.push(`/products/${id}`)
     },
-    addToCart: function (id) {
+    addToCart: function (product) {
       let duplicate = false
-      let stock
       if (!localStorage.getItem('access_token')) {
         this.$router.push('/login')
       } else {
         this.cart.forEach(element => {
-          if (element.ProductId === id) {
+          if (element.ProductId === product._id) {
             duplicate = true
           }
         })
-        axios({
-          url: `${this.$store.state.baseUrl}/products/${id}`,
-          method: 'GET',
-          headers: {
-            access_token: localStorage.getItem('access_token')
+        if (!duplicate) {
+          let obj = {
+            ProductId: product._id,
+            quantity: 1
           }
-        })
-          .then(({ data }) => {
-            if (data.stock > 0) {
-              stock = data.stock - 1
-              axios({
-                method: 'PATCH',
-                url: `${this.$store.state.baseUrl}/products/${data._id}`,
-                data: {
-                  stock: stock
-                }
-              })
-                .then(({ data }) => {
-                  console.log(data)
-                })
-                .catch(err => {
-                  this.error = err
-                })
-              if (!duplicate) {
-                let obj = {
-                  ProductId: id,
-                  quantity: 1
-                }
-                this.$store.commit('setAddToCart', obj)
-                // this.success = 'Product successfully added to cart'
-              } else if (duplicate) {
-                this.$store.commit('setUpdateCart', id)
-                // this.success = 'Product successfully added to cart'
-              }
-            } else {
-              // this.error = 'Unsufficient stock'
-            }
-          })
-          .catch(err => {
-            console.log(err)
-          })
+          this.$store.commit('setAddToCart', obj)
+          console.log('masuk tanpa duplikat')
+          // this.success = 'Product successfully added to cart'
+        } else if (duplicate) {
+          this.$store.commit('setUpdateCart', product._id)
+          console.log('masuk ada duplikat')
+          // this.success = 'Product successfully added to cart'
+        }
       }
     }
+    // addToCart: function (id) {
+    //   let duplicate = false
+    //   let stock
+    //   if (!localStorage.getItem('access_token')) {
+    //     this.$router.push('/login')
+    //   } else {
+    //     this.cart.forEach(element => {
+    //       if (element.ProductId === id) {
+    //         duplicate = true
+    //       }
+    //     })
+    //     axios({
+    //       url: `${this.$store.state.baseUrl}/products/${id}`,
+    //       method: 'GET',
+    //       headers: {
+    //         access_token: localStorage.getItem('access_token')
+    //       }
+    //     })
+    //       .then(({ data }) => {
+    //         if (data.stock > 0) {
+    //           stock = data.stock - 1
+    //           axios({
+    //             method: 'PATCH',
+    //             url: `${this.$store.state.baseUrl}/products/${data._id}`,
+    //             data: {
+    //               stock: stock
+    //             }
+    //           })
+    //             .then(({ data }) => {
+    //               console.log(data)
+    //             })
+    //             .catch(err => {
+    //               this.error = err
+    //             })
+    //           if (!duplicate) {
+    //             let obj = {
+    //               ProductId: id,
+    //               quantity: 1
+    //             }
+    //             this.$store.commit('setAddToCart', obj)
+    //             // this.success = 'Product successfully added to cart'
+    //           } else if (duplicate) {
+    //             this.$store.commit('setUpdateCart', id)
+    //             // this.success = 'Product successfully added to cart'
+    //           }
+    //         } else {
+    //           // this.error = 'Unsufficient stock'
+    //         }
+    //       })
+    //       .catch(err => {
+    //         console.log(err)
+    //       })
+    //   }
+    // }
   },
   created: function () {
     this.$store.dispatch('getProducts')

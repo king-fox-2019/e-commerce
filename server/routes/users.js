@@ -9,6 +9,6 @@ router.post("/login", UserController.login);
 router.get("/", authentication, UserController.read);
 router.post("/cart", authentication, UserController.createCart);
 router.patch("/cart", authentication, UserController.deleteCart);
-router.get("/updateCart", authentication, UserController.updateCart);
+// router.get("/updateCart", authentication, UserController.updateCart);
 
 module.exports = router;

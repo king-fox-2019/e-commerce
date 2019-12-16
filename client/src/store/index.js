@@ -13,13 +13,36 @@ export default new Vuex.Store({
     products: [],
     email: '',
     id: '',
-    cart: []
+    cart: [],
+    printCart: []
   },
   mutations: {
     setProducts (state, data) {
       // console.log('masuk mutation')
       state.products = data
       // console.log(state.products)
+    },
+    setAddToCart (state, product) {
+      console.log(product)
+      state.cart.push(product)
+      axios({
+        url: `${state.baseUrl}/users/cart`,
+        method: 'POST',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        },
+        data: {
+          cart: state.cart
+        }
+      })
+        .then(cart => {
+          console.log(`ini dari state`)
+          console.log(cart.data)
+          state.printCart = cart.data
+        })
+        .catch(err => {
+          console.log(`ini error ${err}`)
+        })
     },
     setUpdateCart (state, id) {
       let newCart = []
@@ -34,6 +57,26 @@ export default new Vuex.Store({
         }
       }
       state.cart = newCart
+      axios({
+        url: `${state.baseUrl}/users/cart`,
+        method: 'POST',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        },
+        data: {
+          cart: state.cart
+        }
+      })
+        .then(user => {
+          console.log(user)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    setDelete (state) {
+      state.printCart = []
+      state.cart = []
     }
   },
   actions: {

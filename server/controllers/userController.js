@@ -82,47 +82,35 @@ class UserController {
     User.findById(req.decoded.id)
       .populate('cart.ProductId')
       .then(user => {
+        console.log(user)
         res.status(200).json(user)
       })
       .catch(next)
   }
 
   static createCart (req, res, next) {
-    User.findById(req.decoded.id)
+    User.findByIdAndUpdate(req.decoded.id,
+      {$set: {cart: req.body.cart}
+    })
+      .then(() => {
+        return User.findById(req.decoded.id)
+        .populate('cart.ProductId')
+      })
       .then(user => {
-        user.cart = req.body
-        res.status(200).json(user)        
+        // console.log(user.cart)
+        res.status(200).json(user.cart)
       })
       .catch(next)
   }
 
   static deleteCart (req, res, next) {
-    User.findById(req.decoded.id)
-      .then(user => {
-        user.cart = []
-        res.status(200).json(user)
-      })
-      .catch(next)
-  }
-
-  static updateCart (req, res, next) {
-    User.findById(req.decoded.id)
-    .populate('cart.ProductId')
-    .then((user) => {
-      for (let product of user.cart) {
-          const promises = []
-          for (const product of user.cart) {
-            promises.push(
-              Product.findByIdAndUpdate(product.ProductId._id, { $inc: { stock: +product.qty } }, { new: true }).exec()
-            )
-          }
-          return Promise.all(promises)
-        }
-      })
-        .then(result => {
-          console.log(result)
-        })
-        .catch(next)
+    User.findByIdAndUpdate(req.decoded.id,
+      {$set: {cart: []}
+    })
+    .then(user => {
+      res.status(200).json(user)
+    })
+    .catch(next)
   }
 
 }
