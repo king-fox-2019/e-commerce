@@ -6,7 +6,7 @@ Recreate Nike Store Website for student project with VUE.
 
 
 
-> Base url : <BASEUrl/>
+> Base url : <http://nike-store.dwitama-alfred.xyz/>
 
 
 

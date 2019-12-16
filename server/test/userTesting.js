@@ -10,16 +10,16 @@ const app = require('../app')
 
 const UserModel = require('../models/user')
 
-// after(function(done){
-//     UserModel.deleteMany()
-//     .then(_ =>{
-//         console.log('validation testing completed')
-//         done()
-//     })
-//     .catch(err =>{
-//         console.log(err)
-//     })
-// })
+after(function(done){
+    UserModel.deleteMany()
+    .then(_ =>{
+        console.log('validation testing completed')
+        done()
+    })
+    .catch(err =>{
+        console.log(err)
+    })
+})
 
 
 describe('Test e-commerce- User routes', function(){

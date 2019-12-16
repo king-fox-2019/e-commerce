@@ -63,7 +63,7 @@ after(function(done){
 describe('Test Ecommerce - Product routes', function(){
 
     describe('Admin login', function(){
-        it.only('should return success when the value is success', function(done){
+        it('should return success when the value is success', function(done){
             chai.request(app).post('/users/signin').send({
                 email : 'admin@mail.com',
                 password : 'administration'
@@ -78,7 +78,7 @@ describe('Test Ecommerce - Product routes', function(){
     })
 
     describe('Customer login', function(){
-        it.only('should return success when the value is success', function(done){
+        it('should return success when the value is success', function(done){
             chai.request(app).post('/users/signin').send({
                 email : 'customer@mail.com',
                 password : 'customer'
@@ -92,7 +92,7 @@ describe('Test Ecommerce - Product routes', function(){
         })
     })
     describe('Success show all product' , function(){
-        it.only(`should return an array of products with status 200`, function(done){
+        it(`should return an array of products with status 200`, function(done){
             chai.request(app)
                 .get('/products')
                 .end(function(err,res){
@@ -104,7 +104,7 @@ describe('Test Ecommerce - Product routes', function(){
     })
 
     describe('Success find by productId product', function(){
-        it.only('find product by id should return success message with status 200', function(done){
+        it('find product by id should return success message with status 200', function(done){
             chai.request(app)
             .get('/products/'+productId)
             .set('token',tokenCustomer)
@@ -118,7 +118,7 @@ describe('Test Ecommerce - Product routes', function(){
 
     describe('Success create product' , function(){
         this.timeout(10000)
-        it.only(`create should return success message with status 201`, function(done){
+        it(`create should return success message with status 201`, function(done){
             chai.request(app)
                 
                 .post('/products')
@@ -127,7 +127,7 @@ describe('Test Ecommerce - Product routes', function(){
                 // .attach('images',fs.readFileSync('./test/img/product2.jpg'),'product2.jpg')
                 // .attach('images',fs.readFileSync('./test/img/product3.jpg'),'product3.jpg')
                 .field('name', 'Air Jordan IV cactus Jack')
-                .field('description', 'The only way to describe the Travis Scott Air Jordan 4 Retros properly would be to use the rappers own adlib: la flame. These Jordan 4s were made in collaboration with rapper, Travis Scott and nicknamed the “Cactus Jack” edition. Similar in design to the infamous Eminem pair, these feature a lighter shade of blue suede on the upper. ')
+                .field('description', 'The way to describe the Travis Scott Air Jordan 4 Retros properly would be to use the rappers own adlib: la flame. These Jordan 4s were made in collaboration with rapper, Travis Scott and nicknamed the “Cactus Jack” edition. Similar in design to the infamous Eminem pair, these feature a lighter shade of blue suede on the upper. ')
                 .field('price', '3990000')
                 .field('tags','jordan')
                 .field('tags','men')
@@ -143,18 +143,18 @@ describe('Test Ecommerce - Product routes', function(){
     })
 
     describe('Success update product', function(){
-        it.only('update should return success message with status 200', function(done){
+        it('update should return success message with status 200', function(done){
             this.timeout(10000)
             chai.request(app)
-                .put(`/products/${productId}`)
+                .put(`/products/${productId}`).send({
+                    name : 'Air Jordan IV cactus Jack - update',
+                    description : 'The way to describe the Travis Scott Air Jordan 4 Retros properly would be to use the rappers own adlib: la flame. These Jordan 4s were made in collaboration with rapper, Travis Scott and nicknamed the “Cactus Jack” edition. Similar in design to the infamous Eminem pair, these feature a lighter shade of blue suede on the upper.',
+                    price: 2490000
+                })
                 .set('token',tokenAdmin)
-                .attach('images',fs.readFileSync('./test/img/product1.jpg'),'product2.jpg')
-                .field('name', 'Air Jordan IV cactus Jack - update')
-                .field('description', 'The only way to describe the Travis Scott Air Jordan 4 Retros properly would be to use the rappers own adlib: la flame. These Jordan 4s were made in collaboration with rapper, Travis Scott and nicknamed the “Cactus Jack” edition. Similar in design to the infamous Eminem pair, these feature a lighter shade of blue suede on the upper. ')
-                .field('price', '3990000')
-                .field('tags','jordan')
-                .field('tags','men')
-                .field('tags','blue')
+                // .field('name', 'Air Jordan IV cactus Jack - update')
+                // .field('description', 'The way to describe the Travis Scott Air Jordan 4 Retros properly would be to use the rappers own adlib: la flame. These Jordan 4s were made in collaboration with rapper, Travis Scott and nicknamed the “Cactus Jack” edition. Similar in design to the infamous Eminem pair, these feature a lighter shade of blue suede on the upper. ')
+                // .field('price', '3990000')
                 .end(function(err,res){
                 expect(err).to.be.null
                 expect(res).to.have.status(201)
@@ -165,7 +165,7 @@ describe('Test Ecommerce - Product routes', function(){
 
     describe('Error create product' , function(){
         this.timeout(10000)
-        it.only(`create should return error not authorized with status 401`, function(done){
+        it(`create should return error not authorized with status 401`, function(done){
             chai.request(app)
                 
                 .post('/products')
@@ -185,7 +185,7 @@ describe('Test Ecommerce - Product routes', function(){
     
 
     describe('Error delete product', function(){
-        it.only('delete should return error not authorized message with status 401', function(done){
+        it('delete should return error not authorized message with status 401', function(done){
             chai.request(app)
             .delete('/products/'+productId)
             .set('token',tokenCustomer)
@@ -217,7 +217,7 @@ describe('Test Ecommerce - Product routes', function(){
     })
 
     describe('Success delete product', function(){
-        it.only('delete should return success message with status 200', function(done){
+        it('delete should return success message with status 200', function(done){
             chai.request(app)
             .delete('/products/'+productId)
             .set('token',tokenAdmin)
