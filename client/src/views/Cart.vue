@@ -1,14 +1,17 @@
 <template>
   <div>
-    <div v-for="(item, index) in allCart" :key="index">
-        <Card :productData="item"/>
+    <h1>My Cart</h1>
+    <div class="middleDiv">
+      <div v-for="(item, index) in allCart" :key="index">
+        <Card :productData="item" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import Card from '../components/Card';
+import Card from "../components/Card";
 
 export default {
   name: "cart",
@@ -35,5 +38,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.middleDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row wrap;
+}
 </style>

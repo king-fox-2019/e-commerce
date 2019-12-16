@@ -16,7 +16,7 @@
       <b-list-group flush>
         <hr />
         <b-list-group-item>Rp. {{productData.price}}</b-list-group-item>
-        <b-list-group-item>Qty. {{productData.quantity}}</b-list-group-item>
+        <b-list-group-item v-if="this.$route.name !== 'cart'">Qty. {{productData.quantity}}</b-list-group-item>
       </b-list-group>
 
       <b-card-body v-if="!this.$store.state.userID && this.$route.name !== 'cart'">
@@ -29,14 +29,14 @@
         <b-button
           variant="primary"
           class="card-link"
-          @click.prevent="addToCart(productData._id)"
+          @click.prevent="addToCart"
         >Add to Cart</b-button>
       </b-card-body>
       <b-card-body v-if="this.$store.state.userID && this.$route.name == 'cart'">
         <b-button
           variant="outline-danger"
           class="card-link"
-          @click.prevent="removeFromChart(productData._id)"
+          @click.prevent="removeFromCart"
         >Remove</b-button>
       </b-card-body>
     </b-card>
@@ -54,10 +54,10 @@ export default {
   },
   props: ["productData"],
   methods: {
-    addToCart(itemId) {
-      console.log("asd", itemId, localStorage.getItem('access_token'));
+    addToCart() {
+      console.log("asd", this.productData._id, localStorage.getItem('access_token'));
       axios({
-        url: `http://3000/users/${itemId}`,
+        url: `http://localhost:3000/users/${this.productData._id}`,
         method: "patch",
         headers: {
           access_token: localStorage.getItem("access_token")
@@ -65,20 +65,23 @@ export default {
       })
         .then(({ data }) => {
           console.log(data);
+          swal.fire(`${this.productData.name} added to cart`)
         })
         .catch(error => {
           console.log(error.message);
         });
     },
-    removeFromCart(itemId) {
+    removeFromCart() {
       axios({
-        url: `http://3000/users/${itemId}`,
+        url: `http://localhost:3000/users/${this.productData._id}`,
         method: "put",
         headers: {
           access_token: localStorage.getItem("access_token")
         }
       })
         .then(({ data }) => {
+          swal.fire(`${this.productData.name} remove to cart`)
+          this.$store.dispatch('fetchCart')
           console.log(data);
         })
         .catch(err => {

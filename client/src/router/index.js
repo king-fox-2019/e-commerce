@@ -28,7 +28,21 @@ const routes = [
   {
     path: '/cart',
     name: 'cart',
-    component: Cart
+    component: Cart,
+    // children: [ ga jadi dibuat kak, gada waktu, maapkeun
+    //   {
+    //     // UserProfile will be rendered inside User's <router-view>
+    //     // when /user/:id/profile is matched
+    //     path: 'row',
+    //     component: UserProfile
+    //   },
+    //   {
+    //     // UserPosts will be rendered inside User's <router-view>
+    //     // when /user/:id/posts is matched
+    //     path: 'column',
+    //     component: UserPosts
+    //   }
+    // ]
   }
   // {
   //   path: '/about',

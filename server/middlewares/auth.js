@@ -6,7 +6,7 @@ const Product = require('../models/product')
 
 
 function authenticating(req, res, next) {
-    // console.log(req.params);
+    console.log('masuk authen');
     try {
         req.decode = verify(req.headers.access_token)
         console.log(req.decode);

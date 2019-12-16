@@ -61,13 +61,19 @@ class Controller {
     }
 
     static addCart(req, res, next) {
-        // console.log(req.params);
-        User
-            .findByIdAndUpdate(req.decode.id, {
-                $push: { cart: req.params.id }
+        console.log(req.params);
+        User.findById(req.decode.id)
+            .then((user) => {
+                if (user.cart.indexOf(req.params.id) == -1) {
+                    return User.findByIdAndUpdate(req.decode.id, {
+                        $push: { cart: req.params.id }
+                    })
+                } else {
+                    res.status(200).json({ cart: user.cart })
+                }
             })
             .then((user) => {
-                res.status(200).json({cart : user.cart})
+                res.status(200).json({ cart: user.cart })
             })
             .catch(next);
     }
