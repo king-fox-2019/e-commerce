@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+
+.about {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Roboto", sans-serif;
+  display: block;
+  .main-about {
+    position: relative;
+    background-color: #fff;
+    height: 950px;
+    overflow: hidden;
+    .bgClip img {
+      position: absolute;
+      left: 50%;
+      z-index: 0;
+    }
+    .topTxt {
+      width: 1100px;
+      margin: 0 auto;
+      padding: 55px 0 30px;
+      text-align: center;
+      em {
+        display: block;
+        color: #333333;
+        font-size: 28px;
+      }
+      p.txt {
+        margin-top: 9px;
+        color: #999999;
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+    .dragon {
+      position: relative;
+      .dragonTab {
+        width: 810px;
+        margin: 0 auto;
+        height: 56px;
+        a {
+          position: relative;
+          display: inline-block;
+          float: left;
+          width: 266px;
+          height: 52px;
+          margin-left: -2px;
+          border: 2px solid #f2f2f2;
+          color: #333;
+          font-size: 16px;
+          line-height: 52px;
+          text-align: center;
+          cursor: pointer;
+          z-index: 1;
+        }
+      }
+      .dragonCont {
+        position: relative;
+        .cont {
+          width: 1100px;
+          height: 757px;
+          margin: 0 auto;
+          text-align: center;
+          position: absolute;
+          z-index: 0;
+          left: 50%;
+          top: 0;
+          margin-left: -550px;
+          -webkit-transition: all 0.4s;
+          strong.tit {
+            display: block;
+            padding-top: 57px;
+            color: #444;
+            font-size: 27px;
+            font-weight: 400;
+            line-height: 150%;
+          }
+          p.txt {
+            margin-top: 53px;
+            color: #999;
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 20px;
+          }
+          span.spantxt {
+            display: block;
+            margin-top: 37px;
+            color: #444;
+            font-size: 19px;
+            font-weight: 300;
+            line-height: 30px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.dragon .dragonTab a.on {
+  background: #ff5c05;
+  border-color: #ff5c05;
+}
+
+.dragon .dragonCont .cont3 .cont3Tab p a.on {
+  color: #ff5c05;
+  border-bottom: 2px solid #ff5c05;
+  padding-bottom: 3px;
+}
+
+.cont3 .cont3Tab {
+  padding-top: 60px;
+  p {
+    display: inline-block;
+    width: 266px;
+    text-align: center;
+    a {
+      display: inline-block;
+      color: #333;
+      font-size: 22px;
+      font-weight: 300;
+      text-align: center;
+    }
+  }
+}
+
+.dragon .dragonCont .cont p.txt {
+  margin-top: 53px;
+  color: #999;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+}
