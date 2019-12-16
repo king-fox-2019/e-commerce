@@ -27,7 +27,7 @@
       <DetailTransaction :transactions="transactions" :transaction="transaction" @refetch="refetch" :isAdmin="isAdmin"></DetailTransaction>
     </div>
 
-<router-view v-if="isAdmin" :onRecap="onRecap"></router-view>
+      <router-view v-if="isAdmin" :onRecap="onRecap"></router-view>
     </div>
 
     <div v-if="transactions.length === 0">
