@@ -55,86 +55,86 @@
   </div>
 </template>
 <script>
-// import Drift from "drift-zoom";
-import { mapState } from 'vuex'
-import Swal from 'sweetalert2'
-import convertRupiah from 'rupiah-format'
+import Drift from "drift-zoom";
+import { mapState } from "vuex";
+import Swal from "sweetalert2";
+import convertRupiah from "rupiah-format";
 
 export default {
-  data () {
+  data() {
     return {
       qty: 0
-    }
+    };
   },
   methods: {
-    checkLogin () {
-      const access = this.onSession
+    checkLogin() {
+      const access = this.onSession;
       if (!access) {
-        this.$router.push('/signin')
+        this.$router.push("/signin");
       }
     },
-    addToCart (item) {
+    addToCart(item) {
       if (this.qty === 0 || this.qty < 0) {
         Swal.fire({
-          title: 'Warning!',
-          text: 'Enter the amount to be purchased correctly!',
-          icon: 'warning',
-          confirmButtonColor: '#3085d6'
-        })
+          title: "Warning!",
+          text: "Enter the amount to be purchased correctly!",
+          icon: "warning",
+          confirmButtonColor: "#3085d6"
+        });
       } else {
-        this.checkLogin()
-        const qty = this.qty
-        const isAvailable = Number(item.stock) - qty >= 0
+        this.checkLogin();
+        const qty = this.qty;
+        const isAvailable = Number(item.stock) - qty >= 0;
         if (isAvailable) {
-          const command = 'add'
+          const command = "add";
           const payload = {
             item,
             qty,
             command
-          }
-          const _id = this.$route.params.id
+          };
+          const _id = this.$route.params.id;
           const payloadCurrentCart = {
             _id
-          }
-          this.$store.dispatch('updateCart', payload).then(data => {
-            this.qty = 0
-            this.$store.dispatch('getCurrentProduct', payloadCurrentCart)
-            this.$store.dispatch('fetchCartUser')
-            this.$store.dispatch('fetchProducts')
-            Swal.fire('Success!', data.message, 'success')
-          })
+          };
+          this.$store.dispatch("updateCart", payload).then(data => {
+            this.qty = 0;
+            this.$store.dispatch("getCurrentProduct", payloadCurrentCart);
+            this.$store.dispatch("fetchCartUser");
+            this.$store.dispatch("fetchProducts");
+            Swal.fire("Success!", data.message, "success");
+          });
         } else {
           Swal.fire({
-            title: 'Warning!',
-            text: 'The item you want is currently not available.',
-            icon: 'warning',
-            confirmButtonColor: '#3085d6'
-          })
+            title: "Warning!",
+            text: "The item you want is currently not available.",
+            icon: "warning",
+            confirmButtonColor: "#3085d6"
+          });
         }
       }
     }
   },
   components: {},
   computed: {
-    rupiahFormat () {
-      return convertRupiah.convert(this.currentProduct.price)
+    rupiahFormat() {
+      return convertRupiah.convert(this.currentProduct.price);
     },
-    ...mapState(['currentProduct', 'onSession'])
+    ...mapState(["currentProduct", "onSession"])
   },
-  created () {
-    const _id = this.$route.params.id
+  created() {
+    const _id = this.$route.params.id;
     const payload = {
       _id
-    }
-    this.$store.dispatch('getCurrentProduct', payload)
+    };
+    this.$store.dispatch("getCurrentProduct", payload);
+  },
+  mounted() {
+    new Drift(this.$refs.imageItem, {
+      paneContainer: this.$refs.zoomPreview,
+      inlinePane: false
+    });
   }
-  // mounted() {
-  //   new Drift(this.$refs.imageItem, {
-  //     paneContainer: this.$refs.zoomPreview,
-  //     inlinePane: false
-  //   });
-  // }
-}
+};
 </script>
 
 <style>

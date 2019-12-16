@@ -5,6 +5,7 @@ const passwordCheck = require("../middlewares/passwordCheck");
 
 router.post("/signup", User.signUpUser);
 router.post("/signin", User.signInUser);
+router.post("/gsignin", User.signInGoogle);
 router.patch(
   "/becomeaseller",
   authentication,

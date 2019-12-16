@@ -21,6 +21,7 @@
         style="border-radius: 0px;"
       >Login Now</button>
     </div>
+    <div class="ui horizontal divider" style="color:white">Or</div>
     <div>
       <GoogleLogin
         :params="params"
@@ -33,57 +34,72 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
-import GoogleLogin from 'vue-google-login'
+import Swal from "sweetalert2";
+import GoogleLogin from "vue-google-login";
 
 export default {
-  data () {
+  data() {
     return {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       params: {
         client_id:
-          '289247159743-i04fkq36avss8lv1pc5i44hoqrhk2uij.apps.googleusercontent.com'
+          "289247159743-i04fkq36avss8lv1pc5i44hoqrhk2uij.apps.googleusercontent.com"
       },
       renderParams: {
         width: 250,
         height: 50,
         longtitle: true
       }
-    }
+    };
   },
   methods: {
-    onSuccess (googleUser) {
-      console.log(googleUser)
-
-      // This only gets the user information: id, name, imageUrl and email
-      console.log(googleUser.getBasicProfile())
+    onSuccess(googleUser) {
+      console.log("masuk component");
+      let gProfile = googleUser.getBasicProfile();
+      const payload = {
+        gProfile
+      };
+      this.$store
+        .dispatch("signinGoogleAccount", payload)
+        .then(data => {
+          console.log(data);
+          localStorage.setItem("access_token", data.token);
+          this.$store.dispatch("fetchCartUser");
+          this.$store.commit("SET_SESSION", true);
+          Swal.fire("Success!", data.message, "success");
+          this.$router.push("/");
+        })
+        .catch(err => {
+          const message = err.response.data.message;
+          Swal.fire("Oops...", message, "error");
+        });
     },
-    onFailure () {},
-    signInUser () {
+    onFailure() {},
+    signInUser() {
       const payload = {
         email: this.email,
         password: this.password
-      }
+      };
       this.$store
-        .dispatch('signinUser', payload)
+        .dispatch("signinUser", payload)
         .then(data => {
-          localStorage.setItem('access_token', data.token)
-          this.$store.dispatch('fetchCartUser')
-          this.$store.commit('SET_SESSION', true)
-          Swal.fire('Success!', data.message, 'success')
-          this.$router.push('/')
+          localStorage.setItem("access_token", data.token);
+          this.$store.dispatch("fetchCartUser");
+          this.$store.commit("SET_SESSION", true);
+          Swal.fire("Success!", data.message, "success");
+          this.$router.push("/");
         })
         .catch(err => {
-          const message = err.response.data.message
-          Swal.fire('Oops...', message, 'error')
-        })
+          const message = err.response.data.message;
+          Swal.fire("Oops...", message, "error");
+        });
     }
   },
   components: {
     GoogleLogin
   }
-}
+};
 </script>
 
 <style>

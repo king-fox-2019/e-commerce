@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jsonwebtoken = require("../helpers/jsonwebtoken");
+const passwordGenerator = require("../helpers/passwordGenerator");
 
 class UserController {
   static becomeASeller(req, res, next) {
@@ -78,9 +79,52 @@ class UserController {
         })
         .catch(err => {
           console.log(err);
-          res.status(400).json({ message: err.errors });
+          res.status(400).json({ message: err.name });
         });
     }
+  }
+  static signInGoogle(req, res, next) {
+    const { gProfile } = req.body;
+    const condition = {
+      email: gProfile.U3
+    };
+    User.findOne(condition)
+      .then(user => {
+        if (user) {
+          const payload = { _id: user._id };
+          const token = jsonwebtoken.generateToken(payload);
+          const responses = {
+            message: "Sign in success",
+            token
+          };
+          res.status(201).json(responses);
+        } else {
+          const password = passwordGenerator();
+          const docs = {
+            name: gProfile.ig,
+            email: gProfile.U3,
+            password
+          };
+          User.create(docs)
+            .then(user => {
+              const payload = { _id: user._id };
+              const token = jsonwebtoken.generateToken(payload);
+              const responses = {
+                message: "Sign in success",
+                token
+              };
+              res.status(201).json(responses);
+            })
+            .catch(err => {
+              console.log(err);
+              res.status(400).json({ message: err.name });
+            });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(400).json({ message: err.name });
+      });
   }
 }
 

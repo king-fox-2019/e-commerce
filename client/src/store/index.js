@@ -29,6 +29,26 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    signinGoogleAccount(context, payload) {
+      const data = {
+        gProfile: payload.gProfile
+      };
+      console.log(payload);
+      console.log("masuk store");
+      return new Promise((resolve, reject) => {
+        serverAPI({
+          method: "POST",
+          url: `users/gsignin`,
+          data
+        })
+          .then(({ data }) => {
+            resolve(data);
+          })
+          .catch(err => {
+            reject(err);
+          });
+      });
+    },
     signinUser(context, payload) {
       const data = {
         email: payload.email,

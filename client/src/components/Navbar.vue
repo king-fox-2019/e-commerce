@@ -26,7 +26,7 @@
 
 <script>
 import { mapState } from "vuex";
-
+import Swal from "sweetalert2";
 export default {
   components: {},
   data() {
@@ -49,10 +49,17 @@ export default {
       }
     },
     signOutUser() {
+      if (typeof gapi.auth2 !== "undefined") {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function() {
+          console.log("User signed out.");
+        });
+      }
       localStorage.removeItem("access_token");
       this.$store.commit("SET_SESSION", false);
       this.$store.commit("SET_CURRENT_CART", {});
-      this.$router.push("/");
+      Swal.fire("Success!", "Sign out success", "success");
+      this.$router.push("/signin");
     }
   },
   computed: {
