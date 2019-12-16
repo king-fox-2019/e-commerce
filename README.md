@@ -2,11 +2,11 @@
 
 DEPLOY GCS
 
-SERVER
-> [Soon!]()
+SERVER #BASE_URL
+> [http://minipc-sportstation.anggabanny.online/](http://minipc-sportstation.anggabanny.online/)
 
 CLIENT
-> [Soon!]()
+> [http://sportstations.anggabanny.online/](http://sportstations.anggabanny.online/)
 
   
 

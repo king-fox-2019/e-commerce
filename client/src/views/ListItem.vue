@@ -156,6 +156,7 @@ export default {
       }
     },
     addcart(id,price){
+      Swal.showLoading()
       let form = {
         quantities: this.jumlah,
         price: Number(price) * Number(this.jumlah),
@@ -170,10 +171,52 @@ export default {
         }
       })
       .then(({data})=>{
-        console.log(data);
+        Swal.close()
+        Swal.fire({
+          title: 'Addcart Success!',
+          text: '',
+          icon: 'success',
+          // imageWidth: 400,
+          // imageHeight: 200,
+          timer: 2500,
+          imageAlt: 'Custom image',
+          showConfirmButton: false,
+          showCancelButton: false,
+          confirmButtonText: 'نعم',
+          cancelButtonText: 'لا'
+        })
       })
       .catch(error=>{
-        console.log(error);
+        Swal.close()
+        if (error.response.data.errors[0].name == 'JsonWebTokenError') {
+          Swal.fire({
+            title: 'Error!',
+            text: 'login First',
+            icon: 'error',
+            // imageWidth: 400,
+            // imageHeight: 200,
+            timer: 2500,
+            imageAlt: 'Custom image',
+            showConfirmButton: false,
+            showCancelButton: false,
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لا'
+          })
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            text: error.response.data.errors.join(' | ') ,
+            icon: 'error',
+            // imageWidth: 400,
+            // imageHeight: 200,
+            timer: 2500,
+            imageAlt: 'Custom image',
+            showConfirmButton: false,
+            showCancelButton: false,
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لا'
+          })
+        }
       })
     }
   },

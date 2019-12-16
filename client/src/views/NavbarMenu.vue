@@ -8,14 +8,15 @@
       <!-- <button type="button" class="btn navbarAnchor p-2 pl-4 pr-4">
           <img src="../assets/nike.png" class="py-2 ml-5" style="height: 70px;" alt="sportstation">
       </button> -->
-      <div class="ml-auto">
+      <div v-if="on" class="ml-auto">
           <div class="input-group col-9 ml-auto">
             <div class="input-group-prepend">
               <span class="input-group-text formSearch" id="inputGroupPrepend2">
                   <i class="fas fa-search"></i>
               </span>
             </div>
-            <input type="text" class="form-control formSearch" id="validationDefaultUsername" placeholder="Product.." aria-describedby="inputGroupPrepend2" required>
+            <input type="text" v-model="search" class="form-control formSearch" id="validationDefaultUsername" placeholder="Product.." aria-describedby="inputGroupPrepend2" required>
+          {{ search }}
         </div>
       </div>
     </nav>
@@ -26,9 +27,22 @@
 export default {
   data () {
     return {
-      'not_register_nav': true
+      'not_register_nav': true,
+      search: '',
+      on: false
     }
   },
+  // computed: {
+    // lisitem(){
+    //   return this.articles.filter(article => {
+    //       return article['tag'].some(tag=>{
+    //           if (tag.toLowerCase().includes(this.searchTag.toLowerCase())) {
+    //               return article
+    //           }
+    //       })
+    //   })
+    // }
+  // },
   watch: {
     $route (to, from) {
       if (to.path === '/register') {
