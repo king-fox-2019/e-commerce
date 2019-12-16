@@ -12,4 +12,7 @@ mongoose.connect(MONGO_URI, {
     }
 });
 
-module.exports = mongoose;
+module.exports = {
+    mongoose,
+    MONGO_URI
+};

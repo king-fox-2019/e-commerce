@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "",
+    "test-server": "mocha test/bin/server.test.js",
+    "test-controller-item": "mocha test/controller/item.test.js",
     "dev": "nodemon ./bin/server.js"
   },
   "keywords": [],
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "mocha": "^6.2.2",
     "nodemon": "^2.0.2"
   }

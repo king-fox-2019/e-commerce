@@ -7,4 +7,4 @@ server.listen(PORT, () => {
     console.log('Success to connect port', PORT)
 });
 
-module.exports = server;
+module.exports = PORT;
