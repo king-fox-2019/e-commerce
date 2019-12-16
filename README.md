@@ -6,13 +6,11 @@
   - Register
   - Sign In
   - Sign Out
-  - Google Sign In
 
 ### Products:
   - Show all products
   - Add product
   - Delete product
-  - Search product
 
 ### Cart:
   - Show all product
@@ -207,7 +205,7 @@ access_token: String ***Required***
 
 #### Error
 
-##### Error 401: Invalid access token
+##### Error 400: Invalid access token
 
 ```json
 {
@@ -248,13 +246,14 @@ access_token: String ***Required***
 {
   "_id": "5dwe5t32dr6a0dc3e0d3034po",
   "name": "Phone case",
+  "description": "Really nice case"
   "price": 50000,
   "image": "https://storage.googleapis.com/...",
 }
 ```
 #### Error
 
-##### Error 401: Invalid access token
+##### Error 400: Invalid access token
 
 ##### Status 500: Internal Server Error
 
@@ -275,9 +274,10 @@ access_token: String ***Required***
 
 #### Body
 
-- name: String (requireed)
-- price: String (requireed)
-- image: String (requireed)
+- name: String (required)
+- description: String (required)
+- price: String (required)
+- image: String (required)
 
 #### Response
 
@@ -292,7 +292,7 @@ access_token: String ***Required***
 ```
 #### Error
 
-##### Error 401: Invalid access token
+##### Error 400: Invalid access token
 
 ##### Error 403: Forbidden access
 
@@ -326,8 +326,158 @@ access_token: String ***Required***
 ```
 #### Error
 
-##### Error 401: Invalid access token
-
-##### Error 403: Forbidden access
+##### Error 400: Invalid access token
 
 ##### Status 500: Internal Server Error
+
+-----------------------------------------
+
+## Cart Routes
+
+### Show All Products
+
+Show all products
+
+### Endpoint
+
+```http
+GET /cart
+```
+#### Headers
+
+access_token: String ***Required***
+
+#### Response
+
+#### Success
+
+##### Status 200:
+
+```json
+[
+  {
+    "_id": "5ere5t32dr6a0dc3e0d3034po",
+    "userId": "5ewe5t76dr6a0dcP80d9824xd",
+    "productId": "5fre5t82dr6a0dc3e0d909erw",
+    "amount": 1,
+  },
+  {
+    "_id": "5xrt5t32dr6a0dc3e0d3023ci",
+    "userId": "5xb5t55dr6a0dc3e0d3034po",
+    "productId": "5uue4t82dr6a0dc3e0d728lop",
+    "amount": 2,
+  },
+  ..
+
+]
+```
+
+#### Error
+
+##### Error 400: Invalid access token
+
+```json
+{
+  "message": "Invalid access token"
+}
+```
+
+##### Status 500: Internal Server Error
+
+```json
+{
+  "message": "Internal Server Error"
+}
+```
+------------------------------------------------
+
+### Add Cart
+
+Add item to cart
+
+### Endpoint
+
+```http
+POST /cart
+```
+#### Headers
+
+access_token: String ***Required***
+
+#### Response
+
+#### Success
+
+##### Status 201:
+
+```json
+
+  {
+    "_id": "5ere5t32dr6a0dc3e0d3034po",
+    "userId": "5ewe5t76dr6a0dcP80d9824xd",
+    "productId": "5fre5t82dr6a0dc3e0d909erw",
+    "amount": 1,
+  }
+
+```
+
+#### Error
+
+##### Error 400: Invalid access token
+
+```json
+{
+  "message": "Invalid access token"
+}
+```
+
+##### Status 500: Internal Server Error
+
+```json
+{
+  "message": "Internal Server Error"
+}
+```
+------------------------------------------------
+
+### Delete Cart
+
+Delete your cart
+
+### Endpoint
+
+```http
+DELETE /cart/:cartId
+```
+#### Header
+
+access_token: String ***Required***
+
+#### Response
+
+#### Success
+
+##### Status 200: Deleted
+
+```json
+{
+    "message": "Deleted"
+}
+```
+#### Error
+
+##### Error 400: Invalid access token
+
+```json
+{
+  "message": "Invalid access token"
+}
+```
+
+##### Status 500: Internal Server Error
+
+```json
+{
+  "message": "Internal Server Error"
+}
+```
