@@ -25,7 +25,7 @@ module.exports = (err, req, res, next) => {
 
   } else if (err.name === 'MongoError') {
 
-    if (err.keyValue.email && err.errmsg.includes('duplicate key error')) {
+    if (err.keyValue && err.keyValue.email && err.errmsg.includes('duplicate key error')) {
       // console.log('masuk duplicate key error');
       errStatus = 400
       messages.push('Email address has already been used!')
