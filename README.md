@@ -9,7 +9,7 @@ http://localhost:3000/
 **DEPLOY**
 
 ```javascript
-ecommerce.sukmabrahmantya.com
+logammulia.sukmabrahmantya.com
 ```
 
 
