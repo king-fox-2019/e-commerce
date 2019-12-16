@@ -1,5 +1,5 @@
 function errorHandling(err, req, res, next) {
-    // console.log(err);
+    console.log(err);
     // default error
     const message = err.message || 'Internal Server Error'
     const errors = []

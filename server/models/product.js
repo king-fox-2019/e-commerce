@@ -46,22 +46,25 @@ const ProductSchema = new Schema({
 
 ProductSchema.pre('findOneAndUpdate',async function(next){
     let doc = await this.model.findOne(this.getQuery())
-    if(this._update.discount < -1){
-        next({
-            status : 400,
-            message : `discount is 0% s/d 100%`
-        })
-    } else if (this._update.discount == -1) {
-        this._update.discount = -1
+    if (!this._update.discount) {
         next()
     } else {
-
-        if(this._update.price){
+        if(this._update.discount < -1){
+            next({
+                status : 400,
+                message : `discount is 0% s/d 100%`
+            })
+        } else if (this._update.discount == -1) {
+            this._update.discount = -1
             next()
         } else {
-            let discount = doc.price * this._update.discount / 100
-            this._update.discount = doc.price - discount
-            next()
+            if(this._update.price){
+                next()
+            } else {
+                let discount = doc.price * this._update.discount / 100
+                this._update.discount = doc.price - discount
+                next()
+            }
         }
     }
 })
