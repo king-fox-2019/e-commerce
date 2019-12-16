@@ -82,7 +82,7 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-4 col-md-6 mb-4">
+            <!-- <div class="col-lg-4 col-md-6 mb-4">
               <div class="card h-100">
                 <a href="#"
                   ><img
@@ -236,7 +236,12 @@
                   >
                 </div>
               </div>
-            </div>
+            </div> -->
+            <ProductCard
+              v-for="product in products"
+              :productDetail="product"
+              :key="product.id"
+            />
           </div>
           <!-- /.row -->
         </div>
@@ -249,8 +254,29 @@
 </template>
 
 <script>
+import ProductCard from "@/components/ProductCard.vue";
+import axios from "@/utils/axios-instance";
+
 export default {
-  name: "ProductPage"
+  name: "ProductPage",
+  data: function() {
+    return {
+      products: []
+    };
+  },
+  components: {
+    ProductCard
+  },
+  methods: {
+    fetchAllProduct() {
+      axios.get("/products").then(({ data }) => {
+        this.products = data;
+      });
+    }
+  },
+  created() {
+    this.fetchAllProduct();
+  }
 };
 </script>
 
