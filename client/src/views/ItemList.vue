@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap justify-around">
+  <div class="flex flex-wrap justify-around mb-10">
      <item-card v-for="item in items"
      :key="item._id"
      :item="item"
