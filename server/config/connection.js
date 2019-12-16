@@ -7,7 +7,7 @@ mongoose.connect(mongoUri, {
     useCreateIndex: true,
     useFindAndModify: false
 }, function (err){
-    if(err) console.log('failed to connect database')
+    if(err) console.log(err, 'failed to connect database')
     else console.log('Success to connect database')
 })
 
