@@ -6,17 +6,17 @@
     <div class="card-body">
       <ul class="nav nav-pills flex-column category-menu">
         <li>
-          <a href="category.html" class="nav-link">
+          <a href="#" class="nav-link">
             Men
           </a>
         </li>
         <li>
-          <a href="category.html" class="nav-link active">
+          <a href="#" class="nav-link active">
             Ladies
           </a>
         </li>
         <li>
-          <a href="category.html" class="nav-link">
+          <a href="#" class="nav-link">
             Kids
           </a>
         </li>

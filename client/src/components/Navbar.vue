@@ -48,9 +48,9 @@
                 </div>
               </form>
               <p class="text-center text-muted">Not registered yet?</p>
-              <p class="text-center text-muted">
+              <p class="text-center text-muted" @click="$bvModal.hide('login-modal')">
                 <router-link to="/register">
-                  <a href="#">
+                  <a href="#" >
                     <strong>Register now</strong>
                   </a>! It is easy and done in 1 minute and gives you access to special discounts and much more!
                 </router-link>

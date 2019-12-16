@@ -43,15 +43,14 @@
           <!-- /.table-responsive-->
           <div class="box-footer d-flex justify-content-between flex-column flex-lg-row">
             <div class="left">
-              <a href="#" class="btn btn-outline-secondary">
-                <i class="fa fa-chevron-left"></i> Continue shopping
-              </a>
+              <router-link to="/products">
+                <a href="#" class="btn btn-outline-secondary">
+                  <i class="fa fa-chevron-left"></i> Continue shopping
+                </a>
+              </router-link>
             </div>
             <div class="right">
-              <button class="btn btn-outline-secondary">
-                <i class="fa fa-refresh"></i> Update cart
-              </button>
-              <button type="submit" class="btn btn-primary">
+              <button class="btn btn-primary">
                 Proceed to checkout
                 <i class="fa fa-chevron-right"></i>
               </button>

@@ -32,6 +32,12 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    checkLogin (context) {
+      if (localStorage.getItem('token')) {
+        context.commit('LOGIN')
+        context.dispatch('fetchUser')
+      }
+    },
     fetchProducts (context) {
       axios({
         url: `/products`,

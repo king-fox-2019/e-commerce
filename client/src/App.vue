@@ -11,6 +11,9 @@ import Navbar from './components/Navbar.vue'
 export default {
   components: {
     Navbar
+  },
+  created () {
+    this.$store.dispatch('checkLogin')
   }
 }
 </script>
@@ -19,7 +22,6 @@ export default {
 .navbar {
   width: 100vw;
   z-index: 999;
-  position: fixed;
 }
 router-view {
   margin-top: 80px
