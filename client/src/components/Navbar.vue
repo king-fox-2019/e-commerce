@@ -13,7 +13,6 @@
     <div>
       <v-toolbar-items>
         <v-btn text class="mx-4" @click.prevent="moveStory"><span class="grey--text darken-3">Story</span></v-btn>
-        <v-btn text class="mx-4"><span class="grey--text darken-3">Heropedia</span></v-btn>
         <v-btn text class="mx-4"><span class="grey--text darken-3" @click.prevent="$router.push('/shop')">Shop</span></v-btn>
         <v-btn text class="mx-4" v-if="isLogin"><span class="grey--text darken-3" @click.prevent="$router.push('/transaction')">Transaction</span></v-btn>
         <v-btn text class="mx-4" v-if="isLogin && role == 'admin'"><span class="grey--text darken-3" @click.prevent="$router.push('/admin')">Admin Page</span></v-btn>
