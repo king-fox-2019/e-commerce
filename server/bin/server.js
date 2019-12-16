@@ -6,3 +6,5 @@ const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
     console.log('Success to connect port', PORT)
 });
+
+module.exports = server;

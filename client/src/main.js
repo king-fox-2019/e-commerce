@@ -7,7 +7,7 @@ import 'semantic-ui-css/semantic.min.css';
 import axios from 'axios';
 
 const base = axios.create({
-  baseURL: 'http://localhost:3000'
+  baseURL: 'http://34.66.28.216'
 });
 
 Vue.prototype.$axios = base;
