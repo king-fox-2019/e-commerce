@@ -1,6 +1,6 @@
 <template>
 
-<div class="parallax">
+<div class="parallax" style="margin-top:-100px;">
     <div class="parallax">
     </div>
     <div class="parallax_layer parallax_layer-back" style="background-image: url(https://storage.googleapis.com/nike-public-bucket/parallax-base-new.jpg);height:100vh;width:100vw;background-size:auto;background-position:center;top:0vh">
@@ -91,11 +91,12 @@ parallax_layer{
     background-size: cover;
 }
 .parallax {
-    height: 100vh;
+    height: 110vh;
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-perspective: 1px;
     perspective: 1px;
+  
    
   }
   .parallax_layer {

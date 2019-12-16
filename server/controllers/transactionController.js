@@ -236,7 +236,7 @@ class TransactionController {
     
     static emailConfirmation(req,res,next){
         let emailCustomer = ''
-        let confirmationLink  = `http://localhost:3000/transactions/confirm/${req.body.transactionId}`
+        let confirmationLink  = `http://nike-server.dwitama-alfred.xyz/transactions/confirm/${req.body.transactionId}`
         Transaction.findById(req.body.transactionId)
         .populate('User_id')
         .populate({
