@@ -72,7 +72,6 @@ class userController {
   }
   static checkout = (req,res,next) => {
     let updates = []
-    let array = []
     let decoded = verifyToken(req.headers.access_token)
     req.body.item.forEach(function (item) {
       let updatePromise = Product.updateOne({_id:mongoose.Types.ObjectId(item._id)},{$inc:{stock: -item.quantity}})

@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 const { errorHandler } = require('./middlewares/errorHandler')
 const app = express()
 const index = require('./routes/index')
-mongoose.connect('mongodb+srv://richard:richard123@cluster0-rahmf.gcp.mongodb.net/test?retryWrites=true&w=majority',{useNewUrlParser:true,useUnifiedTopology:true})
+mongoose.connect('mongodb+srv://richard:richard123@cluster0-rahmf.gcp.mongodb.net/transaction',{useNewUrlParser:true,useUnifiedTopology:true})
 
 app.use(cors())
 app.use(express.urlencoded({extended:true}))
