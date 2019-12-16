@@ -1,5 +1,6 @@
 
 const Buyer = require('../models/Buyer')
+const Item = require('../models/Item')
 const jwt = require('jsonwebtoken')
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_SIGNIN_CLIENT_ID);
@@ -86,6 +87,115 @@ class BuyerController {
                }, process.env.JWT_SECRET, {expiresIn: "1d"})
             })
          }
+      })
+      .catch(next)
+   }
+
+   static addToCart(req, res, next) {
+      
+      Buyer
+      .findOne({_id: req.decoded.buyerId})
+      .then(tempBuyer => {
+
+         if(!tempBuyer) throw {
+            code: 400,
+            message: 'Buyer not found'
+         }
+         else if(req.body.quantity < 1) throw {
+            code: 400,
+            message: 'Quantity cannot be lower than 1'
+         }
+
+         // check if item already exist in the cart
+         // if item exist, add the quantity
+         // if not exist, push the item to the cart
+
+         let itemInCartIndex = -1
+
+         for(let i in tempBuyer.cart) {
+            if(tempBuyer.cart[i]._id == req.body.itemId) {
+               itemInCartIndex = Number(i)
+               break
+            }
+         }
+         console.log('itemIncartIndex', itemInCartIndex)
+         if(itemInCartIndex == -1) {
+            tempBuyer.cart.push({
+               item: req.body.itemId,
+               quantity: Number(req.body.quantity)
+            })
+         }
+         else {
+            tempBuyer.cart[itemInCartIndex].quantity = Number(req.body.quantity)
+         }
+
+         return Buyer.updateOne({_id: tempBuyer._id}, {$set: {cart: tempBuyer.cart}})
+      })
+      .then(() => res.status(200).json({message: 'Cart updated'}))
+      .catch(next)
+   }
+
+   static getUserData(req, res, next) {
+
+      Buyer
+      .findOne({_id: req.decoded.buyerId})
+      .populate('cart.item')
+      .then(buyer => res.status(200).json({
+         name: buyer.name,
+         cart: buyer.cart
+      }))
+      .catch(next)
+   }
+
+   static checkout(req, res, next) {
+
+      let cart
+
+      Buyer
+      .findOne({_id: req.decoded.buyerId})
+      .then(buyer => {
+         cart = buyer.cart
+         const itemPromises = []
+
+         buyer.cart.forEach(cartItem => {
+            itemPromises.push(Item.findOne({_id: cartItem.item}))
+         })
+
+         return Promise.all(itemPromises)
+      })
+      .then(items => {
+         let checkoutPromises = []
+         // console.log('check items availability')
+         // console.log(cart)
+         // console.log(items)
+
+         for(let i in items) {
+            // console.log(cart[i].quantity)
+            if(items[i].stock < cart[i].quantity) {
+               throw {
+                  code: 400,
+                  message: 'One or more items stock cannot fulfill your request'
+               }
+            }
+
+            checkoutPromises.push(Item.updateOne({
+               _id: cart[i].item
+            }, {
+               $set: {
+                  stock: items[i].stock - cart[i].quantity
+               }
+            }))
+         }
+
+         return Promise.all(checkoutPromises)
+      })
+      .then(() => {
+         // console.log('checkoutPromises done')
+         return Buyer.updateOne({_id: req.decoded.buyerId}, {$set: {cart: []}})
+      })
+      .then(() => {
+         // console.log('clearing cart done')
+         res.status(200).json({message: 'Checkout success'})
       })
       .catch(next)
    }

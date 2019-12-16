@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center">
-    <h1 class="text-5xl py-3">Gaempedia</h1>
-    <h2 class="text-4xl py-3">The only gamestore you need</h2>
+    <h1 class="text-4xl py-2">Gaempedia</h1>
+    <h2 class="text-3xl py-1">The only gamestore you need</h2>
 
     <SignInBox v-if="page == 'signin'"/>
     <RegisterBox v-if="page == 'register'"/>
@@ -55,6 +55,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  h1, h2 {
+    color: #eeeeee;
+  }
 </style>

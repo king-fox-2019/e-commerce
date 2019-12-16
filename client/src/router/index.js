@@ -2,27 +2,48 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Authscreen from '../views/Authscreen.vue'
 import StoreItemList from '../views/ItemList.vue'
+import ItemDetail from '../views/ItemDetail.vue'
+import Cart from '../views/Cart.vue'
+import Checkout from '../components/Checkout.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'StoreItemList',
-    component: StoreItemList
-  },
-  
-  {
     path: '/signin',
     name: 'signin',
     component: Authscreen
   },
-
   {
     path: '/register',
     name: 'register',
     component: Authscreen
   },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: Cart,
+    children: [{
+      path: '/checkout',
+      name: 'checkout',
+      component: Checkout
+    }]
+  },
+  {
+    path: '/',
+    name: 'StoreItemList',
+    component: StoreItemList
+  },
+  {
+    path: '/:itemId',
+    name: 'ItemDetail',
+    component: ItemDetail,
+  },
+  
+  
+  
+
+  
   // {
   //   path: '/about',
   //   name: 'about',
@@ -40,12 +61,20 @@ const router = new VueRouter({
 })
 
 
-// router.beforeEach((to, from, next) => {
-//   if(to.name != Authscreen && localStorage.getItem('access_token') === null) {
-//     next({name: Authscreen})
-//   }
-//   else next()
-// })
+const routeNameWhitelist = [
+  'signin',
+  'register',
+  'StoreItemList',
+  'ItemDetail'
+]
+
+router.beforeEach((to, from, next) => {
+  // console.log(!routeNameWhitelist.includes(to.name) && localStorage.getItem('access_token') === null)
+  if(!routeNameWhitelist.includes(to.name) && localStorage.getItem('access_token') === null) {
+    next({name: 'signin'})
+  }
+  else next()
+})
 
 
 export default router

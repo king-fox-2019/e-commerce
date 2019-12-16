@@ -1,11 +1,11 @@
 <template>
   <div>
-      <form @submit.prevent="signIn" class="flex flex-col mt-8 border-gray-100 shadow">
+      <form @submit.prevent="signIn" class="flex flex-col mt-8 py-3 px-4 rounded">
          <label for="email">Email</label>
-         <input type="email" v-model="email" class="" required/>
+         <input type="email" v-model="email" class="text-box" required/>
          <label for="password">Password</label>
-         <input type="password" v-model="password" required/>
-         <input type="submit" value="Sign in" class="cursor-pointer"/>
+         <input type="password" v-model="password" class="text-box" required/>
+         <input type="submit" value="Sign in" class="cursor-pointer mt-2 rounded"/>
       </form>
   </div>
 </template>
@@ -31,17 +31,20 @@ export default {
             email: this.email,
             password: this.password
          }
-      })
-      .then(({data}) => {
-         localStorage.setItem('access_token', data.access_token)
-         this.$store.dispatch('user/checkSignedIn')
-         this.$router.push('/')
-         // resolve()
-      })
-      .catch(error => {
-         console.log(error)
-         // reject()
-      })
+         })
+         .then(({data}) => {
+            localStorage.setItem('access_token', data.access_token)
+            this.$store.dispatch('user/checkSignedIn')
+            this.$store.dispatch('user/fetchUserData')
+            this.$router.push('/')
+         })
+         .catch(({response}) => {
+            this.$swal({
+               type: 'error',
+               title: 'Sign in failed',
+               text: response.data.message
+            })
+         })
       }
    }
 }
