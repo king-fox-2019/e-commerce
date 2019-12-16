@@ -204,7 +204,7 @@ describe("Products", function() {
 
   describe("DELETE /products/:productId", function() {
     describe("Successful", function() {
-      it("should return status 200 and deleted product id", (done) => {
+      it("should return status 200 and deleted product id", function(done) {
         chai.request(server)
           .delete("/products/" + productId)
           .set("access_token", token)
