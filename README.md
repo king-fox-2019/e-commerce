@@ -10,6 +10,7 @@
 ### Products:
   - Show all products
   - Add product
+  - Edit product
   - Delete product
 
 ### Cart:
