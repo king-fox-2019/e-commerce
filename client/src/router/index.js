@@ -24,8 +24,8 @@ const routes = [
         component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue')
     },
     {
-        path: '/chart',
-        component: () => import(/* webpackChunkName: "chart" */ '../views/Cart.vue'),
+        path: '/cart',
+        component: () => import(/* webpackChunkName: "cart" */ '../views/Cart.vue'),
         beforeEnter: (to, from, next) => {
             if (!localStorage.getItem('token')) {
                 next('/login')
