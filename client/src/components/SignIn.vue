@@ -8,8 +8,8 @@
             <div class="login-box">
               <hr />
               <v-form ref="form" v-model="valid" @submit.prevent="onSignIn" lazy-validation>
-                <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
-                <v-text-field v-model="password" :rules="passwordRules" label="Password" required></v-text-field>
+                <v-text-field v-model="email" :rules="emailRules" label="E-mail" type="text" required></v-text-field>
+                <v-text-field v-model="password" :rules="passwordRules" label="Password"  type="password" required></v-text-field>
 
                 <v-checkbox
                   v-model="checkbox"

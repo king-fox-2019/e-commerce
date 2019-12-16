@@ -2,19 +2,24 @@
   <nav>
     <v-app-bar depressed dark src="../assets/img/bg-nav.png">
       <v-toolbar-title id="logo-nav">
-        <v-img class="ml-5" alt="logonavbar" src="../assets/img/logo-nav.png" @click="goMain"></v-img>
+        <v-img
+          class="ml-5"
+          alt="logonavbar"
+          src="../assets/img/logo-nav.png"
+          @click.prevent="goMain"
+        ></v-img>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
       <v-btn
         v-if="!isLogin"
-        @click="goFormSign('signin')"
+        @click.prevent="goFormSign('signin')"
         small
         color="black"
         class="orange--text"
       >LOG IN</v-btn>
-      <v-btn v-if="!isLogin" @click="goFormSign('signup')" small text color="black">SIGN UP</v-btn>
-      <v-btn v-if="isLogin" @click="goSignOut" small text color="black">SIGN OUT</v-btn>
+      <v-btn v-if="!isLogin" @click.prevent="goFormSign('signup')" small text color="black">SIGN UP</v-btn>
+      <v-btn v-if="isLogin" @click.prevent="goSignOut" small text color="black">SIGN OUT</v-btn>
       <span style="color:black;">|</span>
       <v-img src="../assets/img/cash.png" alt="logo" max-width="30" max-height="30"></v-img>
       <!-- dialog -->

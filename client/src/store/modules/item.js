@@ -10,7 +10,8 @@ export default {
       price: 0,
       image: ""
     },
-    fetchItem: []
+    fetchItem: [],
+    detailItem: {}
   },
   getters: {
     fetchItem: state => state.fetchItem
@@ -21,6 +22,9 @@ export default {
     },
     FETCH_ITEM(state, payload) {
       state.fetchItem = payload;
+    },
+    DETAIL_ITEM(state, payload) {
+      state.detailItem = payload;
     }
   },
   actions: {
@@ -59,7 +63,6 @@ export default {
         .catch(console.log);
     },
     deleteItem({ dispatch }, payload) {
-      console.log("===================");
       let token = localStorage.getItem("token");
       axios({
         method: "DELETE",
@@ -74,6 +77,25 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    detailItem({ commit }, payload) {
+      let token = localStorage.getItem("token");
+      return new Promise((resolve, reject) => {
+        axios({
+          method: "GET",
+          url: `/items/detail/${payload}`,
+          headers: {
+            token
+          }
+        })
+          .then(({ data }) => {
+            commit("DETAIL_ITEM", data);
+            resolve(data);
+          })
+          .catch(err => {
+            reject(err);
+          });
+      });
     }
   }
 };

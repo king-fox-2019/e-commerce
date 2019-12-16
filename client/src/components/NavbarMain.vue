@@ -9,7 +9,7 @@
           align-center
           justify="center"
           class="py-0 px-0"
-          @click="changePage('story')"
+          @click.prevent="changePage('story')"
         >
           <v-row d-flex justify="center" class="mt-4">
             <h3>STORY</h3>
@@ -22,7 +22,7 @@
           align-center
           justify="center"
           class="py-0 px-0"
-          @click="changePage('heroes')"
+          @click.prevent="changePage('heroes')"
         >
           <v-row d-flex justify="center" class="mt-4">
             <h3>HEROES</h3>
@@ -35,7 +35,7 @@
           align-center
           justify="center"
           class="py-0 px-0"
-          @click="changePage('about')"
+          @click.prevent="changePage('about')"
         >
           <v-row d-flex justify="center" class="mt-4">
             <h3>ABOUT</h3>
@@ -48,7 +48,7 @@
           align-center
           justify="center"
           class="py-0 px-0"
-          @click="changePage('pvp')"
+          @click.prevent="changePage('pvp')"
         >
           <v-row d-flex justify="center" class="mt-4">
             <h3>PVP</h3>
@@ -61,7 +61,7 @@
           align-center
           justify="center"
           class="py-0 px-0"
-          @click="changePage('shop')"
+          @click.prevent="changePage('shop')"
         >
           <v-row d-flex justify="center" class="mt-4">
             <h3>SHOP</h3>

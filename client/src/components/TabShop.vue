@@ -82,7 +82,7 @@
 
     <div v-if="infoUser.role == 'customer'" class="tabcustomer">
       <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
-        <v-tab v-for="item in customerItems" :key="item" @click="goTab(item)">{{ item }}</v-tab>
+        <v-tab v-for="item in customerItems" :key="item" @click.prevent="goTab(item)">{{ item }}</v-tab>
       </v-tabs>
     </div>
     <list-item :currenttab="currentTab" />

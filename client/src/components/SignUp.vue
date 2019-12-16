@@ -8,13 +8,27 @@
             <div class="signup-box">
               <hr />
               <v-form ref="form" v-model="valid" @submit.prevent="onSignUp" lazy-validation>
-                <v-text-field v-model="name" :counter="30" :rules="nameRules" label="Name" required></v-text-field>
-                <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
+                <v-text-field
+                  v-model="name"
+                  :counter="30"
+                  :rules="nameRules"
+                  label="Name"
+                  type="text"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  v-model="email"
+                  :rules="emailRules"
+                  label="E-mail"
+                  type="text"
+                  required
+                ></v-text-field>
                 <v-text-field
                   v-model="password"
                   :counter="7"
                   :rules="passwordRules"
                   label="Password"
+                  type="password"
                   required
                 ></v-text-field>
 
