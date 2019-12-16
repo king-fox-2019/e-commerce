@@ -8,7 +8,7 @@ const expect = chai.expect;
 
 let newUser = {
   name: "kirito",
-  email: "kirito@gmail.com",
+  email: "kiritoz@gmail.com",
   password: "linkstart"
 };
 
@@ -22,9 +22,7 @@ before(function(done) {
   User.create({
     name: "Test",
     email: "test@gmail.com",
-    password: "test12345",
-    cash: 0,
-    role: "customer"
+    password: "test12345"
   })
     .then(_ => {
       console.log("testing: Initial create user testing success");
@@ -59,7 +57,7 @@ describe("User Routes", function() {
               .to.be.an("object")
               .to.have.any.keys("token", "response", "message");
             expect(res.body.message).to.equal("Success Sign Up");
-            expect(res.body.password).to.not.equal(newUser.password);
+            expect(res.body.response.password).to.not.equal(newUser.password);
             done();
           });
       });

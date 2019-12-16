@@ -145,8 +145,50 @@ export default {
     },
     updateItem() {
       if (this.$refs.formUpdate.validate()) {
-        alert("success");
-        this.resetFormUpdate();
+        let fd = new FormData();
+        if (
+          this.image.length == 0 ||
+          this.image == undefined ||
+          this.image == null
+        ) {
+          fd.append("image", null);
+        } else {
+          fd.append("image", this.image[0]);
+        }
+        fd.append("name", this.name);
+        fd.append("stock", this.stock);
+        fd.append("category", this.category);
+        fd.append("price", this.price);
+
+        this.$store
+          .dispatch("item/updateItem", {
+            id: this.idUpdate,
+            data: fd
+          })
+          .then(data => {
+            this.dialogUpdate = false;
+            this.resetFormUpdate();
+            this.$snotify.success(`${data.message}`, {
+              timeout: 5000,
+              showProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              position: "leftTop"
+            });
+          })
+          .catch(err => {
+            let text = "";
+            err.response.data.errors.forEach(element => {
+              text += element + ", ";
+            });
+            this.$snotify.warning(`${text}`, {
+              timeout: 3000,
+              showProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              position: "leftTop"
+            });
+          });
       }
     },
     resetFormUpdate() {
@@ -217,7 +259,7 @@ export default {
             this.stock = data.stock;
             this.category = data.category;
             this.price = data.price;
-            // this.image = this.showDetailItem.image;
+            this.image = null;
           })
           .catch(err => {
             let text = "";

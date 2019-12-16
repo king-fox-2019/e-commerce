@@ -96,6 +96,26 @@ export default {
             reject(err);
           });
       });
+    },
+    updateItem({ dispatch }, payload) {
+      let token = localStorage.getItem("token");
+      return new Promise((resolve, reject) => {
+        axios({
+          method: "PUT",
+          url: `/items/${payload.id}`,
+          data: payload.data,
+          headers: {
+            token
+          }
+        })
+          .then(({ data }) => {
+            dispatch("fetchItem");
+            resolve(data);
+          })
+          .catch(err => {
+            reject(err);
+          });
+      });
     }
   }
 };
