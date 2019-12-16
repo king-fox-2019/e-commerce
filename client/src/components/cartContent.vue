@@ -7,9 +7,10 @@
                 Total : Rp. <strong>{{ sumTotalPrice }}</strong>
                 <sui-item-group divided>
                     <chart-list
-                            v-for="cart in carts"
-                            :key="cart._id"
-                            :data="cart"/>
+                            v-for="(cart,index) in carts"
+                            :data="cart"
+                            :index="index"
+                            @remove="removeFromCart"/>
                 </sui-item-group>
             </sui-grid-column>
         </sui-grid>
@@ -52,6 +53,23 @@
                     }
                 }
                 return segment.join(".");
+            },
+            removeFromCart(index) {
+                this.carts.splice(index, 1);
+                this.$axios({
+                    method: 'patch',
+                    url: '/api/user/cart',
+                    data: {
+                        cart: this.carts
+                    },
+                    headers: {
+                        token: localStorage.getItem('token')
+                    }
+                }).then(response => {
+                    console.log(response.data)
+                }).catch(err => {
+                    console.log(err.response)
+                })
             }
         },
         mounted() {

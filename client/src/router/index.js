@@ -25,7 +25,7 @@ const routes = [
     },
     {
         path: '/chart',
-        component: () => import(/* webpackChunkName: "chart" */ '../views/Chart.vue'),
+        component: () => import(/* webpackChunkName: "chart" */ '../views/Cart.vue'),
         beforeEnter: (to, from, next) => {
             if (!localStorage.getItem('token')) {
                 next('/login')

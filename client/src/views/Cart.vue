@@ -2,19 +2,19 @@
     <div id="chart">
         <nav-bar/>
         <sui-container id="detailItemContainer">
-            <chart-page/>
+            <cart-page/>
         </sui-container>
     </div>
 </template>
 
 <script>
-    import chartPage from "../components/cartPage";
+    import cartPage from "../components/cartPage";
     import navBar from "../components/navBar";
 
     export default {
-        name: "Chart",
+        name: "Cart",
         components: {
-            chartPage,
+            cartPage,
             navBar
         }
     }

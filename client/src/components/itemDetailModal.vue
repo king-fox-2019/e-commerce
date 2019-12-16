@@ -20,13 +20,13 @@
                 <p>
                     <sui-button content="Add to chart"
                                 @click="addToCart"
-                                primary/>
+                                :class="isItemCarted"/>
                     <router-link to="/chart">
                         <sui-button icon="shop" primary/>
                     </router-link>
                 </p>
             </sui-modal-description>
-        </sui-modal-content image scrollin>
+        </sui-modal-content image scrolling>
         <sui-modal-actions>
             <sui-button positive @click="toggle">
                 OK
@@ -37,6 +37,7 @@
 
 <script>
     import itemNumber from "./itemNumber";
+    import router from "../router";
 
     export default {
         name: "itemDetailModal",
@@ -53,7 +54,7 @@
             toggle() {
                 this.$emit('toggle')
             },
-            viewUser(){
+            viewUser() {
                 this.$axios({
                     method: 'get',
                     url: '/api/user/',
@@ -70,6 +71,11 @@
                 })
             },
             addToCart() {
+                if (!localStorage.getItem('token')) {
+                    router.push("/login");
+                    return
+                }
+
                 this.carts.push(this.data._id);
                 this.$axios({
                     method: 'patch',
@@ -100,6 +106,14 @@
                     }
                 }
                 return segment.join(".");
+            },
+            isItemCarted() {
+                let n = this.carts.indexOf(this.data._id);
+                if (n >= 0) {
+                    return "disabled"
+                } else {
+                    return "primary"
+                }
             }
         },
         mounted() {
