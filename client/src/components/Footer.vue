@@ -6,12 +6,12 @@
           <div class="col">
             <h5>Products and Services</h5>
             <a to="/">Home</a><br>
-            <a href="">Custome Product</a><br>
-            <a href="">Service</a>
+            <a to="/">Custome Product</a><br>
+            <a to="/">Service</a>
           </div>
           <div class="col mt-4">
-            <a href="/purchase/gold">Buy Gold</a><br>
-            <a href="">Gold Series Indonesia</a>
+            <a to="/purchase/gold">Buy Gold</a><br>
+            <a to="/">Gold Series Indonesia</a>
           </div>
         </div>
       </div>
@@ -19,12 +19,12 @@
         <div class="row">
           <div class="col">
             <h5>Information</h5>
-            <a href="">My Account</a><br>
-            <a href="">Logam Mulia Profile</a><br>
+            <a to="/">My Account</a><br>
+            <a to="/">Logam Mulia Profile</a><br>
           </div>
           <div class="col">
             <h5>Support</h5>
-            <a href="">Contact Us</a><br>
+            <a to="/">Contact Us</a><br>
           </div>
         </div>
       </div>
