@@ -1,4 +1,4 @@
-if(process.env.NODE_ENV === 'development'){ require('dotenv').config() }
+if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'testing'){ require('dotenv').config() }
 const routes = require('../server/routes')
 const errorHandler = require('../server/middlewares/errorHandler')
 const express = require('express')
@@ -17,3 +17,5 @@ app.use('/',routes)
 app.use(errorHandler)
 
 app.listen(port,(_=>{ console.log('listen to port',port)}))
+
+module.exports = app

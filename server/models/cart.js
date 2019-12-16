@@ -9,14 +9,12 @@ const CartSchema = new Schema({
     },
     quantities : {
         type : Number,
-        required: [true, 'quantities is required'],
-        validate : {
-            validator : function(val) {
-                return val <= 0 ? false : true
-            },
-            message : props => `quantities less than 1!`
-        }
+        required: [true, 'quantities is required']
     },
+    size: [{
+        type : Schema.Types.ObjectId,
+        ref : 'Stock'
+    }],
     userId : {
         type : Schema.Types.ObjectId,
         ref : 'User'
@@ -26,7 +24,7 @@ const CartSchema = new Schema({
     },
     status :{
         type : String,
-        enum: ['oncart', 'process', 'complete'],
+        enum: ['oncart', 'process', 'confirm','complete'],
         default : 'oncart',
     }
 },{
@@ -34,34 +32,34 @@ const CartSchema = new Schema({
     timestamps: true
 })
 
-CartSchema.pre('save',function(next){
-    ProductModel.findOne({ _id : this.productId })
-        .then(product=>{
-            if (product.quantities < this.quantities) {
-                next({
-                    status : 400,
-                    message : 'sorry quantities is more than product quantities!'
-                })
-            } else {
-                this.price = product.price * this.quantities
-                next()
-            }
-        })
-        .catch(next)
-})
+// CartSchema.pre('save',function(next){
+//     ProductModel.findOne({ _id : this.productId })
+//         .then(product=>{
+//             if (product.quantities < this.quantities) {
+//                 next({
+//                     status : 400,
+//                     message : 'sorry quantities is more than product quantities!'
+//                 })
+//             } else {
+//                 this.price = product.price * this.quantities
+//                 next()
+//             }
+//         })
+//         .catch(next)
+// })
 
-CartSchema.pre('findOneAndUpdate',async function(next){
-    let doc = await this.model.findOne(this.getQuery())
-    console.log(doc);
-    console.log(this._update);
-    if (!this._update.status) {
-        next({
-            status : 400,
-            message : `status is wrong!`
-        })
-    }  else {
-        next()
-    }
-})
+// CartSchema.pre('findOneAndUpdate',async function(next){
+//     let doc = await this.model.findOne(this.getQuery())
+//     console.log(doc);
+//     console.log(this._update);
+//     if (!this._update.status) {
+//         next({
+//             status : 400,
+//             message : `status is wrong!`
+//         })
+//     }  else {
+//         next()
+//     }
+// })
 
 module.exports = model('Cart',CartSchema)

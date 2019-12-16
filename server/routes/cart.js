@@ -5,7 +5,9 @@ const {  authentication ,authorizationCart, authorizationAdmin } = require('../m
 routes.use(authentication)
 routes.get('/', cartController.findAll) //FINDALL
 routes.get('/:status', cartController.findStatus) //find
-routes.post('/:id', cartController.create) //CREATED
+routes.get('/:id/stock', cartController.findOneStock)
+routes.get('/:status/admin', authorizationAdmin, cartController.findStatusByAdmin)
+routes.post('/:id/cart', cartController.create) //CREATED
 routes.patch('/:id', authorizationCart ,cartController.update) //update
 routes.patch('/:id/status', authorizationCart ,cartController.updateStatus) //update
 routes.patch('/:id/status/admin', authorizationAdmin, cartController.updateStatus) //update

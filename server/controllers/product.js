@@ -1,18 +1,27 @@
 const ProductModel = require('../models/product')
 const User = require('../models/user')
+const Stock = require('../models/stock')
 module.exports = {
     findAll(req,res,next){
         ProductModel.find()
+            .populate('size')
             .then(products=>{
                 res.status(200).json(products)
             })
             .catch(next)
     },
     create(req, res, next) {
-        const { id } = req.loggedUser
-        const { name, price, image, quantities, tag } = req.body
-        ProductModel.create({ name, price, image, quantities, tag , userId : id })
-            .then(product => {
+        const { name, size, price, stock, image } = req.body
+        let stck;
+        Stock.create({ size, stock })
+            .then(stock => {
+                stck = stock._id
+                return ProductModel.create({ name, image, price})
+            })
+            .then(product=>{
+                return ProductModel.findOneAndUpdate({ _id : product._id },{ $addToSet : { size : stck }},{ new: true, runValidators: true })
+            })
+            .then(product=>{
                 res.status(201).json({ message : `create product successfuly!`, product })
             })
             .catch(next)

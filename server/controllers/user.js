@@ -30,7 +30,7 @@ module.exports = {
             .catch(next)
     },
     findAll(req, res, next) {
-        UserModel.find()
+        UserModel.find({ role: 'customer' })
             .then(user => {
                 res.status(200).json(user)
             })
@@ -110,6 +110,17 @@ module.exports = {
                 res.status(200).json({
                     message : `transfer money success to : ${user.name}`,
                     user
+                })
+            })
+            .catch(next)
+    },
+    getLogin(req,res,next){
+        const { email } = req.params
+        UserModel.findOne({ email })
+            .then(account=>{
+                res.status(200).json({
+                    message : 'account has found!',
+                    account
                 })
             })
             .catch(next)

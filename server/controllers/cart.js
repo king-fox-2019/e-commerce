@@ -1,10 +1,13 @@
 const CartModel = require('../models/cart')
 const UserModel = require('../models/user')
 const ProductModel = require('../models/product')
+const StockModel = require('../models/stock')
 module.exports = {
     findAll(req,res,next){
         const { id } = req.loggedUser
         CartModel.find({userId : id})
+            .populate('productId')
+            .populate('size')
             .then(cart=>{
                 res.status(200).json(cart)
             })
@@ -12,37 +15,52 @@ module.exports = {
     },
     create(req,res,next){
         const { id } = req.params
-        const { quantities } = req.body
-        CartModel.create({ quantities, userId : req.loggedUser.id, productId : id })
-            .then(cart=>{
-                res.status(201).json({
-                    message : `create cart product success!`,
-                    cart
+        const { size, quantities, price } = req.body
+        var options = {}
+        var flag
+        ProductModel.findOne({ _id : id })
+            .populate('size')
+            .then(product=>{
+                product.size.forEach(el => {
+                    if (el.size == size) {
+                        options.maxStock = el.stock
+                        options.stockId = el._id
+                    }
                 })
+                return CartModel.findOne({ productId : id })  
+            })
+            .then(cartProduct=>{
+                if (cartProduct) {
+                    options.quantitiesCalt = Number(quantities) + Number(cartProduct.quantities)
+                    options.priceCalt = Number(cartProduct.price) + Number(price)
+                    if (options.quantitiesCalt > options.maxStock) {
+                        next({
+                            status: 400,
+                            message: 'melebihi jumlah barang asli!'
+                        })
+                    }
+                    return CartModel.findOneAndUpdate({ _id : cartProduct._id }, { quantities: options.quantitiesCalt, price: options.priceCalt }, { new: true, runValidators: true })
+                } else {
+                    flag = true
+                    return CartModel.create({ quantities, price, productId: id, userId: req.loggedUser.id, size: options.stockId })
+                }
+            })
+            .then(result=>{
+                if (flag) {
+                    res.status(201).json(result)
+                } else {
+                    res.status(200).json(result)
+                }
             })
             .catch(next)
     },
     update(req,res,next){
         const { id } = req.params
-        let { quantities } = req.body
-        CartModel.findOne({ _id : id })
-            .then(cart=>{
-                return ProductModel.findOne({ _id : cart.productId })
-            })
-            .then(product=>{
-                if (quantities > product.quantities) {
-                    throw({
-                        status : 400,
-                        message : 'sorry quantities is more than product quantities!'
-                    })
-                } else {
-                    quantities = product.price * quantities 
-                    return CartModel.findOneAndUpdate({ _id : id },{ quantities },{ new : true, runValidators : true })
-                }
-            })
+        let { quantities, price, size } = req.body
+        CartModel.findOneAndUpdate({ _id : id },{ quantities, price },{ new:true, runValidators:true })
             .then(cart=>{
                 res.status(200).json({
-                    message : `update quantities cart product success!`,
+                    message : `update cart success!`,
                     cart
                 })
             })
@@ -50,7 +68,7 @@ module.exports = {
     },
     updateStatus(req,res,next){
         const { id } = req.params
-        const { status } = req.body
+        const { status, idStock, qty, sold } = req.body
         let temporary = {}
         if (status == 'process') {
             CartModel.findOne({_id : id})
@@ -71,15 +89,18 @@ module.exports = {
                     }
                 })
                 .then(user=>{
+                    return StockModel.findOneAndUpdate({ _id: idStock },{ stock: qty, sold },{ new: true, runValidators:true })
+                })
+                .then(stock=>{
                     return CartModel.findOneAndUpdate({ _id : id },{ status },{ new : true, runValidators : true })
                 })
                 .then(cart=>{
-                res.status(200).json({
-                    message : `update status cart ${status} product success!`,
-                    cart
+                    res.status(200).json({
+                        message : `update status cart ${status} product success!`,
+                        cart
+                    })
                 })
-            })
-            .catch(next)
+                .catch(next)
         } else if (status == 'complete') {
             CartModel.findOneAndUpdate({ _id : id },{ status },{ new : true, runValidators : true })
                 .then(cart=>{
@@ -89,7 +110,16 @@ module.exports = {
                     })
                 })
                 .catch(next)
-        } else {
+        } else if (status == 'confirm') {
+            CartModel.findOneAndUpdate({ _id : id },{ status },{ new : true, runValidators : true })
+                .then(cart=>{
+                    res.status(200).json({
+                        message : `update status cart ${status} product success!`,
+                        cart
+                    })
+                })
+                .catch(next)
+        }  else {
             CartModel.findOneAndUpdate({ _id : id },{ status },{ new : true, runValidators : true })
             .then(cart=>{
                 res.status(200).json({
@@ -113,13 +143,16 @@ module.exports = {
     },
     findStatus(req,res,next){
         const { status } = req.params
-        if (status != 'oncart' && status != 'process' && status != 'complete') {
+        if (status != 'oncart' && status != 'process' && status != 'confirm' && status != 'complete') {
             next({
                 status : 400,
                 message : `find cart on status ${status} failed!`
             })
         } else {
-            CartModel.find({ userId : req.loggedUser.id, status })
+            CartModel.find({ status })
+                .populate('userId')
+                .populate('productId')
+                .populate('size')
             .then(cart=>{
                 res.status(200).json({
                     message : `find cart on status ${status} success!`,
@@ -128,5 +161,33 @@ module.exports = {
             })
             .catch(next)
         }
+    },
+    findStatusByAdmin(req,res,next){
+        const { status } = req.params
+        if (status != 'oncart' && status != 'process' && status != 'confirm' && status != 'complete') {
+            next({
+                status : 400,
+                message : `find cart on status ${status} failed!`
+            })
+        } else {
+            CartModel.find({ status })
+            .then(cart=>{
+                res.status(200).json({
+                    message : `find cart on status ${status} success!`,
+                    cart
+                })
+            })
+            .catch(next)
+        }
+    },
+    findOneStock(req,res,next){
+        StockModel.findOne({ _id : req.params.id })
+            .then(cart=>{
+                res.status(200).json({
+                    message: 'find stock success',
+                    cart
+                })
+            })
+            .catch(next)
     }
 }
