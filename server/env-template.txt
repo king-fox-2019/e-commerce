@@ -1,0 +1,4 @@
+PORT=3000
+Mongo_URI_TEST=mongodb://localhost:27017/test-e-commerce
+Mongo_URI_DEV=mongodb://localhost:27017/e-commerce
+JWT_SECRET=rahasia
