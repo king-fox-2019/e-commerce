@@ -20,7 +20,6 @@
             </sui-card-content>
             <sui-card-content extra>
                 <sui-icon name="users"/>
-                {{ data.owner.name }}
             </sui-card-content>
         </sui-card>
         <item-detail-modal :open="open" @toggle="toggle" :data="data"/>
