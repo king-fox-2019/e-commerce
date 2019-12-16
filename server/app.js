@@ -8,6 +8,7 @@ const cors = require('cors')
 
 const routes = require('./routes')
 const errorHandler = require('./middlewares/errorHandler')
+const mongoURI = process.env.MONGO_URI
 
 const app = express()
 
@@ -17,7 +18,7 @@ if (process.env.NODE_ENV === 'testing') {
   port = 4000
 }
 
-mongoose.connect(`mongodb://localhost/ecom-${process.env.NODE_ENV}`, 
+mongoose.connect(mongoURI, 
 { useNewUrlParser: true, 
   useUnifiedTopology: true, 
   useCreateIndex: true,

@@ -7,7 +7,6 @@
 
 <script>
 import Buefy from "buefy";
-// import 'buefy/dist/buefy.css'
 import Vue from "vue";
 import router from "../router";
 import store from "./store"
@@ -45,13 +44,6 @@ export default {
     checkThis: function () {
       console.log('ini this store', this.$store)
     }
-
-    // signOut: function () {
-    //   console.log("this dan this store", this, this.$store);
-    //   localStorage.removeItem('access_token')
-    //   this.success('Successfully signed out!')
-    //   this.$router.push('/')
-    // }
   },
 
   watch: {

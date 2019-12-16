@@ -45,9 +45,26 @@
             size="is-medium"
           ></b-icon>
         </button>
-        <button v-if="currentUser.role === 'admin'"
-          class="is-pulled-right button is-primary"
+
+        <!-- HANDLE UPDATE FORM MODAL LATER -->
+        <!-- <button class="update-button is-pulled-right button is-primary"
+          :id="product._id"
+          v-if="currentUser.role === 'admin'"
+          @click="isFormUpdateProductActive = true"
           >Update</button>
+
+        <b-modal
+          :active.sync="isFormUpdateProductActive"
+          has-modal-card
+          trap-focus
+          aria-role="dialog"
+          aria-modal
+          >
+          <FormUpdateProduct
+            :product="product"
+            @close-form-add-product="closeFormUpdateProduct"
+            />
+        </b-modal> -->
 
       </div>
     </mdb-card-body>
@@ -56,6 +73,7 @@
 
 <script>
 import toastMixin from '../mixins/toastMixin'
+import FormUpdateProduct from '../components/FormUpdateProduct'
 import {
   mdbCard,
   mdbCardImage,
@@ -75,7 +93,8 @@ export default {
   props: ["product"],
 
   data: () => ({
-    productInputQty: 1
+    productInputQty: 1,
+    isFormUpdateProductActive: false
   }),
 
   methods: {
@@ -130,6 +149,10 @@ export default {
           }
         }
       })
+    },
+
+    showUpdateProductForm: function(event) {
+
     }
   },
 
@@ -144,7 +167,8 @@ export default {
     mdbCardTitle,
     mdbCardText,
     mdbView,
-    mdbMask
+    mdbMask,
+    FormUpdateProduct
   },
 
   mixins: [toastMixin]
