@@ -24,7 +24,7 @@ module.exports = {
                         next({ status: 400, message: 'Email or Password Wrong!' })
                     }
                 } else {
-                    next({ status: 404, message: 'Email or Password Wrong!' })
+                    next({ status: 404, message: 'Email Not Found!' })
                 }
             })
             .catch(next)
@@ -84,7 +84,7 @@ module.exports = {
         const { id } = req.params
         UserModel.findOne({ _id : req.loggedUser.id })
             .then(user=>{
-                let calculate = Number(user.money) - Math.abs(Number(money))
+                let calculate = Number(user.money) + Number(money)
                 if (Number(user.money) < Math.abs(Number(money))) {
                     next({
                         status : 400,
@@ -118,10 +118,17 @@ module.exports = {
         const { email } = req.params
         UserModel.findOne({ email })
             .then(account=>{
-                res.status(200).json({
-                    message : 'account has found!',
-                    account
-                })
+                if (!account) {
+                    next({
+                        status: 400,
+                        message: 'not account found!'
+                    })
+                } else {
+                    res.status(200).json({
+                        message : 'account has found!',
+                        account
+                    })
+                }
             })
             .catch(next)
     }

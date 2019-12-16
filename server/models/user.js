@@ -10,7 +10,7 @@ const UserSchema = new Schema({
         type : String,
         required: [true, 'email is required'],
         match: [/^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/, 'Invalid Email Format'],
-        unique:true
+        unique:[true, 'email is required!']
     },
     password : {
         type : String,

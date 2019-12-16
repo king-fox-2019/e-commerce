@@ -28,8 +28,8 @@ module.exports = {
     },
     updatePut(req, res, next) {
         const { id } = req.params
-        const { name, price, image, quantities, tag } = req.body
-        ProductModel.findOneAndUpdate({_id:id},{ name, price, image, quantities, tag },{ new : true, runValidators : true })
+        const { name, price, image } = req.body
+        ProductModel.findOneAndUpdate({_id:id},{ name, price, image },{ new : true, runValidators : true })
             .then(product => {
                 res.status(200).json({ message : `updated product successfuly!`, product })
             })
@@ -47,7 +47,8 @@ module.exports = {
     discountProduct(req, res, next) {
         const { id } = req.params
         const { discount } = req.body
-        ProductModel.findOneAndUpdate({_id:id},{ discount },{ new : true, runValidators : true })
+        let discountPercent = discount+'%'
+        ProductModel.findOneAndUpdate({_id:id},{ discount, discountPercent },{ new : true, runValidators : true })
             .then(product => {
                 res.status(200).json({ message : `updated product discount successfuly!`, product })
             })

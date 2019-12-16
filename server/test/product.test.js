@@ -9,32 +9,42 @@ const fs = require('fs')
 chai.use(chaiHttp)
 
 const userLogin = {
-    email : 'anggabanny@admin.com',
+    email : 'anggabanny@admina.com',
     password : '123456'
 }
 
 const userLoginMember = {
-    email : 'anggabanny@member.com',
+    email : 'anggabanny@membera.com',
     password : '123456'
 }
 
 // create account user
-before(function(){
+let tokenadmin;
+
+before(function(done){
     userModel.create({
         name : 'anggabanny',
-        email : 'anggabanny@admin.com',
+        email : 'anggabanny@admina.com',
         password : '123456',
         image : './img/FV4687_SL_eCom.jpg'
     })
     .then(user=>{
+        console.log(`testing: success create user`);
         return userModel.create({
             name : 'anggabanny',
-            email : 'anggabanny@member.com',
+            email : 'anggabanny@membera.com',
             password : '123456',
             image : './img/FV4687_SL_eCom.jpg'
         })
     })
     .then(user=>{
+        chai.request(app)
+        .post('/user/login')
+        .send(userLogin)
+        .end(function(err,res){
+            tokenadmin = res.body.token
+            done()
+        })
         console.log(`testing: success create user`);
     })
     .catch(console.log)
@@ -46,16 +56,46 @@ after(function(done){
         .then(()=>{
             return productModel.deleteMany({})
         })
-        then(()=>{
+        .then(()=>{
             console.log(`testing: delete all data users success`);
             done()
         })
         .catch(console.log)
 })
 
+
+
 // process validation with mochajs
 describe('Product Routes',function(){
-    describe('GET /product',function(){
+    describe('/product',function(){
+        // describe('POST /product/ create product',function(){
+        //     let token;
+        //     before(function(done){
+        //         chai.request(app)
+        //         .post('/user/login')
+        //         .send(userLogin)
+        //         .end(function(err,res){
+        //             token = res.body.token
+        //             done()
+        //         })
+        //     })
+        //     it('success 201 status code create product',function(done){
+        //         chai.request(app)
+        //         .post('/product/create')
+        //         .set('token', token)
+        //         .field('name', 'adidasa')
+        //         .field('size', 30)
+        //         .field('price', 800545)
+        //         .field('stock', 90)
+        //         .attach('image', fs.readFileSync("./test/img/FV4687_SL_eCom.jpg"), "FV4687_SL_eCom.jpg")
+        //         .end(function(err,res){
+        //             expect(err).to.be.null
+        //             expect(res).to.have.status(201)
+        //             expect(res.body).to.be.an('object')
+        //             done()
+        //         })
+        //     })
+        // })
         describe('/product success process',function(){
             // this.timeout(15000);
             it('get product with 200 status code',function(done){
@@ -71,7 +111,7 @@ describe('Product Routes',function(){
                 })
             })
         })
-        describe('POST /product/ create product success',function(){
+        describe('POST /product/ create product',function(){
             let token;
             before(function(done){
                 chai.request(app)
@@ -82,33 +122,50 @@ describe('Product Routes',function(){
                     done()
                 })
             })
-
-            before(function(done){
-                chai.request(app)
-                .post('')
-                .send(userLogin)
-                .end(function(err,res){
-                    token = res.body.token
-                    done()
-                })
-            })
-            it('success 201 status code create product',function(done){
+            it('error 404 status code create product',function(done){
                 chai.request(app)
                 .post('/product')
                 .set('token', token)
-                .field('name', 'adidas vapor')
+                .field('name', 'adidasa')
                 .field('size', 30)
                 .field('price', 800545)
                 .field('stock', 90)
                 .attach('image', fs.readFileSync("./test/img/FV4687_SL_eCom.jpg"), "FV4687_SL_eCom.jpg")
                 .end(function(err,res){
                     expect(err).to.be.null
-                    expect(res).to.have.status(201)
+                    expect(res).to.have.status(401)
                     expect(res.body).to.be.an('object')
                     done()
                 })
             })
         })
-
+        describe('POST /product/ create product',function(){
+            let token;
+            before(function(done){
+                chai.request(app)
+                .post('/user/login')
+                .send(userLogin)
+                .end(function(err,res){
+                    token = res.body.token
+                    done()
+                })
+            })
+            it('error 401 status code create product',function(done){
+                chai.request(app)
+                .post('/product')
+                .set('token', token)
+                .field('name', 'adidasa')
+                .field('size', 30)
+                .field('price', 800545)
+                .field('stock', 90)
+                .attach('image', fs.readFileSync("./test/img/FV4687_SL_eCom.jpg"), "FV4687_SL_eCom.jpg")
+                .end(function(err,res){
+                    expect(err).to.be.null
+                    expect(res).to.have.status(401)
+                    expect(res.body).to.be.an('object')
+                    done()
+                })
+            })
+        })
     })
 })
