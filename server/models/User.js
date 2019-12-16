@@ -19,7 +19,7 @@ const userSchema = new Schema ({
             return user ? false: true
           })
         },
-        message: 'Email is already registered'
+        message: 'Email already registered'
       }
   },
   password:{

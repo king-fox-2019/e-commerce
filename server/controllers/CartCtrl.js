@@ -8,6 +8,7 @@ class CartCtrl {
     Cart.find({userId})
       .populate('Product')
       .then(carts => {
+        console.log(carts)
         res.status(200).json(carts)
       })
       .catch(next)
@@ -16,12 +17,12 @@ class CartCtrl {
   static addProduct(req, res, next) {
     const userId = req.decodedId
     const productId = req.params.productId
-    const { quantity } = req.body
+    // const { quantity } = req.body
 
     Cart.create({
       userId,
       productId,
-      quantity
+      quantity: 1
     })
       .then(result => {
         res.status(201).json({result, message: 'Product added to cart'})

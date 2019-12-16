@@ -5,7 +5,7 @@ const imageUpload = gcsUpload({
       fileSize: 1e6 // in bytes
   },
   gcsConfig: {
-      keyFilename: "../Hacktiv8-KingFox-37-0b900e4f3e70.json",
+      keyFilename: "./Hacktiv8-KingFox-37-0b900e4f3e70.json",
       bucketName: "ecommerce-kingfox-37"
   }
 })

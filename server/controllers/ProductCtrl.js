@@ -45,7 +45,7 @@ class ProductCtrl {
     {_id: id},
     {
       name,
-      // image,
+      image,
       price,
       stock
     })
