@@ -10,7 +10,7 @@
         </sui-menu-item>
         <sui-menu-menu position="right">
             <sui-menu-item>
-                <router-link to="/chart">
+                <router-link to="/cart">
                     <chart-button/>
                 </router-link>
             </sui-menu-item>

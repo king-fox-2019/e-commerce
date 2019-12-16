@@ -18,10 +18,10 @@
                 <p>{{ data.description }}</p>
                 <hr class="horizontalLine">
                 <p>
-                    <sui-button content="Add to chart"
+                    <sui-button content="Add to cart"
                                 @click="addToCart"
                                 :class="isItemCarted"/>
-                    <router-link to="/chart">
+                    <router-link to="/cart">
                         <sui-button icon="shop" primary/>
                     </router-link>
                 </p>
