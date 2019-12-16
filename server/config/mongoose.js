@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const db = process.env.URL_DB + '-' + process.env.NODE_ENV
 const dbatlas = process.env.MONGO_ATLAS
 
-if (process.env.NODE_ENV === 'testing') {
+if (process.env.NODE_ENV === 'test') {
     mongoose.connect(db, {
         useNewUrlParser: true,
         useUnifiedTopology: true,

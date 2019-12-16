@@ -151,7 +151,7 @@ describe('PRODUCT ENDPOINTS', function () {
                     .set("token", tokenCustomer)
                     .send(newProduct)
                     .end(function (err, res) {
-                        console.log(err);
+                        // console.log(err);
                         expect(res).to.have.status(403)
                         expect(res.body).to.be.an('Object').to.have.any.keys('message')
                         expect(res.body.message).to.equal(`You're not authorize to perform this action`)
@@ -166,7 +166,7 @@ describe('PRODUCT ENDPOINTS', function () {
                     .set("token", "")
                     .send(newProduct)
                     .end(function (err, res) {
-                        console.log(err);
+                        // console.log(err);
                         expect(res).to.have.status(401)
                         expect(res.body).to.be.an('Object').to.have.any.keys('message')
                         expect(res.body.message[0]).to.equal('you have to login first')
@@ -227,7 +227,7 @@ describe('PRODUCT ENDPOINTS', function () {
                     .get(`/products/${createdProduct._id.slice(createdProduct._id.length - 1) + "e"}`)
                     .set("token", token)
                     .end(function (err, res) {
-                        console.log(err);
+                        // console.log(err);
                         expect(res).to.have.status(404)
                         expect(res.body).to.be.an('Object').to.have.any.keys('message')
                         expect(res.body.message).to.equal(`Not found`)
@@ -266,7 +266,7 @@ describe('PRODUCT ENDPOINTS', function () {
                     .set("token", token)
                     .send(productToUpdate)
                     .end(function (err, res) {
-                        console.log(err);
+                        // console.log(err);
                         expect(res).to.have.status(404)
                         expect(res.body).to.be.an('Object').to.have.any.keys('message')
                         expect(res.body.message).to.equal(`Not found`)
