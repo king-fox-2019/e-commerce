@@ -10,7 +10,7 @@
       <md-card-expand>
         <md-card-actions md-alignment="space-between">
           <div>
-            <md-button 
+            <md-button
             v-if="transaction.status !== 'ORDER_RECEIVED'"
             @click.prevent="confirmOrder(transaction._id)">CONFIRM RECEIVED</md-button>
           </div>
@@ -47,24 +47,24 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-    name: 'profile',
-    computed: {
-        ...mapState(['transactions'])
-    },
-    created () {
-        this.$store.dispatch('fetchTransactions')
-    },
-    methods: {
-      confirmOrder(id) {
-        this.$store.dispatch('confirmOrder', id)
-          .then(data => {
-            this.swal('success', 'Order status updated!')
-          })
-          .catch(err => {
-            this.swal('error', err)
-          })
-      }
+  name: 'profile',
+  computed: {
+    ...mapState(['transactions'])
+  },
+  created () {
+    this.$store.dispatch('fetchTransactions')
+  },
+  methods: {
+    confirmOrder (id) {
+      this.$store.dispatch('confirmOrder', id)
+        .then(data => {
+          this.swal('success', 'Order status updated!')
+        })
+        .catch(err => {
+          this.swal('error', err)
+        })
     }
+  }
 }
 </script>
 

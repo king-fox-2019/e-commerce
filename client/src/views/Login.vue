@@ -78,7 +78,7 @@ export default {
           if (result) {
             this.loginEmail = ''
             this.loginPassword = ''
-            this.swal("sucess", "Log in successful")
+            this.swal('sucess', 'Log in successful')
             localStorage.setItem('token', result.token)
             this.$router.push(`/cart`)
           }
@@ -100,7 +100,7 @@ export default {
             this.registerName = ''
             this.registerEmail = ''
             this.registerPassword = ''
-            this.swal("sucess", "Registration successful")
+            this.swal('sucess', 'Registration successful')
             localStorage.setItem('token', result.token)
           }
         })

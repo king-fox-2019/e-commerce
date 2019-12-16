@@ -31,7 +31,7 @@ const routes = [
     path: '/detail',
     name: 'product',
     component: () => import(/* webpackChunkName: "Product" */ '../views/Product.vue'),
-    props: true,
+    props: true
   },
   {
     path: '/products',
@@ -62,14 +62,14 @@ const routes = [
     beforeEnter: adminGuard,
     children: [
       {
-        path: "products",
-        name: "productList",
-        component: () => import(/* webpackChunkName: "productList" */ '../components/admin/Products/ProductList.vue'),
+        path: 'products',
+        name: 'productList',
+        component: () => import(/* webpackChunkName: "productList" */ '../components/admin/Products/ProductList.vue')
       },
       {
-        path: "transactions",
-        name: "transactionList",
-        component: () => import(/* webpackChunkName: "transactionList" */ '../components/admin/Transactions/TransactionList.vue'),
+        path: 'transactions',
+        name: 'transactionList',
+        component: () => import(/* webpackChunkName: "transactionList" */ '../components/admin/Transactions/TransactionList.vue')
       }
     ]
   },

@@ -20,13 +20,13 @@ export default {
     ...mapState(['products'])
   },
   methods: {
-    productDetail(product) {
+    productDetail (product) {
       this.$router.push({
         name: 'product',
         params: {
           productDetail: product
         }
-      }) 
+      })
     }
   }
 }

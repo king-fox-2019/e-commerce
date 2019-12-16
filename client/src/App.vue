@@ -17,12 +17,12 @@ export default {
       isAdminSection: false
     }
   },
-    components: {
-        MainNavbar
-    },
-    watch: {
+  components: {
+    MainNavbar
+  },
+  watch: {
     '$route' (to, from) {
-      if (to.matched[0].path == "/admin" || to.matched[0].path == "/admin/login") {
+      if (to.matched[0].path == '/admin' || to.matched[0].path == '/admin/login') {
         this.isAdminSection = true
       } else {
         this.isAdminSection = false

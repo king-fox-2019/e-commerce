@@ -45,37 +45,37 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-    name: 'cart',
-    created () {
-        this.$store.dispatch('fetchCart')
+  name: 'cart',
+  created () {
+    this.$store.dispatch('fetchCart')
+  },
+  computed: {
+    ...mapState(['cart', 'cartSubtotal'])
+  },
+  methods: {
+    addItem (product) {
+      this.$store.dispatch('addToCart', {
+        id: product._id,
+        quantity: 1
+      })
     },
-    computed: {
-        ...mapState(['cart', 'cartSubtotal'])
+    removeItem (product) {
+      this.$store.dispatch('removeItemFromCart', {
+        id: product._id,
+        quantity: 1
+      })
     },
-    methods: {
-      addItem(product) {
-          this.$store.dispatch('addToCart', {
-              id: product._id,
-              quantity: 1
-          })
-      },
-      removeItem(product) {
-          this.$store.dispatch('removeItemFromCart', {
-              id: product._id,
-              quantity: 1
-          })
-      },
-      checkout() {
-        this.$store.dispatch('checkout')
-          .then(data => {
-            this.swal('success', "checkout successful!")
-            this.$router.push('/profile')
-          })
-          .catch(err => {
-            this.swal('error', err)
-          })
-      }
+    checkout () {
+      this.$store.dispatch('checkout')
+        .then(data => {
+          this.swal('success', 'checkout successful!')
+          this.$router.push('/profile')
+        })
+        .catch(err => {
+          this.swal('error', err)
+        })
     }
+  }
 }
 </script>
 

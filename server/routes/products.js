@@ -2,8 +2,9 @@ const router = require('express').Router();
 const ProductController = require('../controllers/product');
 const authenticate = require('../middlewares/authenticate');
 const authorize = require('../middlewares/adminAuthorize');
+const gcsUpload = require('../middlewares/gcsUpload');
 
-router.post('/', authenticate, authorize, ProductController.create);
+router.post('/', authenticate, authorize, gcsUpload.single('image'), ProductController.create);
 router.put('/:id', authenticate, authorize, ProductController.update);
 router.get('/', ProductController.showAll);
 router.get('/:id', ProductController.showOne);

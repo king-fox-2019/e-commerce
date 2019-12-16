@@ -21,10 +21,10 @@
 <script>
 import SimpleTable from '@/components/admin/Transactions/SimpleTable.vue'
 export default {
-    name: 'transactionList',
-    components: {
-        SimpleTable
-    }
+  name: 'transactionList',
+  components: {
+    SimpleTable
+  }
 }
 </script>
 

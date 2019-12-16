@@ -20,11 +20,11 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-  name: "simple-table",
+  name: 'simple-table',
   props: {
     tableHeaderColor: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   methods: {
@@ -35,7 +35,7 @@ export default {
   computed: {
     ...mapState(['transactionsAsAdmin'])
   }
-};
+}
 </script>
 
 <style>

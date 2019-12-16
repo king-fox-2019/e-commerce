@@ -29,14 +29,14 @@
 </template>
 <style lang="scss"></style>
 <script>
-import TopNavbar from "@/components/admin/TopNavbar.vue";
-import DashboardContent from "@/components/admin/Content.vue";
+import TopNavbar from '@/components/admin/TopNavbar.vue'
+import DashboardContent from '@/components/admin/Content.vue'
 
 export default {
-    name: 'adminHome',
-    components: {
-        TopNavbar,
-        DashboardContent
-    }
-};
+  name: 'adminHome',
+  components: {
+    TopNavbar,
+    DashboardContent
+  }
+}
 </script>

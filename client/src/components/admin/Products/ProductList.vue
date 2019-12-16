@@ -29,17 +29,18 @@ import AddProduct from '@/components/admin/Products/AddProduct.vue'
 export default {
   name: 'productList',
   components: {
-      SimpleTable,
-      AddProduct
+    SimpleTable,
+    AddProduct
   },
   data: () => ({
     showDialog: false
   }),
   methods: {
-    closeDialog() {
+    closeDialog () {
       this.showDialog = false
+      this.$store.commit('SET_EDIT_PRODUCT_TO_NULL')
     },
-    editProduct() {
+    editProduct () {
       this.showDialog = true
     }
   }

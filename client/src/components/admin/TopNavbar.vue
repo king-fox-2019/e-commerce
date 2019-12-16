@@ -38,32 +38,32 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       selectedEmployee: null,
       employees: [
-        "Jim Halpert",
-        "Dwight Schrute",
-        "Michael Scott",
-        "Pam Beesly",
-        "Angela Martin",
-        "Kelly Kapoor",
-        "Ryan Howard",
-        "Kevin Malone"
+        'Jim Halpert',
+        'Dwight Schrute',
+        'Michael Scott',
+        'Pam Beesly',
+        'Angela Martin',
+        'Kelly Kapoor',
+        'Ryan Howard',
+        'Kevin Malone'
       ]
-    };
+    }
   },
   methods: {
-    toggleSidebar() {
-      this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
+    toggleSidebar () {
+      this.$sidebar.displaySidebar(!this.$sidebar.showSidebar)
     },
-    logOut() {
+    logOut () {
       localStorage.removeItem('token')
       localStorage.removeItem('admin')
       this.$router.push('/admin/login')
-    } 
+    }
   }
-};
+}
 </script>
 
 <style lang="css"></style>

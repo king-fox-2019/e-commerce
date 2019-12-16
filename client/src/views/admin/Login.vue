@@ -34,38 +34,38 @@
 
 <script>
 export default {
-    name: 'adminLogin',
-    data() {
-      return {
-        loading: false,
-        login: {
-          email: "",
-          password: ""
-        }
-      };
-    },
-    methods: {
-      authAdmin () {
-        this.$store.dispatch('authAdmin', {
-          email: this.login.email,
-          password: this.login.password
-        })
+  name: 'adminLogin',
+  data () {
+    return {
+      loading: false,
+      login: {
+        email: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    authAdmin () {
+      this.$store.dispatch('authAdmin', {
+        email: this.login.email,
+        password: this.login.password
+      })
         .then(result => {
           if (result.isAdmin == true) {
             localStorage.setItem('token', result.token)
             localStorage.setItem('admin', result.isAdmin)
-            this.swal("success", "Logged in as Admin")
+            this.swal('success', 'Logged in as Admin')
             this.$router.push('/admin')
           } else {
-            this.swal("error", err)
+            this.swal('error', err)
           }
           console.log(result)
         })
         .catch(err => {
-          this.swal("error", err)
+          this.swal('error', err)
         })
-      }
     }
+  }
 }
 </script>
 

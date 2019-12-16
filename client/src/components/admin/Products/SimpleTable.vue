@@ -31,24 +31,24 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-  name: "simple-table",
+  name: 'simple-table',
   props: {
     tableHeaderColor: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   methods: {
-    deleteProduct(id) {
+    deleteProduct (id) {
       this.$store.dispatch('deleteProduct', id)
         .then(data => {
-          this.swal("success", "Product deleted successfully!")
+          this.swal('success', 'Product deleted successfully!')
         })
         .catch(err => {
-          this.swal("error", err)
+          this.swal('error', err)
         })
     },
-    editProduct(product) {
+    editProduct (product) {
       this.$emit('editProduct')
       this.$store.commit('SET_PRODUCT_TO_EDIT', product)
     }
@@ -59,7 +59,7 @@ export default {
   computed: {
     ...mapState(['products'])
   }
-};
+}
 </script>
 
 <style>

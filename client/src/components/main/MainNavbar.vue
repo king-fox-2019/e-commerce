@@ -31,13 +31,13 @@
                           <p>PROFILE</p>
                         </md-list-item>
                       </router-link>
-                    
+
                       <router-link to="login" v-if="!isLoggedIn">
                         <md-list-item href="javascript:void(0)">
                           <p>LOGIN</p>
                         </md-list-item>
                       </router-link>
-                    
+
                     <router-link to="products">
                       <md-list-item href="javascript:void(0)">
                         <p>SHOP</p>
@@ -64,19 +64,39 @@
 <script>
 import { mapState } from 'vuex'
 export default {
+  data () {
+    return {
+      imageUrl: '',
+      url: 'url(https://images.pexels.com/photos/3325917/pexels-photo-3325917.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940)'
+    }
+  },
   computed: {
     ...mapState([
       'bgUrl',
       'isLoggedIn'
     ]),
-    bgImage() {
+    bgImage () {
       return {
-        backgroundImage: `url(${this.bgUrl})`
-      };
+        backgroundImage: this.imageUrl
+      }
+    }
+  },
+  created () {
+    if (this.$route.path == '/') {
+      this.imageUrl = this.url
+    }
+  },
+  watch: {
+    $route (to, from) {
+      if (to.path == '/login') {
+        this.imageUrl = null
+      } else {
+        this.imageUrl = this.url
+      }
     }
   },
   methods: {
-    logOut() {
+    logOut () {
       localStorage.removeItem('token')
       this.$router.push('/')
     }

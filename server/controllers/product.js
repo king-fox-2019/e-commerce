@@ -1,5 +1,4 @@
 const Product = require('../models/Product');
-const imageUploader = require('../helpers/imageUploader');
 
 class ProductController {
     static create(req, res, next) {

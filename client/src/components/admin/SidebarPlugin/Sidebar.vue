@@ -38,7 +38,7 @@
   </div>
 </template>
 <script>
-import SidebarLink from "./SidebarLink.vue";
+import SidebarLink from './SidebarLink.vue'
 
 export default {
   components: {
@@ -47,22 +47,22 @@ export default {
   props: {
     title: {
       type: String,
-      default: "E-com Admin"
+      default: 'E-com Admin'
     },
     backgroundImage: {
       type: String,
-      default: require("@/assets/img/sidebar-2.jpg")
+      default: require('@/assets/img/sidebar-2.jpg')
     },
     imgLogo: {
       type: String,
-      default: require("@/assets/img/vue-logo.png")
+      default: require('@/assets/img/vue-logo.png')
     },
     activeColor: {
       type: String,
-      default: "green",
+      default: 'green',
       validator: value => {
-        let acceptedValues = ["", "purple", "blue", "green", "orange", "red"];
-        return acceptedValues.indexOf(value) !== -1;
+        let acceptedValues = ['', 'purple', 'blue', 'green', 'orange', 'red']
+        return acceptedValues.indexOf(value) !== -1
       }
     },
     sidebarLinks: {
@@ -74,19 +74,19 @@ export default {
       default: true
     }
   },
-  provide() {
+  provide () {
     return {
       autoClose: this.autoClose
-    };
+    }
   },
   computed: {
-    sidebarStyle() {
+    sidebarStyle () {
       return {
         backgroundImage: `url(${this.backgroundImage})`
-      };
+      }
     }
   }
-};
+}
 </script>
 <style>
 @media screen and (min-width: 991px) {
