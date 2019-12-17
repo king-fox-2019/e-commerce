@@ -26,7 +26,7 @@
                     </router-link>
                 </p>
             </sui-modal-description>
-        </sui-modal-content image scrolling>
+        </sui-modal-content>
         <sui-modal-actions>
             <sui-button positive @click="toggle">
                 OK
@@ -41,11 +41,11 @@
 
     export default {
         name: "itemDetailModal",
-        data() {
-            return {
-                carts: []
-            }
-        },
+        // data() {
+        //     return {
+        //         carts: []
+        //     }
+        // },
         props: {
             open: Boolean,
             data: Object
@@ -55,6 +55,10 @@
                 this.$emit('toggle')
             },
             viewUser() {
+                if (!localStorage.getItem('token')) {
+                    return
+                }
+                this.$store.dispatch('setCartClear');
                 this.$axios({
                     method: 'get',
                     url: '/api/user/',
@@ -62,9 +66,8 @@
                         token: localStorage.getItem('token')
                     }
                 }).then(response => {
-                    // console.log(response.data.data.cart);
                     response.data.data.cart.forEach(item => {
-                        this.carts.push(item._id)
+                        this.$store.dispatch('addItemToCart', item._id);
                     })
                 }).catch(err => {
                     console.log(err.response)
@@ -76,18 +79,19 @@
                     return
                 }
 
-                this.carts.push(this.data._id);
+                this.$store.dispatch('addItemToCart', this.data._id);
+
                 this.$axios({
                     method: 'patch',
                     url: '/api/user/cart',
                     data: {
-                        cart: this.carts
+                        cart: this.$store.getters.cartList
                     },
                     headers: {
                         token: localStorage.getItem('token')
                     }
                 }).then(response => {
-                    console.log(response.data)
+                    console.log(response.data);
                 }).catch(err => {
                     console.log(err.response)
                 })
@@ -108,7 +112,7 @@
                 return segment.join(".");
             },
             isItemCarted() {
-                let n = this.carts.indexOf(this.data._id);
+                let n = this.$store.getters.cartList.indexOf(this.data._id);
                 if (n >= 0) {
                     return "disabled"
                 } else {
@@ -116,8 +120,7 @@
                 }
             }
         },
-        mounted() {
-            this.cart = this.data.cart;
+        created() {
             this.viewUser();
         },
         components: {

@@ -60,7 +60,6 @@ class UserController {
     }
 
     static addToChart(req, res, next) {
-        console.log(req.body.cart);
         User.updateOne({
             _id: req._id
         }, {
@@ -69,7 +68,7 @@ class UserController {
             if (response.ok < 1) throw "cart failed to update";
             res.status(200).json({
                 message: "item successfully add to cart"
-            })
+            });
         }).catch(err => {
             next(err)
         })
@@ -81,7 +80,7 @@ class UserController {
         ).populate(
             'cart'
         ).then(response => {
-            console.log(response)
+            // console.log(response);
             res.status(200).json({
                 data: response
             })

@@ -5,9 +5,11 @@ import store from './store'
 import SuiVue from 'semantic-ui-vue';
 import 'semantic-ui-css/semantic.min.css';
 import axios from 'axios';
+const prod = 'http://34.66.28.216';
+const dev = 'http://localhost:3000';
 
 const base = axios.create({
-  baseURL: 'http://34.66.28.216'
+  baseURL: dev
 });
 
 Vue.prototype.$axios = base;

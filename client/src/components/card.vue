@@ -20,6 +20,7 @@
             </sui-card-content>
             <sui-card-content extra>
                 <sui-icon name="users"/>
+                {{ data.owner.name.split(" ")[0] }}
             </sui-card-content>
         </sui-card>
         <item-detail-modal :open="open" @toggle="toggle" :data="data"/>
@@ -51,7 +52,7 @@
                 let segment = [];
                 let n = [];
                 let priceReverse = "0" + this.data.price.toString().split("").reverse().join("");
-                for (let i = 1; i <= priceReverse.length+1; i++) {
+                for (let i = 1; i <= priceReverse.length + 1; i++) {
                     n.unshift(priceReverse[i])
                     if (i % 3 === 0) {
                         segment.unshift(n.join(""));
