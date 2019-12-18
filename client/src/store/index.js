@@ -9,6 +9,7 @@ export default new Vuex.Store({
     products: [],
     cart: [],
     currentUser: {},
+    totalPrice: 0,
     isLogin: false
   },
   mutations: {
@@ -16,7 +17,8 @@ export default new Vuex.Store({
       state.products = payload
     },
     GET_CART (state, payload) {
-      state.cart = payload
+      state.cart = payload.data
+      state.totalPrice = payload.totalPrice
     },
     CHANGE_ISLOGIN (state) {
       state.isLogin = true
@@ -46,7 +48,11 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          context.commit('GET_CART', data)
+          let totalPrice = 0;
+          data.forEach(item => {
+            totalPrice += item.productId.price
+          });
+          context.commit('GET_CART', {data, totalPrice})
         })
         .catch(console.log)
     },
@@ -157,7 +163,8 @@ export default new Vuex.Store({
   },
   getters: {
     cart: state => state.cart,
-    cartLength: state => state.cart.length
+    cartLength: state => state.cart.length,
+    totalPrice: state => state.totalPrice
   },
   modules: {
   }

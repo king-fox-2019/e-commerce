@@ -106,22 +106,25 @@ export default {
         email:this.form.email, 
         password: this.form.password
       })
-
-      this.email = '',
-      this.password = ''
+      this.form.email = '',
+      this.form.password = ''
     },
     register () {
+      this.form.name = '',
+      this.form.email = '',
+      this.form.password = ''
+
       this.$bvModal.hide('modal-register')
       // this.$bvModal.show('modal-loading')
       
       this.$store.dispatch('RegisterUser', this.form )
-      this.name = '',
-      this.email = '',
-      this.password = ''
     },
     logout () {
+      this.form.name = '',
+      this.form.email = '',
+      this.form.password = ''
+      this.$router.push('/#')
       this.$store.dispatch('logout')
-      this.$router.push('/')
     }
   },
   computed: mapGetters(['cartLength'])
