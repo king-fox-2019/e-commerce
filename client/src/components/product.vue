@@ -13,7 +13,7 @@
         Price: {{ priceFormat }} <br>
         Stock: {{ product.stock }} <br>
       </b-card-text>
-      <b-button href="#" variant="primary">Add to cart</b-button>
+      <b-button @click="addToCart(product)" variant="primary">Add to cart</b-button>
     </b-card>
   </div>
 </template>
@@ -37,6 +37,7 @@ export default {
   },
   methods: {
     addToCart(product) {
+      console.log('masuk');
       if (localStorage.getItem('token')) {
         axios.post('/cart', {
           qty: this.qty,
