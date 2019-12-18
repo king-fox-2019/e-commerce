@@ -20,6 +20,7 @@ routes.post('/create', upload.array('image') ,productController.create)
 routes.post('/tag', productController.findbytag)
 routes.put('/:id', authorization, upload.array('image') ,productController.updatePut)
 routes.patch('/:id', authorization, productController.updatePatch)
+routes.patch('/:id/stock', authorization, productController.updateStockPatch)
 routes.patch('/:id/discount', authorization, productController.discountProduct)
 routes.delete('/:id', authorization, productController.delete)
 

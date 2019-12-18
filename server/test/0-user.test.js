@@ -47,30 +47,20 @@ before(function(){
     .catch(console.log)
 })
 
-// delete data after testing
-after(function(done){
-    userModel.deleteMany({})
-        .then(()=>{
-            console.log(`testing: delete all data users success`);
-            done()
-        })
-        .catch(console.log)
-})
-
 // process validation with mochajs
 describe('User Routes',function(){
     describe('POST /user',function(){
-        describe('/user/login success process',function(){
-            let token;
-            before(function(done){
-                chai.request(app)
-                .post('/user/login')
-                .send(userLogin)
-                .end(function(err,res){
-                    token = res.body.token
-                    done()
-                })
+        let token;
+        before(function(done){
+            chai.request(app)
+            .post('/user/login')
+            .send(userLogin)
+            .end(function(err,res){
+                token = res.body.token
+                done()
             })
+        })
+        describe('/user/login success process',function(){
             // this.timeout(15000);
             it('get user with 200 status code',function(done){
                 // this.timeout(1/5000);

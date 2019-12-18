@@ -1,6 +1,6 @@
 <template>
 <div class="col-10 pl-0 pr-0" style="overflow-y: scroll; height: 94.9vh;">
-    <h1 class="mt-3 text-center">HELLO ANGGA</h1>
+    <!-- <h1 class="mt-3 text-center">HELLO ANGGA</h1> -->
     <hr class="mb-0">
     <table class="table table-dark">
       <thead>

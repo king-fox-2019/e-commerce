@@ -8,7 +8,8 @@
         Shoes
       </button>
     </div>
-    <div class="col-10 mt-3" style="overflow-y: scroll;" v-for="(item,i) in listItem" :key="i">
+    <div class="col-10 mt-3 d-flex flex-row" style="overflow-y: scroll;">
+      <div class="ml-3" v-for="(item,i) in listItem" :key="i">
       <div class="card" style="width: 27rem">
       <div style="height:55px; width:55px; background-color:black; position: absolute;" class="rounded-circle ml-2 mt-2">
         <div class="mt-2 pt-1">
@@ -24,12 +25,12 @@
         <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
         <div class="row">
-          <button type="button" class="btn btn-primary active d-flex align-items-start ml-3" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          <button type="button" class="btn btn-primary active d-flex align-items-start ml-3" data-toggle="collapse" :data-target="'#collapseExample'+i" aria-expanded="false" aria-controls="collapseExample">
             Buy <span class="badge badge-light mt-1 ml-2">stock {{stockTotal[i]}}</span>
           </button>
           <button type="button" class="btn btn-primary ml-auto mr-3" :data-target="'#modelId'+i" data-toggle="modal">Details</button>
         </div>
-        <div class="collapse" id="collapseExample">
+        <div class="collapse" :id="'collapseExample'+i">
           <div class="card card-body pt-0 pb-0 pr-0 pl-0">
             <table class="table">
               <thead>
@@ -84,7 +85,7 @@
             <div class="modal-header">
               <h3 class="modal-title" style="color: black; font-weight: bolder;">{{ item.name }}</h3>
               <h3 class="modal-title ml-4" style="color: black; font-weight: bolder;">
-                <button type="button" class="btn btn-primary"> Size [ {{ item.size[i].size }} ]</button>
+                <button type="button" class="btn btn-primary"> Size [ {{ item.size[0].size }} ]</button>
               </h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
@@ -109,6 +110,7 @@
         </div>
       </div>
         <!-- ---- -->
+    </div>
     </div>
   </div>
 </div>

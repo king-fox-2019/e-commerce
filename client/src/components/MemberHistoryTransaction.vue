@@ -22,12 +22,9 @@
           <td>Rp.{{ item.price }}</td>
           <td>{{ item.status }}</td>
           <td>
-            <button type="button" class="btn btn-primary btn-sm" v-if="item.status == 'oncart'" @click="checkout(item._id, `process`)">BUY</button>
-            <button type="button" class="btn btn-primary btn-sm disabled" v-if="item.status == 'process'">ON PROCESS</button>
-            <button type="button" class="btn btn-primary btn-sm" v-if="item.status == 'confirm'" @click="checkout(item._id, `complete`)">CONFIRM</button>
+            <button type="button" class="btn btn-success btn-sm disabled" v-if="item.status != 'complete'">TRANSACTION NOT SUCCESS</button>
             <button type="button" class="btn btn-success btn-sm focus" v-if="item.status == 'complete'">SUCCESS TRANSACTION</button>
-            <button type="button" class="btn btn-success btn-sm ml-2" :data-target="'#modeld'+index" v-if="item.status == 'oncart'" data-toggle="modal" @click="updated(item.size[0]._id,item.quantities)">UPDATE</button>
-            <button type="button" class="btn btn-danger btn-sm ml-2" @click.prevent="deleted(item._id)" v-if="item.status == 'oncart'">DELETE</button>
+            <button type="button" class="btn btn-danger btn-sm ml-2"  v-if="item.status == 'complete'" @click.prevent="deleted(item._id)">DELETE</button>
           </td>
         </tr>
         <!-- Modal -->

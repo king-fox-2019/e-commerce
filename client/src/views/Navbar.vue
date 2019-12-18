@@ -21,7 +21,7 @@
           </button>
           <button type="button" @click="$router.push('/customer')" class="btn py-2 pr-4 pl-4 navbarkanan">
               <i class="fas fa-cart-plus"></i>
-              
+              {{ $store.state.mycart.length }}
           </button>
           <button v-if="image" type="button" class="btn py-2 pr-3 pl-1 navbarkanan">
               <img :src="image" alt="profil" style="width:30px" class="rounded-pill">

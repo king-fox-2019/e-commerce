@@ -26,6 +26,17 @@ module.exports = {
             })
             .catch(next)
     },
+    updateStockPatch(req,res,next){
+        let { stock} = req.body
+        let { id } = req.params
+        console.log(stock);
+        
+        Stock.findOneAndUpdate({ _id:id },{ stock }, { new: true, runValidators: true })
+            .then(stock=>{
+                res.status(200).json(stock)
+            })
+            .catch(next)
+    },
     updatePut(req, res, next) {
         const { id } = req.params
         const { name, price, image } = req.body
