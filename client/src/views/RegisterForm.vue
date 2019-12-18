@@ -67,11 +67,13 @@ export default {
           password: this.password
         })
         .then(({ data }) => {
-          // localStorage.setItem('token', data.access_token)
+          localStorage.setItem("token", data.access_token);
+          localStoraget.setItem("username", data.username);
           this.$store.commit("UPDATE_USERNAME", { username: data.username });
           this.$store.commit("UPDATE_ACCESS_TOKEN", {
             access_token: data.access_token
           });
+          this.$store.dispatch("fetchAllCart");
           this.clearData();
           this.$swal("Success", "You success register", "success");
           this.$router.push({ path: "/" });

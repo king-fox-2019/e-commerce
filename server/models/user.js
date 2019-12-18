@@ -40,6 +40,17 @@ const userSchema = new Schema({
     required: [true, 'password is required'],
     minlength: [6, 'password length at least 6 characters'],
   },
+  cart: [
+    {
+      product: {
+        type: Schema.Types.ObjectId,
+        ref: 'Product',
+      },
+      amount: {
+        type: Number,
+      },
+    },
+  ],
 });
 
 userSchema.post('validate', function(user) {

@@ -42,8 +42,8 @@ export default {
   name: "Header",
   methods: {
     logout() {
-      // localStorage.removeItem("token");
-      // localStorage.removeItem("username");
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
       this.$store.commit("UPDATE_USERNAME", { username: "" });
       this.$store.commit("UPDATE_ACCESS_TOKEN", { access_token: "" });
       this.$swal("Success logout", "", "success");
@@ -53,9 +53,21 @@ export default {
     username() {
       return this.$store.state.username;
     }
+  },
+  created() {
+    const access_token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
+
+    if (access_token) {
+      this.$store.commit("UPDATE_ACCESS_TOKEN", { access_token });
+    }
+
+    if (username) {
+      this.$store.commit("UPDATE_USERNAME", { username });
+      this.$store.dispatch("fetchAllCart");
+    }
   }
 };
 </script>
 
-<style>
-</style>
+<style></style>

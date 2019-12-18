@@ -17,6 +17,22 @@ module.exports = {
         res.status(404).json({errors: err.message});
         break;
 
+      case 'BadToken':
+        res.status(400).json({errors: err.message});
+        break;
+
+      case 'MissingToken':
+        res.status(400).json({errors: err.message});
+        break;
+
+      case 'JsonWebTokenError':
+        res.status(400).json({errors: err.message});
+        break;
+
+      case 'BadRequest':
+        res.status(400).json({errors: err.message});
+        break;
+
       default:
         res.status(500).json(err);
         break;
