@@ -2,19 +2,16 @@
   <div class="tabshop">
     <div v-if="infoUser.role == 'admin'" class="tabadmin">
       <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
-        <v-tab v-for="item in adminItems" :key="item" @click="goTab(item)">{{
+        <v-tab v-for="item in adminItems" :key="item" @click="goTab(item)">
+          {{
           item
-        }}</v-tab>
+          }}
+        </v-tab>
       </v-tabs>
     </div>
 
     <!-- dialog create -->
-    <v-dialog
-      v-model="dialogCreate"
-      fullscreen
-      hide-overlay
-      transition="dialog-bottom-transition"
-    >
+    <v-dialog v-model="dialogCreate" fullscreen hide-overlay transition="dialog-bottom-transition">
       <!-- <template v-slot:activator="{ on }">
         <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
       </template>-->
@@ -36,24 +33,14 @@
               <v-list-item-content>
                 <v-list-item-title>Name Item</v-list-item-title>
                 <!--  input name-->
-                <v-text-field
-                  v-model="name"
-                  :rules="nameRules"
-                  label="Name Item"
-                  required
-                ></v-text-field>
+                <v-text-field v-model="name" :rules="nameRules" label="Name Item" required></v-text-field>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Stock Item</v-list-item-title>
                 <!-- input stock -->
-                <v-text-field
-                  v-model="stock"
-                  :rules="stockRules"
-                  label="Stock Item"
-                  required
-                ></v-text-field>
+                <v-text-field v-model="stock" :rules="stockRules" label="Stock Item" required></v-text-field>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -73,12 +60,7 @@
               <v-list-item-content>
                 <v-list-item-title>Price Item</v-list-item-title>
                 <!-- input price -->
-                <v-text-field
-                  v-model="price"
-                  :rules="priceRules"
-                  label="Price Item"
-                  required
-                ></v-text-field>
+                <v-text-field v-model="price" :rules="priceRules" label="Price Item" required></v-text-field>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -101,15 +83,10 @@
       </v-form>
     </v-dialog>
     <!-- end dialog create -->
-
+    <purchesed-item :showpurchesed="dialogPurchesed" :close-purchesed="closePurchesed" />
     <div v-if="infoUser.role == 'customer'" class="tabcustomer">
       <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
-        <v-tab
-          v-for="item in customerItems"
-          :key="item"
-          @click.prevent="goTab(item)"
-          >{{ item }}</v-tab
-        >
+        <v-tab v-for="item in customerItems" :key="item" @click.prevent="goTab(item)">{{ item }}</v-tab>
       </v-tabs>
     </div>
     <list-item :currenttab="currentTab" />
@@ -120,11 +97,13 @@
 import { createNamespacedHelpers } from "vuex";
 import ListItem from "../components/ListItem.vue";
 const { mapGetters } = createNamespacedHelpers("sign");
+import Transaction from "../components/DialogTransaction.vue";
 
 export default {
   name: "TabShop",
   components: {
-    "list-item": ListItem
+    "list-item": ListItem,
+    "purchesed-item": Transaction
   },
   data() {
     return {
@@ -149,6 +128,7 @@ export default {
         v => (v && v.length <= 1) || "Image is required"
       ],
       dialogCreate: false,
+      dialogPurchesed: false,
       tab: null,
       adminItems: ["New Item", "Best Item", "Add Item"],
       customerItems: ["New Item", "Best Item", "Item Purchesed"],
@@ -156,6 +136,9 @@ export default {
     };
   },
   methods: {
+    closePurchesed() {
+      this.dialogPurchesed = false;
+    },
     goTab(tab) {
       if (tab === "Add Item") {
         this.dialogCreate = true;
@@ -165,6 +148,8 @@ export default {
       } else if (tab === "Best Item") {
         this.currentTab = "";
         this.currentTab = "Best Item";
+      } else if (tab === "Item Purchesed") {
+        this.$emit("show-purchesed", true);
       }
     },
     createItem() {

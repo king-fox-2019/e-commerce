@@ -61,10 +61,7 @@
               :style="storyTab2[5].style"
             />
           </div>
-          <div
-            v-if="currentBtn == 2 && contTab3 == 'tab1'"
-            class="bgClip31 bgClip"
-          >
+          <div v-if="currentBtn == 2 && contTab3 == 'tab1'" class="bgClip31 bgClip">
             <img
               src="//static-sea.dragonnest.com/static-sea/2/Content/EN/images/game/story_tab3_k1_sq0.png"
               class="ds_k1_1"
@@ -116,10 +113,7 @@
               :style="storyTab31[9].style"
             />
           </div>
-          <div
-            v-if="currentBtn == 2 && contTab3 == 'tab2'"
-            class="bgClip32 bgClip"
-          >
+          <div v-if="currentBtn == 2 && contTab3 == 'tab2'" class="bgClip32 bgClip">
             <img
               src="//static-sea.dragonnest.com/static-sea/2/Content/EN/images/game/story_tab3_k2_sq0.png"
               class="ds_k2_1"
@@ -171,10 +165,7 @@
               :style="storyTab32[9].style"
             />
           </div>
-          <div
-            v-if="currentBtn == 2 && contTab3 == 'tab3'"
-            class="bgClip33 bgClip"
-          >
+          <div v-if="currentBtn == 2 && contTab3 == 'tab3'" class="bgClip33 bgClip">
             <img
               src="//static-sea.dragonnest.com/static-sea/2/Content/EN/images/game/story_tab3_k3_sq0.png"
               class="ds_k3_1"
@@ -217,8 +208,7 @@
                 :key="index"
                 :class="cls.class"
                 @click="onBtn(cls.btn, index)"
-                >{{ cls.text }}</a
-              >
+              >{{ cls.text }}</a>
             </div>
             <dragon-cont
               v-for="(dragon, index) in listDragonCont"

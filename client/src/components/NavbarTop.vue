@@ -17,26 +17,11 @@
         small
         color="black"
         class="orange--text"
-        >LOG IN</v-btn
-      >
-      <v-btn
-        v-if="!isLogin"
-        @click.prevent="goFormSign('signup')"
-        small
-        text
-        color="black"
-        >SIGN UP</v-btn
-      >
-      <v-btn v-if="isLogin" @click.prevent="goSignOut" small text color="black"
-        >SIGN OUT</v-btn
-      >
+      >LOG IN</v-btn>
+      <v-btn v-if="!isLogin" @click.prevent="goFormSign('signup')" small text color="black">SIGN UP</v-btn>
+      <v-btn v-if="isLogin" @click.prevent="goSignOut" small text color="black">SIGN OUT</v-btn>
       <span style="color:black;">|</span>
-      <v-img
-        src="../assets/img/cash.png"
-        alt="logo"
-        max-width="30"
-        max-height="30"
-      ></v-img>
+      <v-img src="../assets/img/cash.png" alt="logo" max-width="30" max-height="30"></v-img>
       <!-- dialog -->
       <v-dialog v-model="dialog" width="500">
         <template v-slot:activator="{ on }">
@@ -45,9 +30,7 @@
 
         <v-card>
           <v-form ref="form" @submit.prevent="buyCash">
-            <v-card-title class="headline green darken-2" primary-title
-              >Add Eye Cash</v-card-title
-            >
+            <v-card-title class="headline green darken-2" primary-title>Add Eye Cash</v-card-title>
             <v-select
               v-model="select"
               :items="items"
@@ -66,31 +49,13 @@
         </v-card>
       </v-dialog>
       <!-- end dialog -->
-      <v-btn
-        small
-        text
-        rounded
-        href="https://www.facebook.com/dragonnestsea"
-        target="_blank"
-      >
+      <v-btn small text rounded href="https://www.facebook.com/dragonnestsea" target="_blank">
         <v-icon>fab fa-facebook</v-icon>
       </v-btn>
-      <v-btn
-        small
-        text
-        rounded
-        href="https://www.youtube.com/user/dragonnestsea"
-        target="_blank"
-      >
+      <v-btn small text rounded href="https://www.youtube.com/user/dragonnestsea" target="_blank">
         <v-icon>fab fa-youtube</v-icon>
       </v-btn>
-      <v-btn
-        small
-        text
-        rounded
-        href="https://www.twitch.tv/dragonnest_sea"
-        target="_blank"
-      >
+      <v-btn small text rounded href="https://www.twitch.tv/dragonnest_sea" target="_blank">
         <v-icon>fab fa-discord</v-icon>
       </v-btn>
     </v-app-bar>
@@ -138,38 +103,44 @@ export default {
     },
     buyCash() {
       if (this.$refs.form.validate()) {
-        this.snackbar = true;
-        this.$store
-          .dispatch("sign/addCash", this.select)
-          .then(response => {
-            this.$store.dispatch("sign/getInfoUser");
-            this.dialog = false;
-            this.reset();
-            this.$snotify.success(
-              `Success Add Cash,Now Your Cash : ${response.cash}`,
-              {
-                timeout: 5000,
+        if (localStorage.getItem("token")) {
+          this.snackbar = true;
+          this.$store
+            .dispatch("sign/addCash", this.select)
+            .then(response => {
+              this.$store.dispatch("sign/getInfoUser");
+              this.dialog = false;
+              this.reset();
+              this.$snotify.success(
+                `Success Add Cash,Now Your Cash : ${response.cash}`,
+                {
+                  timeout: 5000,
+                  showProgressBar: true,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  position: "leftTop"
+                }
+              );
+            })
+            .catch(err => {
+              let text = "";
+              err.response.data.errors.forEach(element => {
+                text += element + ", ";
+              });
+              this.reset();
+              this.$snotify.warning(`${text}`, {
+                timeout: 3000,
                 showProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
                 position: "leftTop"
-              }
-            );
-          })
-          .catch(err => {
-            let text = "";
-            err.response.data.errors.forEach(element => {
-              text += element + ", ";
+              });
             });
-            this.reset();
-            this.$snotify.warning(`${text}`, {
-              timeout: 3000,
-              showProgressBar: true,
-              closeOnClick: true,
-              pauseOnHover: true,
-              position: "leftTop"
-            });
-          });
+        } else {
+          this.$router.push("/formsign/signin");
+          this.dialog = false;
+          this.reset();
+        }
       }
     },
     reset() {
@@ -180,7 +151,15 @@ export default {
     dialog(val) {
       if (!val) {
         this.reset();
+      } else {
       }
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    if (localStorage.getItem("token")) {
+      next();
+    } else {
+      next("/formsign/signin");
     }
   },
   computed: {

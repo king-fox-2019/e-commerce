@@ -22,7 +22,7 @@ class CartController {
         }
       })
       .then(response => {
-        if (response) {
+        if (response && response.purchesed == false) {
           let newTotalPrice = response.totalPrice + totalPrice;
           let newCount = response.count + Number(req.body.count);
           return Cart.updateOne(
@@ -68,11 +68,34 @@ class CartController {
 
   static removeItem(req, res, next) {
     Cart.deleteOne({
-      itemId: req.params.itemId
+      itemId: req.params.itemId,
+      purchesed: false
     })
       .then(_ => {
         res.status(200).json({
           message: "Success delete item from your cart"
+        });
+      })
+      .catch(next);
+  }
+
+  static accItem(req, res, next) {
+    Cart.findOneAndUpdate(
+      {
+        itemId: req.params.itemId,
+        accepted: false
+      },
+      {
+        $set: { accepted: true }
+      },
+      {
+        new: true
+      }
+    )
+      .then(response => {
+        res.status(200).json({
+          response,
+          message: "Item Accepted"
         });
       })
       .catch(next);
@@ -84,9 +107,21 @@ class CartController {
     let updateCash = 0;
     let updateStock = [];
     Cart.find({
-      userId: req.decoded.id
+      purchesed: false
     })
-      .populate("itemId")
+      .then(response => {
+        if (response.length == 0) {
+          throw {
+            status: 400,
+            message: "No Have Item For Checkout"
+          };
+        } else {
+          return Cart.find({
+            userId: req.decoded.id,
+            purchesed: false
+          }).populate("itemId");
+        }
+      })
       .then(response => {
         response.forEach(element => {
           let newCount = Number(element.itemId.stock) - Number(element.count);

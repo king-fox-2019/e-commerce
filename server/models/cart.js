@@ -14,7 +14,7 @@ const cartSchema = new Schema(
     count: {
       type: Number,
       required: [true, "Please input item count"],
-      min: [1, "Count minimum 1"]
+      min: [1, "Count item minimum 1"]
     },
     totalPrice: {
       type: Number

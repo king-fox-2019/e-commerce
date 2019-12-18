@@ -3,6 +3,7 @@ const chaiHttp = require("chai-http");
 const app = require("../app");
 const User = require("../models/user");
 const Item = require("../models/item");
+const fs = require("fs");
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -94,7 +95,11 @@ describe(`Item Routes`, function() {
           .request(app)
           .post("/items/")
           .set("token", token)
-          .send(initialItem)
+          .field("name", "avenger")
+          .field("price", 3900)
+          .field("stock", 20)
+          .field("category", "newitem")
+          .attach("image", fs.readFileSync("./img/test.png"), "test.png")
           .end(function(err, res) {
             expect(err).to.be.null;
             expect(res).to.have.status(201);
@@ -108,13 +113,14 @@ describe(`Item Routes`, function() {
 
     describe("error process", function() {
       it("should return error with status code 400 caused by empty field item name", function(done) {
-        const withoutName = { ...initialItem };
-        delete withoutName.name;
         chai
           .request(app)
           .post("/items")
           .set("token", token)
-          .send(withoutName)
+          .field("price", 3900)
+          .field("stock", 20)
+          .field("category", "newitem")
+          .attach("image", fs.readFileSync("./img/test.png"), "test.png")
           .end(function(err, res) {
             expect(err).to.be.null;
             expect(res).to.have.status(400);
@@ -126,13 +132,14 @@ describe(`Item Routes`, function() {
       });
 
       it("should return error with status code 400 caused by empty field price item", function(done) {
-        const withoutPrice = { ...initialItem };
-        delete withoutPrice.price;
         chai
           .request(app)
           .post("/items")
           .set("token", token)
-          .send(withoutPrice)
+          .field("name", "avenger")
+          .field("stock", 20)
+          .field("category", "newitem")
+          .attach("image", fs.readFileSync("./img/test.png"), "test.png")
           .end(function(err, res) {
             expect(err).to.be.null;
             expect(res).to.have.status(400);
@@ -146,13 +153,15 @@ describe(`Item Routes`, function() {
       });
 
       it("should return error with status code 400 caused by negative value of price", function(done) {
-        const negativePrice = { ...initialItem };
-        negativePrice.price = -10;
         chai
           .request(app)
           .post("/items")
           .set("token", token)
-          .send(negativePrice)
+          .field("name", "avenger")
+          .field("price", -3900)
+          .field("stock", 20)
+          .field("category", "newitem")
+          .attach("image", fs.readFileSync("./img/test.png"), "test.png")
           .end(function(err, res) {
             expect(err).to.be.null;
             expect(res).to.have.status(400);
@@ -164,13 +173,14 @@ describe(`Item Routes`, function() {
       });
 
       it("should return error with status code 400 caused by empty value of stock", function(done) {
-        const emptyStock = { ...initialItem };
-        delete emptyStock.stock;
         chai
           .request(app)
           .post("/items")
           .set("token", token)
-          .send(emptyStock)
+          .field("name", "avenger")
+          .field("price", 3900)
+          .field("category", "newitem")
+          .attach("image", fs.readFileSync("./img/test.png"), "test.png")
           .end(function(err, res) {
             expect(err).to.be.null;
             expect(res).to.have.status(400);
@@ -184,13 +194,15 @@ describe(`Item Routes`, function() {
       });
 
       it("should return error with status code 400 caused by negative value of stock", function(done) {
-        const negativeStock = { ...initialItem };
-        negativeStock.stock = -10;
         chai
           .request(app)
           .post("/items")
           .set("token", token)
-          .send(negativeStock)
+          .field("name", "avenger")
+          .field("price", 3900)
+          .field("stock", -20)
+          .field("category", "newitem")
+          .attach("image", fs.readFileSync("./img/test.png"), "test.png")
           .end(function(err, res) {
             expect(err).to.be.null;
             expect(res).to.have.status(400);
@@ -202,13 +214,14 @@ describe(`Item Routes`, function() {
       });
 
       it("should return error with status code 400 caused by input empty category", function(done) {
-        const emptyCategory = { ...initialItem };
-        emptyCategory.category = null;
         chai
           .request(app)
           .post("/items")
           .set("token", token)
-          .send(emptyCategory)
+          .field("name", "avenger")
+          .field("price", 3900)
+          .field("stock", 20)
+          .attach("image", fs.readFileSync("./img/test.png"), "test.png")
           .end(function(err, res) {
             expect(err).to.be.null;
             expect(res).to.have.status(400);
@@ -220,19 +233,23 @@ describe(`Item Routes`, function() {
       });
 
       it("should return error with status code 400 caused by input empty image", function(done) {
-        const emptyImage = { ...initialItem };
-        delete emptyImage.image;
         chai
           .request(app)
           .post("/items")
           .set("token", token)
-          .send(emptyImage)
+          .field("name", "avenger")
+          .field("price", 3900)
+          .field("stock", 20)
+          .field("category", "newitem")
+          .attach("image")
           .end(function(err, res) {
             expect(err).to.be.null;
-            expect(res).to.have.status(400);
+            expect(res).to.have.status(500);
             expect(res.body).to.be.an("object");
             expect(res.body.errors).to.be.an("array");
-            expect(res.body.errors[0]).to.equal("Please input image item");
+            expect(res.body.errors[0]).to.equal(
+              "Cannot read property 'originalname' of undefined"
+            );
             done();
           });
       });
@@ -241,7 +258,11 @@ describe(`Item Routes`, function() {
         chai
           .request(app)
           .post("/items")
-          .send(initialItem)
+          .field("name", "avenger")
+          .field("price", 3900)
+          .field("stock", 20)
+          .field("category", "newitem")
+          .attach("image", fs.readFileSync("./img/test.png"), "test.png")
           .end(function(err, res) {
             expect(err).to.be.null;
             expect(res).to.have.status(401);
@@ -257,7 +278,11 @@ describe(`Item Routes`, function() {
           .request(app)
           .post("/items")
           .set("token", "randomToken")
-          .send(initialItem)
+          .field("name", "avenger")
+          .field("price", 3900)
+          .field("stock", 20)
+          .field("category", "newitem")
+          .attach("image", fs.readFileSync("./img/test.png"), "test.png")
           .end(function(err, res) {
             expect(err).to.be.null;
             expect(res).to.have.status(401);
@@ -364,12 +389,15 @@ describe(`Item Routes`, function() {
 
     describe("success process", function() {
       it("should return new object product and status code 200", function(done) {
-        const data = { ...initialItem };
         chai
           .request(app)
           .put(`/items/${itemId}`)
           .set("token", token)
-          .send(data)
+          .field("name", "avenger")
+          .field("price", 3900)
+          .field("stock", 20)
+          .field("category", "newitem")
+          .attach("image", fs.readFileSync("./img/test.png"), "test.png")
           .end(function(err, res) {
             expect(err).to.be.null;
             expect(res).to.have.status(200);
@@ -432,12 +460,15 @@ describe(`Item Routes`, function() {
       });
 
       it("should return error with status code 404 caused cannot find product with given id", function(done) {
-        let data = { name: "has been changed" };
         chai
           .request(app)
           .put(`/items/123456789`)
           .set("token", token)
-          .send(data)
+          .field("name", "avenger")
+          .field("price", 3900)
+          .field("stock", 20)
+          .field("category", "newitem")
+          .attach("image", fs.readFileSync("./img/test.png"), "test.png")
           .end(function(err, res) {
             expect(err).to.be.null;
             expect(res).to.have.status(404);

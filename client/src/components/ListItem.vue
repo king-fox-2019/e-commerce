@@ -1,22 +1,14 @@
 <template>
   <div class="list-item" style="height: auto; width: 100%;">
-    <v-container
-      fluid
-      class="px-0 py-0 mt-3"
-      style="height: auto; text-align:center;"
-    >
+    <v-container fluid class="px-0 py-0 mt-3" style="height: auto; text-align:center;">
       <h2
         v-show="currenttab == 'New Item'"
         style="text-decoration:underline; color:#ff7315;"
-      >
-        New Item Mall
-      </h2>
+      >New Item Mall</h2>
       <h2
         v-show="currenttab == 'Best Item'"
         style="text-decoration:underline; color:#0c9463;"
-      >
-        Best Item Mall
-      </h2>
+      >Best Item Mall</h2>
       <v-row d-flex flex-direction-row flex-wrap>
         <v-col
           v-for="item in filterItemNow"
@@ -27,7 +19,13 @@
           flex-direction-row
           flex-wrap
         >
-          <v-img :src="item.image" max-width="200" max-height="200"></v-img>
+          <v-img
+            :src="item.image"
+            max-width="200"
+            max-height="200"
+            id="itemImage"
+            @click="openBuy({itemId: item._id, price: item.price})"
+          ></v-img>
 
           <p>
             <strong>{{ item.name }}</strong>
@@ -41,12 +39,7 @@
             <span style="color:green;">{{ item.price }}</span>
           </p>
 
-          <v-flex
-            v-if="infoUser.role === 'admin'"
-            d-flex
-            flex-direction-row
-            justify-space-around
-          >
+          <v-flex v-if="infoUser.role === 'admin'" d-flex flex-direction-row justify-space-around>
             <a @click="removeItem({ id: item._id, name: item.name })">
               <v-icon color="red">mdi-delete</v-icon>
             </a>
@@ -59,9 +52,7 @@
         <v-dialog v-model="dialogUpdate" width="600" height="600">
           <v-card>
             <v-form ref="formUpdate" @submit.prevent="updateItem">
-              <v-card-title class="headline orange darken-2" primary-title
-                >Update Item</v-card-title
-              >
+              <v-card-title class="headline orange darken-2" primary-title>Update Item</v-card-title>
               <v-text-field
                 class="px-5"
                 v-model="name"
@@ -111,6 +102,31 @@
           </v-card>
         </v-dialog>
         <!-- end dialog update -->
+        <!-- dialog buy -->
+        <v-dialog v-model="dialogBuy" width="600" height="600">
+          <v-card>
+            <v-form ref="formBuy" @submit.prevent="buyItem">
+              <v-card-title class="headline orange darken-2" primary-title>Buying Item</v-card-title>
+
+              <v-text-field
+                class="px-5"
+                v-model="count"
+                :rules="countRules"
+                label="Count Item"
+                type="Number"
+                required
+              ></v-text-field>
+
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" text type="submit">Add Item To Cart</v-btn>
+              </v-card-actions>
+            </v-form>
+          </v-card>
+        </v-dialog>
+        <!-- end dialog buy -->
       </v-row>
     </v-container>
   </div>
@@ -129,6 +145,9 @@ export default {
   },
   data() {
     return {
+      dialogBuy: false,
+      count: 0,
+      countRules: [v => !!v || "Count is required"],
       dialogUpdate: false,
       name: "",
       nameRules: [v => !!v || "Name is required"],
@@ -150,10 +169,51 @@ export default {
         v => !!v || "Image is required",
         v => (v && v.length <= 1) || "Image is required"
       ],
-      idUpdate: null
+      idUpdate: null,
+      payloadBuyItem: {}
     };
   },
   methods: {
+    openBuy(payload) {
+      this.dialogBuy = true;
+      this.payloadBuyItem.itemId = payload.itemId;
+      this.payloadBuyItem.price = payload.price;
+    },
+    resetFormBuy() {
+      this.$refs.formBuy.reset();
+    },
+    buyItem() {
+      this.payloadBuyItem.count = this.count;
+      if (this.$refs.formBuy.validate()) {
+        this.$store
+          .dispatch("cart/buyItem", this.payloadBuyItem)
+          .then(data => {
+            this.dialogBuy = false;
+            this.resetFormBuy();
+            this.$snotify.success(`${data.message}`, {
+              timeout: 5000,
+              showProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              position: "leftTop"
+            });
+          })
+          .catch(err => {
+            this.resetFormBuy();
+            let text = "";
+            err.response.data.errors.forEach(element => {
+              text += element + ", ";
+            });
+            this.$snotify.warning(`${text}`, {
+              timeout: 3000,
+              showProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              position: "leftTop"
+            });
+          });
+      }
+    },
     openDialogUpdate(id) {
       this.idUpdate = id;
       this.dialogUpdate = true;
@@ -289,6 +349,11 @@ export default {
               position: "leftTop"
             });
           });
+      }
+    },
+    dialogBuy(val) {
+      if (!val) {
+        this.resetFormBuy();
       }
     }
   },

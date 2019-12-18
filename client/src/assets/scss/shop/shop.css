@@ -14,4 +14,17 @@
   font-size: 30px;
   color: #0d0d0d;
 }
+
+#itemImage {
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+#itemImage:hover {
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+  cursor: pointer;
+}
 /*# sourceMappingURL=shop.css.map */
