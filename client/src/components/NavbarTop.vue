@@ -17,11 +17,26 @@
         small
         color="black"
         class="orange--text"
-      >LOG IN</v-btn>
-      <v-btn v-if="!isLogin" @click.prevent="goFormSign('signup')" small text color="black">SIGN UP</v-btn>
-      <v-btn v-if="isLogin" @click.prevent="goSignOut" small text color="black">SIGN OUT</v-btn>
+        >LOG IN</v-btn
+      >
+      <v-btn
+        v-if="!isLogin"
+        @click.prevent="goFormSign('signup')"
+        small
+        text
+        color="black"
+        >SIGN UP</v-btn
+      >
+      <v-btn v-if="isLogin" @click.prevent="goSignOut" small text color="black"
+        >SIGN OUT</v-btn
+      >
       <span style="color:black;">|</span>
-      <v-img src="../assets/img/cash.png" alt="logo" max-width="30" max-height="30"></v-img>
+      <v-img
+        src="../assets/img/cash.png"
+        alt="logo"
+        max-width="30"
+        max-height="30"
+      ></v-img>
       <!-- dialog -->
       <v-dialog v-model="dialog" width="500">
         <template v-slot:activator="{ on }">
@@ -30,7 +45,9 @@
 
         <v-card>
           <v-form ref="form" @submit.prevent="buyCash">
-            <v-card-title class="headline green darken-2" primary-title>Add Eye Cash</v-card-title>
+            <v-card-title class="headline green darken-2" primary-title
+              >Add Eye Cash</v-card-title
+            >
             <v-select
               v-model="select"
               :items="items"
@@ -49,13 +66,31 @@
         </v-card>
       </v-dialog>
       <!-- end dialog -->
-      <v-btn small text rounded href="https://www.facebook.com/dragonnestsea" target="_blank">
+      <v-btn
+        small
+        text
+        rounded
+        href="https://www.facebook.com/dragonnestsea"
+        target="_blank"
+      >
         <v-icon>fab fa-facebook</v-icon>
       </v-btn>
-      <v-btn small text rounded href="https://www.youtube.com/user/dragonnestsea" target="_blank">
+      <v-btn
+        small
+        text
+        rounded
+        href="https://www.youtube.com/user/dragonnestsea"
+        target="_blank"
+      >
         <v-icon>fab fa-youtube</v-icon>
       </v-btn>
-      <v-btn small text rounded href="https://www.twitch.tv/dragonnest_sea" target="_blank">
+      <v-btn
+        small
+        text
+        rounded
+        href="https://www.twitch.tv/dragonnest_sea"
+        target="_blank"
+      >
         <v-icon>fab fa-discord</v-icon>
       </v-btn>
     </v-app-bar>
@@ -72,7 +107,7 @@ export default {
     return {
       dialog: false,
       select: 0,
-      items: [100, 300, 500, 1000, 1500, 2000, 2500, 3000],
+      items: [100, 300, 500, 1000, 1500, 2000, 2500, 3000, 5000],
       cashRules: [v => !!v || "Cash is required"]
     };
   },

@@ -13,12 +13,10 @@ function authentication(req, res, next) {
 }
 
 function authorizationRole(req, res, next) {
-  console.log(req.decoded);
   try {
     if (req.decoded.role === "admin") {
       next();
     } else {
-      console.log("===============");
       throw {
         status: 401,
         message: "Just Admin Can Handle This Menu"

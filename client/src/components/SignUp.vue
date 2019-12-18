@@ -7,7 +7,12 @@
           <v-row>
             <div class="signup-box">
               <hr />
-              <v-form ref="form" v-model="valid" @submit.prevent="onSignUp" lazy-validation>
+              <v-form
+                ref="form"
+                v-model="valid"
+                @submit.prevent="onSignUp"
+                lazy-validation
+              >
                 <v-text-field
                   v-model="name"
                   :counter="30"
@@ -32,9 +37,17 @@
                   required
                 ></v-text-field>
 
-                <v-btn :disabled="!valid" color="orange darken-4" class="mr-4" type="submit">SignUp</v-btn>
+                <v-btn
+                  :disabled="!valid"
+                  color="orange darken-4"
+                  class="mr-4"
+                  type="submit"
+                  >SignUp</v-btn
+                >
 
-                <v-btn color="error" class="mr-4" @click="reset">Reset Form</v-btn>
+                <v-btn color="error" class="mr-4" @click="reset"
+                  >Reset Form</v-btn
+                >
               </v-form>
             </div>
           </v-row>

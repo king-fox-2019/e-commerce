@@ -1,14 +1,22 @@
 <template>
   <div class="list-item" style="height: auto; width: 100%;">
-    <v-container fluid class="px-0 py-0 mt-3" style="height: auto; text-align:center;">
+    <v-container
+      fluid
+      class="px-0 py-0 mt-3"
+      style="height: auto; text-align:center;"
+    >
       <h2
         v-show="currenttab == 'New Item'"
         style="text-decoration:underline; color:#ff7315;"
-      >New Item Mall</h2>
+      >
+        New Item Mall
+      </h2>
       <h2
         v-show="currenttab == 'Best Item'"
         style="text-decoration:underline; color:#0c9463;"
-      >Best Item Mall</h2>
+      >
+        Best Item Mall
+      </h2>
       <v-row d-flex flex-direction-row flex-wrap>
         <v-col
           v-for="item in filterItemNow"
@@ -33,8 +41,13 @@
             <span style="color:green;">{{ item.price }}</span>
           </p>
 
-          <v-flex v-if="infoUser.role === 'admin'" d-flex flex-direction-row justify-space-around>
-            <a @click="removeItem({id: item._id, name: item.name})">
+          <v-flex
+            v-if="infoUser.role === 'admin'"
+            d-flex
+            flex-direction-row
+            justify-space-around
+          >
+            <a @click="removeItem({ id: item._id, name: item.name })">
               <v-icon color="red">mdi-delete</v-icon>
             </a>
             <a @click.prevent="openDialogUpdate(item._id)">
@@ -46,7 +59,9 @@
         <v-dialog v-model="dialogUpdate" width="600" height="600">
           <v-card>
             <v-form ref="formUpdate" @submit.prevent="updateItem">
-              <v-card-title class="headline orange darken-2" primary-title>Update Item</v-card-title>
+              <v-card-title class="headline orange darken-2" primary-title
+                >Update Item</v-card-title
+              >
               <v-text-field
                 class="px-5"
                 v-model="name"

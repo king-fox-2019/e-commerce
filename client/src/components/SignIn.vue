@@ -7,9 +7,26 @@
           <v-row>
             <div class="login-box">
               <hr />
-              <v-form ref="form" v-model="valid" @submit.prevent="onSignIn" lazy-validation>
-                <v-text-field v-model="email" :rules="emailRules" label="E-mail" type="text" required></v-text-field>
-                <v-text-field v-model="password" :rules="passwordRules" label="Password"  type="password" required></v-text-field>
+              <v-form
+                ref="form"
+                v-model="valid"
+                @submit.prevent="onSignIn"
+                lazy-validation
+              >
+                <v-text-field
+                  v-model="email"
+                  :rules="emailRules"
+                  label="E-mail"
+                  type="text"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  v-model="password"
+                  :rules="passwordRules"
+                  label="Password"
+                  type="password"
+                  required
+                ></v-text-field>
 
                 <v-checkbox
                   v-model="checkbox"
@@ -18,9 +35,17 @@
                   required
                 ></v-checkbox>
 
-                <v-btn :disabled="!valid" color="orange darken-4" class="mr-4" type="submit">Login</v-btn>
+                <v-btn
+                  :disabled="!valid"
+                  color="orange darken-4"
+                  class="mr-4"
+                  type="submit"
+                  >Login</v-btn
+                >
 
-                <v-btn color="error" class="mr-4" @click="reset">Reset Form</v-btn>
+                <v-btn color="error" class="mr-4" @click="reset"
+                  >Reset Form</v-btn
+                >
               </v-form>
             </div>
           </v-row>

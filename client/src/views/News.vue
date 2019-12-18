@@ -13,7 +13,12 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn id="btn-gohome" style="margin-right:20px;" rounded @click="$router.push('/')">
+      <v-btn
+        id="btn-gohome"
+        style="margin-right:20px;"
+        rounded
+        @click="$router.push('/')"
+      >
         <v-icon>mdi-home</v-icon>
         <v-toolbar-title>HOMEPAGE</v-toolbar-title>
       </v-btn>

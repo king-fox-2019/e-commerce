@@ -11,7 +11,8 @@
       <navbarmain-item
         v-if="
           $route.path !== '/formsign/signin' &&
-            $route.path !== '/formsign/signup' && $route.path !== '/news'
+            $route.path !== '/formsign/signup' &&
+            $route.path !== '/news'
         "
       />
       <transition name="fadeWindow" mode="out-in">

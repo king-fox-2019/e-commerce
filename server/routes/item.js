@@ -13,7 +13,7 @@ const upload = gcsUpload({
 });
 
 router.use(authentication);
-router.post("/", authorizationRole, upload.single("image"),,Item.create);
+router.post("/", authorizationRole, upload.single("image"), Item.create);
 router.get("/detail/:id", Item.getDetail);
 router.get("/", Item.getAll);
 router.delete("/:id", authorizationRole, Item.remove);

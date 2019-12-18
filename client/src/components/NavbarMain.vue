@@ -1,7 +1,13 @@
 <template>
   <nav>
     <v-container fluid class="px-0 py-0" id="container-nav">
-      <v-row color="grey darken-4" d-flex justify="center" class="py-0" style="height:60px;">
+      <v-row
+        color="grey darken-4"
+        d-flex
+        justify="center"
+        class="py-0"
+        style="height:60px;"
+      >
         <v-col
           id="nav-title1"
           cols="2"
