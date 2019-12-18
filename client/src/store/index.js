@@ -17,7 +17,6 @@ export default new Vuex.Store({
     },
     GET_CART (state, payload) {
       state.cart = payload
-      console.log(state.cart)
     },
     CHANGE_ISLOGIN (state) {
       state.isLogin = true
@@ -25,6 +24,7 @@ export default new Vuex.Store({
     LOGOUT (state) {
       state.isLogin = false
       localStorage.clear()
+      state.cart = []
     }
   },
   actions: {
@@ -35,7 +35,7 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           context.commit('GET_PRODUCTS', data)
-        })
+        })  
     },
     getCart (context) {
       axios({
@@ -48,6 +48,7 @@ export default new Vuex.Store({
         .then(({ data }) => {
           context.commit('GET_CART', data)
         })
+        .catch(console.log)
     },
     LoginUser (context, payload) {
       axios({
@@ -61,6 +62,7 @@ export default new Vuex.Store({
         .then(({ data }) => {
           localStorage.setItem('access_token', data.access_token)
           context.commit('CHANGE_ISLOGIN')
+          context.dispatch('getCart')
         })
         .catch(error => {
           Swal.fire({
@@ -83,6 +85,7 @@ export default new Vuex.Store({
         .then(({ data }) => {
           localStorage.setItem('access_token', data.token)
           context.commit('CHANGE_ISLOGIN')
+          context.dispatch('getCart')
         })
         .catch(error => {
           Swal.fire({
@@ -113,7 +116,12 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data.result)
+          context.dispatch('getCart')
+          Swal.fire(
+            'Added To Cart!',
+            'Your item has been added to cart.',
+            'success'
+          )
         })
         .catch(error => {
           Swal.fire({
@@ -122,7 +130,34 @@ export default new Vuex.Store({
             text: error.response.data.message
           })
         })
+    },
+    removeItemFromCart(context, payload) {
+      axios({
+        method: 'DELETE',
+        url: `/carts/${payload}`,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          Swal.fire(
+            'Your item has been removed from cart.'
+          )
+          context.dispatch('getCart')
+          // console.log('success delete item',data)
+        })
+        .catch(error => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error
+          })
+        })
     }
+  },
+  getters: {
+    cart: state => state.cart,
+    cartLength: state => state.cart.length
   },
   modules: {
   }

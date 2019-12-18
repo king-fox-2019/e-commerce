@@ -27,8 +27,7 @@ export default {
   methods: {
     addToCart(id) {
       Swal.fire({
-        title: 'Are you sure?',
-        text: "Add this item to cart?",
+        title: 'Add this item to cart?',
         imageUrl: this.product.image[0],
         imageWidth: 200,
         imageHeight: 200,
@@ -36,15 +35,18 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes!'
-      }).then((result) => {
+      })
+      .then((result) => {
         if (result.value) {
           this.$store.dispatch('addToCart', id )
-          Swal.fire(
-            'Added To Cart!',
-            'Your item has been added to cart.',
-            'success'
-          )
         }
+      })
+      .catch(err => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message,
+        })
       })
     }
   }

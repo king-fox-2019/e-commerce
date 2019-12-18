@@ -2,12 +2,12 @@
   <nav>
     <router-link class="link left" to="/">TOKOKU</router-link>
     <router-link class="link nav-right" to="/">Home</router-link>
-    <router-link class="link" to="/Cart">Cart</router-link>
+    <router-link class="link" to="/cart" v-if="$store.state.isLogin">Cart <span class="cart-count">{{ $store.getters.cartLength }}</span> </router-link>
     <a href="#" v-if="!$store.state.isLogin" v-b-modal.modal-login>Login</a>
     <a href="#" v-if="!$store.state.isLogin" v-b-modal.modal-register>Register</a>
     <a href="#" v-if="$store.state.isLogin" @click.prevent="logout">Logout</a>
 
-    <b-modal id="modal-login" centered title="BootstrapVue" hide-footer>
+    <b-modal id="modal-login" centered title="Login" hide-footer>
       
       <b-form @submit.prevent="login">
 
@@ -39,7 +39,7 @@
 
     </b-modal>
 
-    <b-modal id="modal-register" centered title="BootstrapVue" hide-footer>
+    <b-modal id="modal-register" centered title="Register" hide-footer>
       
       <b-form @submit.prevent="register">
       
@@ -85,6 +85,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data () {
     return {
@@ -104,22 +106,36 @@ export default {
         email:this.form.email, 
         password: this.form.password
       })
+
+      this.email = '',
+      this.password = ''
     },
     register () {
       this.$bvModal.hide('modal-register')
       // this.$bvModal.show('modal-loading')
       
       this.$store.dispatch('RegisterUser', this.form )
+      this.name = '',
+      this.email = '',
+      this.password = ''
     },
     logout () {
       this.$store.dispatch('logout')
+      this.$router.push('/')
     }
-  }
+  },
+  computed: mapGetters(['cartLength'])
 }
 </script>
 
 <style>
   .button-wrapper {
     text-align: right;
+  }
+  .cart-count {
+    background-color: #fff;
+    color: #3e3e3e;
+    padding: 4px;
+    border-radius: 6px;
   }
 </style>

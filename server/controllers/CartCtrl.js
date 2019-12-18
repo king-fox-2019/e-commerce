@@ -6,9 +6,9 @@ class CartCtrl {
     console.log(req.decodedId)
     const userId = req.decodedId
     Cart.find({userId})
-      .populate('Product')
+      .populate('productId')
+      .populate('userId')
       .then(carts => {
-        console.log(carts)
         res.status(200).json(carts)
       })
       .catch(next)
