@@ -11,7 +11,8 @@ const {errorHandler} = require('./middlewares');
 const routes = require('./routes');
 
 mongoose
-  .connect('mongodb://localhost:27017/test', {
+  // .connect('mongodb://localhost:27017/test', {
+  .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
