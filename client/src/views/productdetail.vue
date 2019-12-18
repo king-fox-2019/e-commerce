@@ -32,15 +32,11 @@ export default {
   },
   methods: {},
   created() {
-    const link = `products/${this.params.id}`;
-    console.log(link);
     axios
       .get(`products/${this.$store.params.id}`)
       .then(({ data }) => {
         this.data = data;
-        console.log(this.data, 'data');
-      })
-      .catch(console.log);
+      });
   },
 };
 </script>

@@ -24,13 +24,10 @@ export default {
     fetchProducts() {
       axios({
         method: 'get',
-        url: 'http://localhost:3000/product',
+        url: 'http://35.247.176.70/product',
       })
         .then(({ data }) => {
           this.productList = data;
-        })
-        .catch((err) => {
-          console.log(err.response, 'err');
         });
     },
   },

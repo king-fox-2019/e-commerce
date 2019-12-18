@@ -35,6 +35,9 @@ export default {
           password: this.password,
         })
         .then(() => {
+          this.fullname = '';
+          this.email = '';
+          this.password = '';
           this.$swal('Registration success, now you can login');
           router.push({ name: 'loginregister' });
         })

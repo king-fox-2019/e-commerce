@@ -37,7 +37,6 @@ export default {
   },
   methods: {
     addToCart(product) {
-      console.log('masuk');
       if (localStorage.getItem('token')) {
         axios.post('/cart', {
           qty: this.qty,
