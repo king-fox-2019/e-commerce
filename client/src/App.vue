@@ -2,7 +2,7 @@
   <div>
     <audio id="myAudio" controls autoplay loop style="display:none;">
       <source
-        src="http://23.237.126.42/ost/seal-online-gamerip/goigjkpe/Crude%20Prophecy.mp3"
+        src="./assets/audio/audio.mp3"
         type="audio/mpeg"
       />
     </audio>

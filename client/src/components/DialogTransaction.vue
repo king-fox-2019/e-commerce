@@ -18,7 +18,9 @@
           >
             <v-list-item three-line>
               <v-list-item-content>
-                <div class="overline mb-4">User : {{ history.userId.name }}</div>
+                <div class="overline mb-4">
+                  User : {{ history.userId.name }}
+                </div>
                 <v-card
                   v-for="detail in history.detailTransaction"
                   :key="detail._id"
@@ -28,9 +30,16 @@
                 >
                   <v-list-item three-line>
                     <v-list-item-content>
-                      <v-list-item-title class="headline mb-1">{{ detail.itemId.name }}</v-list-item-title>
-                      <v-list-item-subtitle>Count : {{ detail.count }}</v-list-item-subtitle>
-                      <v-list-item-subtitle>Total Price : {{ detail.totalPrice }}</v-list-item-subtitle>
+                      <v-list-item-title class="headline mb-1">{{
+                        detail.itemId.name
+                      }}</v-list-item-title>
+                      <v-list-item-subtitle
+                        >Count : {{ detail.count }}</v-list-item-subtitle
+                      >
+                      <v-list-item-subtitle
+                        >Total Price :
+                        {{ detail.totalPrice }}</v-list-item-subtitle
+                      >
                     </v-list-item-content>
 
                     <v-list-item-avatar tile size="80" color="grey">
@@ -51,7 +60,12 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="$emit('close-history', false)">Close</v-btn>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="$emit('close-history', false)"
+            >Close</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -63,15 +77,28 @@
         </v-card-title>
         <v-card-text>
           <!-- card -->
-          <v-card v-for="cart in showCheckout" :key="cart._id" class="mx-auto mt-3" max-width="450">
+          <v-card
+            v-for="cart in showCheckout"
+            :key="cart._id"
+            class="mx-auto mt-3"
+            max-width="450"
+          >
             <v-list-item v-if="cart.purchesed == false" three-line>
               <v-list-item-content>
                 <div class="overline mb-4">DETAIL ITEM</div>
-                <v-list-item-title class="headline mb-1">{{ cart.itemId.name }}</v-list-item-title>
+                <v-list-item-title class="headline mb-1">{{
+                  cart.itemId.name
+                }}</v-list-item-title>
                 <v-list-item-subtitle>{{ cart.count }}</v-list-item-subtitle>
-                <v-list-item-subtitle>{{ cart.totalPrice }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{
+                  cart.totalPrice
+                }}</v-list-item-subtitle>
               </v-list-item-content>
-              <v-btn color="red darken-1" text @click="removeItem(cart.itemId._id)">
+              <v-btn
+                color="red darken-1"
+                text
+                @click="removeItem(cart.itemId._id)"
+              >
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
 
@@ -83,9 +110,16 @@
           <!-- end card -->
         </v-card-text>
         <v-card-actions>
-          <v-btn color="orange darken-2" text @click="checkout">Checkout Now</v-btn>
+          <v-btn color="orange darken-2" text @click="checkout"
+            >Checkout Now</v-btn
+          >
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="$emit('close-checkout', false)">Close</v-btn>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="$emit('close-checkout', false)"
+            >Close</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -97,15 +131,31 @@
         </v-card-title>
         <v-card-text>
           <!-- card -->
-          <v-card v-for="cart in showCheckout" :key="cart._id" class="mx-auto mt-3" max-width="450">
-            <v-list-item v-if="cart.purchesed == true && cart.accepted == false" three-line>
+          <v-card
+            v-for="cart in showCheckout"
+            :key="cart._id"
+            class="mx-auto mt-3"
+            max-width="450"
+          >
+            <v-list-item
+              v-if="cart.purchesed == true && cart.accepted == false"
+              three-line
+            >
               <v-list-item-content>
                 <div class="overline mb-4">DETAIL ITEM</div>
-                <v-list-item-title class="headline mb-1">{{ cart.itemId.name }}</v-list-item-title>
+                <v-list-item-title class="headline mb-1">{{
+                  cart.itemId.name
+                }}</v-list-item-title>
                 <v-list-item-subtitle>{{ cart.count }}</v-list-item-subtitle>
-                <v-list-item-subtitle>{{ cart.totalPrice }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{
+                  cart.totalPrice
+                }}</v-list-item-subtitle>
               </v-list-item-content>
-              <v-btn color="red darken-1" text @click="acceptItem(cart.itemId._id)">
+              <v-btn
+                color="red darken-1"
+                text
+                @click="acceptItem(cart.itemId._id)"
+              >
                 <v-icon class="mb-4">mdi-rocket</v-icon>
                 <p>acc</p>
               </v-btn>
@@ -119,7 +169,12 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="$emit('close-purchesed', false)">Close</v-btn>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="$emit('close-purchesed', false)"
+            >Close</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -257,5 +312,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -341,7 +341,7 @@ describe("User Routes", function() {
     describe("Success Process", function() {
       it("should return object info user updated cash and status code 200", function(done) {
         const addCash = {
-          cash: "500"
+          cash: "20000"
         };
         chai
           .request(app)

@@ -7,12 +7,15 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="10" class="px-0 py-0 mx-auto" style="margin-top:50px; margin-bottom:50px;">
+        <v-col
+          cols="10"
+          class="px-0 py-0 mx-auto"
+          style="margin-top:50px; margin-bottom:50px;"
+        >
           <v-flex d-flex flex-direction-row class="mb-3">
-            <p
-              class="py-auto px-auto"
-              style="margin-top:10px; width:auto;"
-            >EYE CASH : {{ infoUser.cash }}</p>
+            <p class="py-auto px-auto" style="margin-top:10px; width:auto;">
+              EYE CASH : {{ infoUser.cash }}
+            </p>
             <v-spacer></v-spacer>
             <v-btn
               v-if="infoUser.role == 'customer'"
