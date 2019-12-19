@@ -5,7 +5,7 @@
     </div>
     <div class="d-flex justify-content-between size p-3 mt-2">
       <div v-for="item in data" :key="item.id" class="card" style="width: 18rem;">
-        <img :src="item.image" class="card-img-top mx-auto mt-3">
+        <img :src="item.image" alt="loading .." class="card-img-top mx-auto mt-3">
         <div class="card-body">
           <h4 class="card-title">{{ item.name }}</h4>
           <a href="#" @click.prevent="showModal(item)" class="card-link">View Details</a>

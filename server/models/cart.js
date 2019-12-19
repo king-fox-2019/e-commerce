@@ -8,7 +8,8 @@ const cartSchema = new Schema({
   },
   items: [{
     type: Schema.Types.ObjectId, ref: "Product"
-  }]
+  }],
+  status: 'String'
 })
 
 const Cart = model('Cart', cartSchema)

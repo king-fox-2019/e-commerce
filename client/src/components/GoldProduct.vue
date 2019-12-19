@@ -14,7 +14,7 @@
           <tbody>
             <tr v-for="item in data" :key="item.id">
               <th>
-                <img :src="item.image" class="image-item">
+                <img :src="item.image" alt="loading ..." class="image-item">
               </th>
               <td>{{ item.name }} -
                 <br> {{ item.weight }} gr
