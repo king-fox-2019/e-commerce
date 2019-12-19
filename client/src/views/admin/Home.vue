@@ -1,19 +1,15 @@
 <template>
   <div class="wrapper" :class="{ 'nav-open': $sidebar.showSidebar }">
     <side-bar>
-      <sidebar-link to="/admin">
+      <sidebar-link to="/">
         <md-icon>dashboard</md-icon>
         <p>Dashboard</p>
       </sidebar-link>
-      <!-- <sidebar-link to="/admin/users">
-        <md-icon>person</md-icon>
-        <p>Admins</p>
-      </sidebar-link> -->
-      <sidebar-link to="/admin/transactions">
+      <sidebar-link to="/transactions">
         <md-icon>content_paste</md-icon>
         <p>Transaction</p>
       </sidebar-link>
-      <sidebar-link to="/admin/products">
+      <sidebar-link to="/products">
         <md-icon>bubble_chart</md-icon>
         <p>Products</p>
       </sidebar-link>
@@ -23,7 +19,6 @@
       <top-navbar></top-navbar>
 
       <dashboard-content></dashboard-content>
-
     </div>
   </div>
 </template>

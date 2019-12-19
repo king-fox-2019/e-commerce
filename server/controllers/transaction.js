@@ -63,7 +63,7 @@ class TransactionController {
                     
                     Cart
                         .findOneAndUpdate({
-                            _id:req.body._id
+                            _id:req.body.cart._id
                         },{ 
                             isActive: false
                         })
@@ -112,8 +112,9 @@ class TransactionController {
     static showAll(req, res, next) {
         Transaction
             .find({ user: req.decoded.id })
+            .populate('user', 'name email -_id')
+            .sort('-createdAt')
             .then(datas => {
-                console.log(datas)
                 res.status(200).json(datas)
             })
             .catch(next)

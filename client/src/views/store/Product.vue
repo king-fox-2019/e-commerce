@@ -34,7 +34,7 @@ export default {
           this.swal('success', 'Added to cart!')
         })
         .catch(err => {
-          this.swal('err', error)
+          this.swal('error', error)
         })
     }
   }

@@ -55,7 +55,7 @@ export default {
             localStorage.setItem('token', result.token)
             localStorage.setItem('admin', result.isAdmin)
             this.swal('success', 'Logged in as Admin')
-            this.$router.push('/admin')
+            this.$router.push('/')
           } else {
             this.swal('error', err)
           }

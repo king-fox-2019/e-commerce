@@ -23,6 +23,7 @@ export default {
     productDetail (product) {
       this.$router.push({
         name: 'product',
+        path: `/products/${product._id}`,
         params: {
           productDetail: product
         }
