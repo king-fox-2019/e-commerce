@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 module.exports = () => {
   mongoose.connect(
-    "mongodb://localhost:27017/e-commerce",
-    // `${process.env.SERVER_MONGODB_ATLAS}`,
+    // "mongodb://localhost:27017/e-commerce",
+    `${process.env.SERVER_MONGODB_ATLAS}`,
     {
       useNewUrlParser: true,
       useCreateIndex: true,
