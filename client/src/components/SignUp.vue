@@ -25,6 +25,7 @@
           placeholder="Username"
           :state="validateUsername"
           @focus="emptyUsername = false"
+          autocomplete="off"
           required
         ></b-form-input>
         <b-popover
@@ -48,6 +49,7 @@
           placeholder="Email"
           :state="validateEmail"
           @focus="emptyEmail = false"
+          autocomplete="off"
           required
         ></b-form-input>
         <b-popover

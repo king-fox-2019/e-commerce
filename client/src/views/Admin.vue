@@ -31,6 +31,7 @@
               placeholder="Username"
               :state="validateUsername"
               @focus="emptyUsername = false"
+              autocomplete="off"
               required
             ></b-form-input>
             <b-popover
@@ -99,6 +100,7 @@
               type="text"
               placeholder="Username"
               @focus="emptyUsername = false"
+              autocomplete="off"
               required
             ></b-form-input>
             <b-popover
@@ -232,6 +234,7 @@ export default {
           })
           .then(({ data }) => {
             this.$toasted.show(data.message)
+            this.fetchAdminData()
             this.$router.replace('/admin/dashboard')
           })
           .catch(({ response }) => {
@@ -255,6 +258,10 @@ export default {
           })
           .finally(() => loader.hide())
       }
+    },
+    fetchAdminData() {
+      this.$store.dispatch('FETCH_ADMIN_TRANSACTIONS')
+      this.$store.dispatch('FETCH_ADMIN_ITEMS')
     }
   },
   created() {
@@ -267,8 +274,7 @@ export default {
       .then(() => {
         if (this.$route.path == '/admin')
           this.$router.replace('/admin/dashboard')
-        this.$store.dispatch('FETCH_ADMIN_TRANSACTIONS')
-        this.$store.dispatch('FETCH_ADMIN_ITEMS')
+        this.fetchAdminData()
       })
       .catch(() => {
         if (this.$route.path != '/admin') this.$router.replace('/admin')

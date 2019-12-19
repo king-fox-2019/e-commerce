@@ -15,9 +15,31 @@
             >Go to Transactions</b-button
           >
         </b-card>
+
+        <b-card class="mt-3 mt-md-4" title="Total Items" align="center">
+          <b-card-sub-title sub-title-text-variant="muted">
+            <strong>{{ $store.state.items.length }}</strong> Items <br />
+            <strong>{{
+              Math.round(
+                $store.state.items.reduce(
+                  (total, item) => total + item.stock,
+                  0
+                ) / $store.state.items.length
+              )
+            }}</strong>
+            Average stocks per item<br />
+            <strong>{{
+              $store.state.items.reduce((total, item) => total + item.stock, 0)
+            }}</strong>
+            Total stocks <br />
+          </b-card-sub-title>
+          <b-button class="mt-3" variant="outline-primary" to="/admin/items"
+            >Go to Items</b-button
+          >
+        </b-card>
       </b-col>
 
-      <b-col md="6" class="mt-3 mt-md-0">
+      <b-col md="6" class="mt-3 mb-5 mt-md-0">
         <b-card>
           <b-card-title class="text-center">Add New Item</b-card-title>
           <b-card-body>
@@ -29,6 +51,7 @@
                   type="text"
                   :state.sync="validateName"
                   @focus="validateName = null"
+                  autocomplete="off"
                   required
                   placeholder="Item Name"
                 ></b-form-input>

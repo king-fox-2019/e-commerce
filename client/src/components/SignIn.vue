@@ -21,7 +21,9 @@
           type="text"
           :state="emailUsernameValid"
           placeholder="Username or Email"
+          autocomplete="off"
           @focus="emailUsernameValid = null"
+          s
           required
         ></b-form-input>
       </b-form-group>
@@ -33,6 +35,7 @@
           type="password"
           :state="passwordValid"
           placeholder="Password"
+          autocomplete="off"
           @focus="passwordValid = null"
           required
         ></b-form-input>

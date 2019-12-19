@@ -9,7 +9,13 @@
       :img-src="item.image"
       :img-alt="item.image"
       img-top
-      @click="$router.push(`/items/${item._id}`)"
+      @click="
+        $router.push(
+          $route.path.includes('admin')
+            ? `/admin/items/${item._id}`
+            : `/items/${item._id}`
+        )
+      "
     >
       <b-card-text class="small text-muted"
         >Stock: {{ item.stock }}</b-card-text

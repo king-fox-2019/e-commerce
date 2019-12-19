@@ -54,6 +54,7 @@
       </div>
     </div>
 
+    <hr />
     <div v-if="delivering">
       <h3 class="text-center">Delivering Items</h3>
       <small class="text-muted d-block text-center"
@@ -105,6 +106,7 @@
       </div>
     </div>
 
+    <hr />
     <div v-if="done">
       <h3 class="text-center">Transactions Completed</h3>
       <div class="mx-auto row w-100">
@@ -196,5 +198,14 @@ export default {
 .container {
   width: 100%;
   padding-top: 5.7rem;
+
+  hr {
+    border-width: 3px;
+  }
+
+  .transaction {
+    height: 15rem;
+    overflow-y: hidden;
+  }
 }
 </style>
