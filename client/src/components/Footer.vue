@@ -47,13 +47,13 @@
 <script>
 export default {
   methods: {
-    movePage(page) {
-      if (page === "seller-form") {
-        this.$router.push("/becomeaseller");
+    movePage (page) {
+      if (page === 'seller-form') {
+        this.$router.push('/becomeaseller')
       }
     }
   }
-};
+}
 </script>
 
 <style>

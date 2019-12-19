@@ -45,74 +45,72 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import convertRupiah from 'rupiah-format'
-import Swal from 'sweetalert2'
+import { mapState } from "vuex";
+import convertRupiah from "rupiah-format";
+import Swal from "sweetalert2";
 
 export default {
-  data () {
+  data() {
     return {
       item: null,
       qty: 0
-    }
+    };
   },
   methods: {
-    toDetailItem (id) {
-      this.$router.push(`/products/detail/${id}`)
+    toDetailItem(id) {
+      this.$router.push(`/products/detail/${id}`);
     },
-    checkLogin () {
-      const access = this.onSession
+    checkLogin() {
+      const access = this.onSession;
       if (!access) {
-        this.$router.push('/signin')
+        this.$router.push("/signin");
       }
     },
-    addToCart (item) {
-      this.checkLogin()
-      const qty = 1
-      const isAvailable = Number(item.stock) - qty >= 0
+    addToCart(item) {
+      this.checkLogin();
+      const qty = 1;
+      const isAvailable = Number(item.stock) - qty >= 0;
       if (isAvailable) {
-        const command = 'add'
+        const command = "add";
         const payload = {
           item,
           qty,
           command
-        }
+        };
         this.$store
-          .dispatch('updateCart', payload)
+          .dispatch("updateCart", payload)
           .then(data => {
-            this.$store.dispatch('fetchCartUser')
-            this.$store.dispatch('fetchProducts')
-            Swal.fire('Success!', data.message, 'success')
+            Swal.fire("Success!", data.message, "success");
           })
           .catch(err => {
-            const message = err.response.data.message
-            Swal.fire('Oops...', message, 'error')
-          })
+            const message = err.response.data.message;
+            Swal.fire("Oops...", `${message}`, "error");
+          });
       } else {
         Swal.fire({
-          title: 'Warning!',
-          text: 'The item you want is currently not available.',
-          icon: 'warning',
-          confirmButtonColor: '#3085d6'
-        })
+          title: "Warning!",
+          text: "The item you want is currently not available.",
+          icon: "warning",
+          confirmButtonColor: "#3085d6"
+        });
       }
     }
   },
   computed: {
-    rupiahFormatMoney () {
-      const products = this.products
-      const prices = {}
+    rupiahFormatMoney() {
+      const products = this.products;
+      const prices = {};
       products.forEach(product => {
-        prices[product._id] = convertRupiah.convert(product.price)
-      })
-      return prices
+        prices[product._id] = convertRupiah.convert(product.price);
+      });
+      return prices;
     },
-    ...mapState(['products', 'onSession'])
+    ...mapState(["products", "onSession"])
   },
-  created () {
-    this.$store.dispatch('fetchProducts')
+  created() {
+    this.$store.dispatch("fetchProducts");
   }
-}
+};
 </script>
 
 <style></style>

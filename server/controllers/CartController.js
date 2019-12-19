@@ -15,11 +15,7 @@ class CartController {
         res.status(200).json(cart);
       })
       .catch(err => {
-        console.log(err);
-        const responses = {
-          message: "Internal Server Error"
-        };
-        res.status(500).json(responses);
+        next(err);
       });
   }
   static createCart(req, res, next) {
@@ -39,11 +35,7 @@ class CartController {
         res.status(201).json(responses);
       })
       .catch(err => {
-        console.log(err);
-        const responses = {
-          message: "Internal Server Error"
-        };
-        res.status(500).json(responses);
+        next(err);
       });
   }
   static updateCart(req, res, next) {
@@ -74,11 +66,7 @@ class CartController {
               res.status(200).json(responses);
             })
             .catch(err => {
-              console.log(err);
-              const responses = {
-                message: "Internal Server Error"
-              };
-              res.status(500).json(responses);
+              next(err);
             });
         } else if (command === "reduce") {
           let indexItem = -1;
@@ -103,11 +91,7 @@ class CartController {
                 res.status(200).json(responses);
               })
               .catch(err => {
-                console.log(err);
-                const responses = {
-                  message: "Internal Server Error"
-                };
-                res.status(500).json(responses);
+                next(err);
               });
           }
         } else if (command === "clear") {
@@ -125,11 +109,7 @@ class CartController {
               res.status(200).json(responses);
             })
             .catch(err => {
-              console.log(err);
-              const responses = {
-                message: "Internal Server Error"
-              };
-              res.status(500).json(responses);
+              next(err);
             });
         } else if (command === "paid") {
           const id = cart._id;
@@ -144,20 +124,12 @@ class CartController {
               res.status(200).json(responses);
             })
             .catch(err => {
-              console.log(err);
-              const responses = {
-                message: "Internal Server Error"
-              };
-              res.status(500).json(responses);
+              next(err);
             });
         }
       })
       .catch(err => {
-        console.log(err);
-        const responses = {
-          message: "Internal Server Error"
-        };
-        res.status(500).json(responses);
+        next(err);
       });
   }
 }

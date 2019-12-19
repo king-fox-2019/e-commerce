@@ -67,19 +67,21 @@ export default {
       return this.$store.state.onSession;
     },
     getItemQty() {
-      if (this.cart.items) {
-        const itemsQty = {};
-        const items = this.cart.items;
-        for (let i = 0; i < items.length; i++) {
-          if (itemsQty[items[i]._id]) {
-            itemsQty[items[i]._id].qty++;
-          } else {
-            itemsQty[items[i]._id] = items[i];
-            itemsQty[items[i]._id].qty = 1;
+      if (this.cart) {
+        if (this.cart.items) {
+          const itemsQty = {};
+          const items = this.cart.items;
+          for (let i = 0; i < items.length; i++) {
+            if (itemsQty[items[i]._id]) {
+              itemsQty[items[i]._id].qty++;
+            } else {
+              itemsQty[items[i]._id] = items[i];
+              itemsQty[items[i]._id].qty = 1;
+            }
           }
-        }
-        return Object.keys(itemsQty).length;
-      } else return 0;
+          return Object.keys(itemsQty).length;
+        } else return 0;
+      }
     },
     ...mapState(["cart"])
   }

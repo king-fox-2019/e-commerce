@@ -7,21 +7,23 @@ module.exports = (req, res, next) => {
   User.findById(id)
     .then(user => {
       if (user.status === "Seller") {
-        throw "User is seller";
+        throw {
+          status: 403,
+          message: "User is seller"
+        };
       } else {
         const match = bcrypt.compareSync(password, user.password);
         if (match) {
           next();
         } else {
-          throw "Wrong Password";
+          throw {
+            status: 401,
+            message: "Wrong Password"
+          };
         }
       }
     })
     .catch(err => {
-      const responses = {
-        message: err
-      };
-      res.status(403).json(responses);
-      console.log(err);
+      throw err;
     });
 };

@@ -34,17 +34,7 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, "Password cannot be empty"],
-      validate: {
-        validator(value) {
-          const RegExpPassword = new RegExp(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/
-          ).test(value);
-          return RegExpPassword;
-        },
-        msg:
-          "Password must be contain at least 1 lowercase, 1 uppercase, 1 numeric, 1 special character, and minimum of length is eight characters"
-      }
+      required: [true, "Password cannot be empty"]
     },
     status: {
       type: String

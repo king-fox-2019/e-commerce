@@ -1,5 +1,6 @@
 <template>
   <div class="button-shop">
+    <!-- <form @submit.prevent="signInUser"> -->
     <div
       class="massive ui transparent left icon input"
       style="margin:15px;text-align:center;color: white;"
@@ -21,6 +22,7 @@
         style="border-radius: 0px;"
       >Login Now</button>
     </div>
+    <!-- </form.> -->
     <div class="ui horizontal divider" style="color:white">Or</div>
     <div>
       <GoogleLogin
@@ -62,16 +64,12 @@ export default {
       this.$store
         .dispatch("signinGoogleAccount", payload)
         .then(data => {
-          console.log(data);
-          localStorage.setItem("access_token", data.token);
-          this.$store.dispatch("fetchCartUser");
-          this.$store.commit("SET_SESSION", true);
           Swal.fire("Success!", data.message, "success");
           this.$router.push("/");
         })
         .catch(err => {
           const message = err.response.data.message;
-          Swal.fire("Oops...", message, "error");
+          Swal.fire("Oops...", `${message}`, "error");
         });
     },
     onFailure() {},
@@ -83,15 +81,12 @@ export default {
       this.$store
         .dispatch("signinUser", payload)
         .then(data => {
-          localStorage.setItem("access_token", data.token);
-          this.$store.dispatch("fetchCartUser");
-          this.$store.commit("SET_SESSION", true);
           Swal.fire("Success!", data.message, "success");
           this.$router.push("/");
         })
         .catch(err => {
           const message = err.response.data.message;
-          Swal.fire("Oops...", message, "error");
+          Swal.fire("Oops...", `${message}`, "error");
         });
     }
   },

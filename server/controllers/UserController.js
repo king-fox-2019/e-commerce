@@ -17,11 +17,7 @@ class UserController {
         res.status(200).json(responses);
       })
       .catch(err => {
-        console.log(err);
-        const responses = {
-          message: "Internal Server Error"
-        };
-        res.status(500).json(responses);
+        next(err);
       });
   }
   static signUpUser(req, res, next) {
@@ -45,7 +41,7 @@ class UserController {
         res.status(201).json(responses);
       })
       .catch(err => {
-        res.status(400).json({ message: err.name });
+        next(err);
       });
   }
   static signInUser(req, res, next) {
@@ -54,7 +50,10 @@ class UserController {
       email
     };
     if (!password) {
-      res.status(400).json({ message: "Password cannot be empty" });
+      throw {
+        status: 400,
+        message: "Password cannot be empty"
+      };
     } else {
       User.findOne(condition)
         .then(user => {
@@ -71,15 +70,17 @@ class UserController {
               };
               res.status(200).json(responses);
             } else {
-              res.status(400).json({ message: "Wrong password" });
+              throw { status: 401, message: "Wrong password" };
             }
           } else {
-            res.status(400).json({ message: "User not found" });
+            throw {
+              status: 404,
+              message: "User not found"
+            };
           }
         })
         .catch(err => {
-          console.log(err);
-          res.status(400).json({ message: err.name });
+          next(err);
         });
     }
   }
@@ -116,14 +117,12 @@ class UserController {
               res.status(201).json(responses);
             })
             .catch(err => {
-              console.log(err);
-              res.status(400).json({ message: err.name });
+              next(err);
             });
         }
       })
       .catch(err => {
-        console.log(err);
-        res.status(400).json({ message: err.name });
+        next(err);
       });
   }
 }

@@ -96,13 +96,17 @@ export default {
           const payloadCurrentCart = {
             _id
           };
-          this.$store.dispatch("updateCart", payload).then(data => {
-            this.qty = 0;
-            this.$store.dispatch("getCurrentProduct", payloadCurrentCart);
-            this.$store.dispatch("fetchCartUser");
-            this.$store.dispatch("fetchProducts");
-            Swal.fire("Success!", data.message, "success");
-          });
+          this.$store
+            .dispatch("updateCart", payload)
+            .then(data => {
+              this.qty = 0;
+              this.$store.dispatch("getCurrentProduct", payloadCurrentCart);
+              Swal.fire("Success!", data.message, "success");
+            })
+            .catch(err => {
+              const message = err.response.data.message;
+              Swal.fire("Oops...", `${message}`, "error");
+            });
         } else {
           Swal.fire({
             title: "Warning!",

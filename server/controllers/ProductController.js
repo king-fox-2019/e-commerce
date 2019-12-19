@@ -14,11 +14,7 @@ class ProductController {
         res.status(201).json({ message: "Success add product", product });
       })
       .catch(err => {
-        const responses = {
-          message: err.name
-        };
-        res.status(400).json(responses);
-        console.log(err);
+        next(err);
       });
   }
   static getProducts(req, res, next) {
@@ -32,11 +28,7 @@ class ProductController {
         res.status(200).json({ message: "Success get products", products });
       })
       .catch(err => {
-        console.log(err);
-        const responses = {
-          message: "Internal Server Error"
-        };
-        res.status(500).json(responses);
+        next(err);
       });
   }
   static updateProduct(req, res, next) {
@@ -54,7 +46,7 @@ class ProductController {
           .json({ message: "Success update product", product: updatedProduct });
       })
       .catch(err => {
-        console.log(err);
+        next(err);
       });
   }
   static deleteProduct(req, res, next) {
@@ -69,14 +61,14 @@ class ProductController {
             .status(200)
             .json({ message: "Success delete product", result: resultDelete });
         } else {
-          throw "Product not found";
+          throw {
+            status: 404,
+            message: "Product not found"
+          };
         }
       })
       .catch(err => {
-        const responses = {
-          message: err
-        };
-        res.status(404).json(responses);
+        next(err);
       });
   }
 }

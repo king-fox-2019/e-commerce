@@ -1,9 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import serverAPI from "../../config/serverAPI";
-import { rejects } from "assert";
-// import Swal from 'sweetalert2'
-// import { rejects } from 'assert'
 
 Vue.use(Vuex);
 
@@ -33,60 +30,49 @@ export default new Vuex.Store({
       const data = {
         gProfile: payload.gProfile
       };
-      console.log(payload);
-      console.log("masuk store");
-      return new Promise((resolve, reject) => {
-        serverAPI({
-          method: "POST",
-          url: `users/gsignin`,
-          data
-        })
-          .then(({ data }) => {
-            resolve(data);
-          })
-          .catch(err => {
-            reject(err);
-          });
+      return serverAPI({
+        method: "POST",
+        url: `users/gsignin`,
+        data
+      }).then(({ data }) => {
+        localStorage.setItem("access_token", data.token);
+        dispatch("fetchCartUser");
+        commit("SET_SESSION", true);
+        return data;
       });
     },
-    signinUser(context, payload) {
+    signinUser({ dispatch, commit }, payload) {
       const data = {
         email: payload.email,
         password: payload.password
       };
-      return new Promise((resolve, reject) => {
-        serverAPI({
-          url: "/users/signin",
-          method: "POST",
-          data
-        })
-          .then(({ data }) => {
-            resolve(data);
-          })
-          .catch(err => {
-            reject(err);
-          });
+      return serverAPI({
+        url: "/users/signin",
+        method: "POST",
+        data
+      }).then(({ data }) => {
+        localStorage.setItem("access_token", data.token);
+        dispatch("fetchCartUser");
+        commit("SET_SESSION", true);
+        return data;
       });
     },
-    signupUser({ commit, state }, payload) {
+    signupUser({ commit, dispatch }, payload) {
       const data = {
         name: payload.name,
         email: payload.email,
         password: payload.password
       };
-      return new Promise((resolve, reject) => {
-        serverAPI({
-          url: "/users/signup",
-          method: "POST",
-          data
-        })
-          .then(({ data }) => {
-            resolve(data);
-          })
-          .catch(err => {
-            reject(err);
-            console.log(err);
-          });
+      return serverAPI({
+        url: "/users/signup",
+        method: "POST",
+        data
+      }).then(({ data }) => {
+        commit("SET_SESSION", true);
+        localStorage.setItem("access_token", data.token);
+        dispatch("createCart");
+        dispatch("fetchCartUser");
+        return data;
       });
     },
     changeStatusUser({ state, commit, dispatch }, payload) {
@@ -113,7 +99,7 @@ export default new Vuex.Store({
           });
       });
     },
-    updateCart({ state, commit, dispatch }, payload) {
+    updateCart({ dispatch }, payload) {
       const accessToken = localStorage.getItem("access_token");
       const headers = {
         access_token: accessToken
@@ -124,22 +110,18 @@ export default new Vuex.Store({
         qty,
         command
       };
-      return new Promise((resolve, reject) => {
-        serverAPI({
-          method: "PATCH",
-          url: "/cart",
-          headers,
-          data
-        })
-          .then(({ data }) => {
-            resolve(data);
-          })
-          .catch(err => {
-            reject(err);
-          });
+      return serverAPI({
+        method: "PATCH",
+        url: "/cart",
+        headers,
+        data
+      }).then(({ data }) => {
+        dispatch("fetchCartUser");
+        dispatch("fetchProducts");
+        return data;
       });
     },
-    createCart({ state, commit }) {
+    createCart({ dispatch, commit }) {
       const accessToken = localStorage.getItem("access_token");
       const headers = {
         access_token: accessToken
@@ -151,12 +133,13 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           commit("SET_CURRENT_CART", data.cart);
+          dispatch("fetchCartUser");
         })
         .catch(err => {
           console.log(err);
         });
     },
-    fetchCartUser({ state, commit }) {
+    fetchCartUser({ commit }) {
       const accessToken = localStorage.getItem("access_token");
       serverAPI({
         url: "/cart",
@@ -172,7 +155,7 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
-    fetchProducts({ state, commit }) {
+    fetchProducts({ commit }) {
       const accessToken = localStorage.getItem("access_token");
       serverAPI({
         url: "/products",
@@ -188,7 +171,7 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
-    getCurrentProduct({ state, commit }, payload) {
+    getCurrentProduct({ commit }, payload) {
       const accessToken = localStorage.getItem("access_token");
       const _id = payload._id;
       serverAPI({
