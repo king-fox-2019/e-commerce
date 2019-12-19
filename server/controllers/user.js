@@ -79,10 +79,7 @@ class ControllerUser {
     const { googleidtoken } = req.headers
     const { OAuth2Client } = require('google-auth-library');
     const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-
-    // console.log('ini google id token', googleidtoken);
-    // console.log('ini google client id', process.env.GOOGLE_CLIENT_ID);
-
+    
     let payload, name, email, password, picture
 
     client

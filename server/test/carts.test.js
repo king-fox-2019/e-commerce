@@ -23,8 +23,6 @@ let checkedOutCartId = ''
 describe('CRUD cart routes', function () {
 
   this.timeout(5000)
-  // console.log('masuk hooks')
-
   before(function (done) {
     User.create({
       name: 'initial',
@@ -33,7 +31,6 @@ describe('CRUD cart routes', function () {
       role: 'customer'
     })
       .then((user) => {
-        // console.log('dapet user', user);
         let payload = {
           id: user._id,
           name: user.name,
@@ -41,20 +38,16 @@ describe('CRUD cart routes', function () {
           role: user.role
         }
         currentAccessToken = generateToken(payload)
-        // console.log('ini current access token', currentAccessToken);
         return Product.create({ name: 'Harry Potter', price: 78000, qty: 9, author: 'J.K. Rowling' })
       })
       .then(product => {
-        // console.log('ini productId di before CRUD cart routes', product._id);
         currentProductId = product._id
-        // console.log('ini current product id', currentProductId)
         done()
       })
       .catch(err => console.log(err))
   })
 
   after(function (done) {
-    // console.log('masuk ke after hooks');
     if (process.env.NODE_ENV === 'testing') {
       
       User.deleteMany()
@@ -76,18 +69,12 @@ describe('CRUD cart routes', function () {
   })
 
   describe('add a product to cart > POST /carts', function () {
-    // this.timeout(5000)
-    it.only('should return the newly added items with the message: \'Successfully added item(s) to the cart!\'', function (done) {
-
-      // console.log('ini current product id pas add product', currentProductId)
-
+    it('should return the newly added items with the message: \'Successfully added item(s) to the cart!\'', function (done) {
       chai
         .request(app)
         .post(`/carts/products/${currentProductId}/${prevQty}`)
         .set('access_token', currentAccessToken)
         .end(function (err, res) {
-          // console.log("ini response dari product add", res.body)
-
           prevQty = res.body.cart.products[res.body.cart.products.length - 1].qty
 
           expect(err).to.be.null
@@ -103,7 +90,7 @@ describe('CRUD cart routes', function () {
         })
     })
 
-    it.only('should return the previously added item with updated quantity when the item id already existed in the cart', function (done) {
+    it('should return the previously added item with updated quantity when the item id already existed in the cart', function (done) {
       const newQty = 2
 
       chai
@@ -130,7 +117,7 @@ describe('CRUD cart routes', function () {
         })
     })
 
-    it.only('ERROR: item not found, should return an error message \'Product not found!\'', function (done) {
+    it('ERROR: item not found, should return an error message \'Product not found!\'', function (done) {
       chai
         .request(app)
         .post(`/carts/products/${falseProductId}/${prevQty}`)
@@ -148,7 +135,7 @@ describe('CRUD cart routes', function () {
         })
     })
 
-    it.only('ERROR: requested quantity of products is unavailable, should return an error message \'The quantity of products you requested exceeded our stock!\'', function (done) {
+    it('ERROR: requested quantity of products is unavailable, should return an error message \'The quantity of products you requested exceeded our stock!\'', function (done) {
       chai
         .request(app)
         .post(`/carts/products/${currentProductId}/100`)
@@ -167,7 +154,7 @@ describe('CRUD cart routes', function () {
   })
 
   describe('fetch user\'s cart > GET /carts', function () {
-    it.only('should return a cart populated with products', function (done) {
+    it('should return a cart populated with products', function (done) {
       chai
         .request(app)
         .get('/carts')
@@ -185,7 +172,7 @@ describe('CRUD cart routes', function () {
         })
     })
 
-    it.only('ERROR: unauthorized, should return this when the user has no access token', function (done) {
+    it('ERROR: unauthorized, should return this when the user has no access token', function (done) {
       chai
         .request(app)
         .get('/carts')
@@ -203,7 +190,7 @@ describe('CRUD cart routes', function () {
   })
 
   describe('check out a cart > GET carts/:cartId/checkout', function () {
-    it.only('should return new transaction populated with user cart', function (done) {
+    it('should return new transaction populated with user cart', function (done) {
       chai
         .request(app)
         .patch(`/carts/${currentCartId}/checkout`)
@@ -227,7 +214,7 @@ describe('CRUD cart routes', function () {
         })
     })
 
-    it.only('ERROR: this cart has already been checked out, should return this when the user has no cart to checkout', function (done) {
+    it('ERROR: this cart has already been checked out, should return this when the user has no cart to checkout', function (done) {
       chai
         .request(app)
         .patch(`/carts/${checkedOutCartId}/checkout`)
@@ -243,7 +230,7 @@ describe('CRUD cart routes', function () {
         })
     })
 
-    it.only('ERROR: unauthorized, should return this when the user has no access token', function (done) {
+    it('ERROR: unauthorized, should return this when the user has no access token', function (done) {
       chai
         .request(app)
         .patch(`/carts/${currentCartId}/checkout`)

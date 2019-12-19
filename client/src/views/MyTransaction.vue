@@ -180,7 +180,6 @@ export default {
   },
 
   mixins: [toastMixin]
-  // ...mapGetters(["totalProductQtyInCart"])
 };
 </script>
 
@@ -188,8 +187,6 @@ export default {
 #mycart {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: left; */
 
   background-image: url("../assets/1511.jpg");
   background-repeat: no-repeat;

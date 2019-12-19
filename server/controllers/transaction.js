@@ -29,18 +29,15 @@ class ControllerTransaction {
 
   static async fetchUserTransactions(req, res, next) {
     try {
-      // console.log('ini req query di fetchUserTransactions', req.query)
       let query = {}
 
       if (req.query.active === 'true') {
-        // console.log('masuk req.query.active == true di fetchUserTransactions');
         query['status'] = { '$ne': 'received' }
 
       } else if (req.query.history === 'true') {
-
         query['status'] = 'received'
       }
-      // console.log('ini query nya di fetchUserTransactions', query)
+
       let userActiveTransaction 
       = await Transaction
         .find(query)
@@ -48,6 +45,9 @@ class ControllerTransaction {
           path: 'cart',
           populate: {
             path: 'products.product'
+          },
+          match: {
+            user: req.user.id
           }
         })
         .sort({'createdAt': 'desc'})

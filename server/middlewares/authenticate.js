@@ -4,17 +4,9 @@ const verifyToken = require('../helpers/verifyToken')
 module.exports = (req, res, next) => {
   try {
     const { access_token } = req.headers
-
-    // console.log("ini access token di authenticate", access_token)
-
     const decoded = verifyToken(access_token)
 
-    // console.log("ini decoded di authenticate", decoded)
-
     if (!access_token || !decoded) {
-
-      console.log('fail to decode user authentication')
-
       throw {
         name: 'Unauthorized',
         status: 401,
@@ -28,8 +20,6 @@ module.exports = (req, res, next) => {
       .findOne({ email: payload.email })
       .then(user => {
 
-        // console.log("ini user setelah authenticate find one", user)
-
         if (!user) {
           throw {
             name: 'Unauthorized',
@@ -38,7 +28,6 @@ module.exports = (req, res, next) => {
           }
         }
         req.user = { id: user._id, email: payload.email, role: user.role }
-        // console.log("ini req user", req.user);
         next()
       })
       .catch(next)
