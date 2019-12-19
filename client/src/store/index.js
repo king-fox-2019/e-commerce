@@ -27,7 +27,6 @@ export default new Vuex.Store({
     },
 
     FETCH_MY_ACTIVE_CART(state, payload) {
-      // console.log('ini payload pas fetch my cart', payload[0])
       payload[0] ? state.myCart = payload[0] : state.myCart = []
     },
 
