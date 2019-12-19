@@ -4,7 +4,9 @@
       <div
         class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
       >
-        <md-button class="md-primary md-raised p-3" @click="showDialog = true">Add a Product</md-button>
+        <md-button class="md-primary md-raised" @click="showDialog = true"
+        style="padding: 10px;"
+        >Add a Product</md-button>
         <md-card>
           <md-card-header data-background-color="green">
             <h4 class="title">List of Products</h4>

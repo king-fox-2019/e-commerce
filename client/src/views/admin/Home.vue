@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper" :class="{ 'nav-open': $sidebar.showSidebar }">
     <side-bar>
-      <sidebar-link to="/">
+      <sidebar-link to="/dashboard">
         <md-icon>dashboard</md-icon>
         <p>Dashboard</p>
       </sidebar-link>

@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 import store from '../store'
 
 function adminGuard (to, from, next) {
@@ -20,6 +19,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "adminHome" */ '../views/admin/Home.vue'),
     beforeEnter: adminGuard,
     children: [
+      {
+        path: 'dashboard',
+        name: 'dashboard',
+        component: () => import(/* webpackChunkName: "dashboard" */ '../components/admin/Dashboard.vue')
+      },
       {
         path: 'products',
         name: 'productList',
