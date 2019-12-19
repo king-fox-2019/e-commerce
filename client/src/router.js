@@ -64,6 +64,14 @@ const routes = [
           )
       },
       {
+        path: 'items/:id',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-item-detail" */ '@/components/AdminItemDetail.vue'
+          ),
+        props: true
+      },
+      {
         path: 'transactions',
         component: () =>
           import(

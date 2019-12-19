@@ -42,5 +42,14 @@ class ItemController {
       res.status(200).json({ message: 'Item updated', data: item })
     })
   }
+
+  static deleteItem(req, res, next) {
+    Item.findByIdAndDelete(req.params.id)
+      .then(item => {
+        if (item) res.status(200).json({ message: 'Item deleted' })
+        else throw createError(404, 'Item not found')
+      })
+      .catch(next)
+  }
 }
 module.exports = ItemController
