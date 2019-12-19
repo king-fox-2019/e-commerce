@@ -19,10 +19,13 @@ class UserController {
   }
   static login(req, res, next) {
     let { email, password } = req.body;
+    if(!email || !password) {
+      next({ isThrow: true, status: 400, message: 'email and password could not be empty' })
+    }
     User.findOne({ email })
       .then(user => {
         if (!user) {
-          next({ isThrow: true, status: 404, message: "user not found" });
+          next({ isThrow: true, status: 404, message: 'Access denied, user not found' });
         } else {
           if (compare(password, user.password)) {
             const payload = {
@@ -35,7 +38,7 @@ class UserController {
             next({
               isThrow: true,
               status: 401,
-              message: "Email / Password Salah"
+              message: "Access denied, Wrong email / password"
             });
           }
         }

@@ -3,7 +3,7 @@ if ((process.env.NODE_ENV = "development")) require("dotenv").config();
 
 const express = require("express");
 const app = express();
-const MONGOURI = process.env.MONGO_URI || "mongodb://localhost:27017/ecommerce";
+const MONGOURI = "mongodb://localhost:27017/ecommerce"
 const mongoose = require("mongoose");
 const cors = require("cors");
 const errHandling = require("./middlewares/errHandling");

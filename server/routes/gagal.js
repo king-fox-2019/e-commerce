@@ -21,6 +21,7 @@ describe("API Testing", () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(201);
+          /* res.body isinya apa valuenya apa fieldnya, kalo gagalnnya mana */
           done();
         });
     });
@@ -75,6 +76,7 @@ describe("API Testing", () => {
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body).to.be.an("Array");
+          /* Array nya di cek lengthnya berapa, harus 0 dong. atau di before lo seed produk misal 2 biji res.body[0].to.have.property('name').equal('nama yang di seeding') */
           done();
         });
     });

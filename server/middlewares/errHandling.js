@@ -2,7 +2,7 @@
 const extractor = require('../helpers/errExtractor')
 
 module.exports = (err, req, res, next) => {
-    let status = 500
+    let status = 400
     let msg = []
     if(err.isThrow) {
         status = err.status
@@ -13,11 +13,11 @@ module.exports = (err, req, res, next) => {
         }
         else if (err.code == 11000){
             status = 400
-            msg.push('Email already taken, please login or sign up!')
+            msg.push('Email already taken')
         } else {
             status = 500
             msg.push('Internal Server Error')
         }
     }
-    res.status(status).json(msg)
+    res.status(status).json({ errors: msg })
 }
