@@ -52,6 +52,7 @@
       </div>
     </div>
 
+    <hr />
     <div v-if="delivering">
       <h3 class="text-center">Delivering Items</h3>
       <small class="text-muted d-block text-center"
@@ -104,6 +105,7 @@
       </div>
     </div>
 
+    <hr />
     <div v-if="done">
       <h3 class="text-center">Transactions Completed</h3>
       <small class="text-muted d-block text-center"
@@ -156,6 +158,7 @@
       </div>
     </div>
 
+    <hr />
     <div v-if="failed">
       <h3 class="text-center">Transactions Rejected</h3>
       <small class="text-muted d-block text-center"
@@ -249,6 +252,10 @@ export default {
 .container {
   min-height: 100%;
   padding-top: 5.7rem;
+
+  hr {
+    border-width: 3px;
+  }
 
   .transaction {
     cursor: pointer;
