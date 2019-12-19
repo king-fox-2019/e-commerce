@@ -35,8 +35,6 @@
           </b-navbar-item>
         </b-dropdown>
 
-        <!-- {{currentUser}} -->
-
         <b-navbar-item
           class="mr-3"
           >

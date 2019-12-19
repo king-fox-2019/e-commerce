@@ -49,12 +49,15 @@ export default new Vuex.Store({
 
     UPDATE_LOGIN_STATUS(state, payload) {
       state.isLoggedIn = payload
-      // console.log('ini di update login status', state.isLoggedIn)
     },
 
-    FETCH_CURRENT_USER(state, { _id, name, email, role }) {
-      state.currentUser = { _id, name, email, role }
-      // console.log('fetch current user', state.currentUser);
+    FETCH_CURRENT_USER(state, payload) {
+      if (payload) {
+        const { _id, name, email, role } = payload 
+        state.currentUser = { _id, name, email, role }
+      } else {
+        state.currentUser = {}
+      }
     }
   },
 
@@ -156,11 +159,7 @@ export default new Vuex.Store({
     },
 
     checkToken({ dispatch, commit }) {
-
-      // console.log('masuk checktoken')
-
       return new Promise((resolve, reject) => {
-
         try {
           let isLoggedIn
 
@@ -178,9 +177,7 @@ export default new Vuex.Store({
     },
 
     fetchCurrentUser({ commit }) {
-      // console.log('masuk fetch current user');
       return new Promise((resolve, reject) => {
-        // console.log('ini access token pas fetch user', localStorage.getItem('access_token'));
         axios({
           method: 'GET',
           url: '/users/user',
@@ -189,11 +186,11 @@ export default new Vuex.Store({
           }
         })
           .then(({ data }) => {
-            // console.log('ini data pas fetch user', data)
             commit('FETCH_CURRENT_USER', data.user)
             resolve()
           })
           .catch(err => {
+            commit('FETCH_CURRENT_USER', null)
             reject(err)
           })
       })
@@ -205,13 +202,11 @@ export default new Vuex.Store({
     totalItem: state => {
       try {
         let totalQty = 0
-        // console.log('ini state myCart di getters/totalItem', state.myCart);
         if (state.myCart.products) {
           state.myCart.products.forEach(product => {
             if (product.qty) totalQty += product.qty;
           })
         }
-
         return totalQty
 
       } catch (error) {
@@ -222,16 +217,13 @@ export default new Vuex.Store({
     totalPrice: state => {
       try {
         let totalPrice = 0;
-        // console.log("ini total products di store/getters/totalPrice", state.myCart);
         if (state.myCart.products) {
           state.myCart.products.forEach(product => {
-            // console.log("ini each product di store/getters/totalPrice", product);
             if (product.product.price)
               totalPrice += product.product.price * product.qty;
           })
         }
         return totalPrice
-
       } catch (error) {
         console.log(error)
       }

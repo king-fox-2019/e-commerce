@@ -145,6 +145,7 @@ export default {
         .then(({ data }) => {
           this.success(data.message);
           this.$store.dispatch('fetchMyActiveTransactions')
+          this.$store.dispatch('fetchMyTransactionsHistory')
         })
         
       } catch (error) {

@@ -31,7 +31,7 @@ export default {
 
   methods: {
     OnGoogleAuthSuccess(idToken) {
-      // console.log("ini env host server", process.env.HOST_SERVER);
+      console.log("---googleAuthSuccess, ini env host server", process.env.HOST_SERVER);
       axios({
         method: "post",
         url: "/users/googleSignIn",
@@ -40,7 +40,7 @@ export default {
         }
       })
         .then(({ data }) => {
-          // console.log("ini data di google auth", data)
+          console.log("---googleAuthSuccess, ini data di google auth", data)
           localStorage.setItem("access_token", data.access_token)
           this.$store.dispatch('checkToken')
           this.toast(data.message)

@@ -102,7 +102,14 @@ export default {
           this.$emit('close-form-add-product')
           this.toast(data.message);
         })
-        .catch(err => this.danger(err.response));
+        .catch(({ response }) => {
+          if (response.data.messages[0].includes("Cannot read property 'originalname' of undefined")) {
+            this.danger('Please attach an image!')
+          } else {
+            this.danger(response.data.messages[0])
+          }
+          console.log('---err pas add product', err.response)
+        });
     }
   },
   mixins: [toastMixin]

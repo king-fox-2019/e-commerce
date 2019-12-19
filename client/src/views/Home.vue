@@ -1,7 +1,6 @@
 <template>
   <section id="home">
     <div class=" products-display">
-      
       <div
         v-if="currentUser.role === 'admin'"
         class="add-product-button button is-white"
@@ -72,25 +71,14 @@ export default {
   computed: {
     productsBy5() {
       const result = this.chunkArrayInGroups(this.allProducts, 6);
-      // console.log("group", result);
       return result;
     },
     ...mapState(["allProducts", "currentUser"])
-    // products
   }
 };
 </script>
 
 <style scoped>
-/* #home {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  background-image: url("../assets/1511.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-} */
 
 .products-display {
   margin: 2vh;
