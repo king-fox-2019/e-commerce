@@ -253,6 +253,8 @@ export default {
   .transaction {
     cursor: pointer;
     border: 1px solid transparent;
+    height: 15rem;
+    overflow-y: hidden;
 
     &:hover {
       border: 1px solid #e3e6ea;
