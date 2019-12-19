@@ -87,6 +87,32 @@ export default {
       return server
         .get('admin/items', { headers: { access_token } })
         .then(({ data }) => commit('SET_ITEMS', data.data))
+    },
+    FETCH_ADMIN_ITEM_DETAIL(context, id) {
+      const access_token = localStorage.getItem('access_token')
+      return server.get(`admin/items/${id}`, { headers: { access_token } })
+    },
+    ON_UPDATE_ITEM({ dispatch }, payload) {
+      const access_token = localStorage.getItem('access_token')
+      return server
+        .patch(`admin/items/${payload.id}`, payload, {
+          headers: { access_token }
+        })
+        .then(response => {
+          dispatch('FETCH_ITEMS')
+          return response
+        })
+    },
+    ON_DELETE_ITEM({ dispatch }, id) {
+      const access_token = localStorage.getItem('access_token')
+      return server
+        .delete(`admin/items/${id}`, {
+          headers: { access_token }
+        })
+        .then(response => {
+          dispatch('FETCH_ITEMS')
+          return response
+        })
     }
   }
 }
