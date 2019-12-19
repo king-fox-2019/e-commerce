@@ -11,9 +11,6 @@
       img-top
       @click="$router.push(`/items/${item._id}`)"
     >
-      <!-- <b-card-text class="font-weight-bolder text-danger"
-        >Rp320.000</b-card-text
-      >-->
       <b-card-text class="small text-muted"
         >Stock: {{ item.stock }}</b-card-text
       >
@@ -24,11 +21,6 @@
 <script>
 export default {
   props: ['items']
-  // computed: {
-  //   items() {
-  //     return this.$store.state.items
-  //   }
-  // }
 }
 </script>
 

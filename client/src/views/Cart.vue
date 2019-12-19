@@ -8,7 +8,7 @@
         @mouseenter="checkoutHover = true"
         @mouseleave="checkoutHover = false"
         @click="checkoutCart"
-        v-if="items"
+        v-if="items.length > 0"
       >
         {{
           checkoutHover
@@ -20,6 +20,10 @@
               )}`
         }}
       </b-button>
+      <div v-else>
+        <h2>Looks like your cart is empty</h2>
+        <b-button variant="outline-primary" to="/" exact>Shop Now</b-button>
+      </div>
     </div>
     <div class="mx-auto row w-100" id="cart">
       <router-link

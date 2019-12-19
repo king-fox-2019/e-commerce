@@ -7,7 +7,7 @@
       <h1>LaZaloPedia</h1>
       <h5>Bullshit e-commerce with lots of scam goodies free just for you</h5>
 
-      <b-form @submit="searchItems" novalidate>
+      <b-form @submit.prevent="searchItems" novalidate>
         <div
           class="d-block d-md-flex"
           label="Start search something you interest at!"
@@ -19,6 +19,7 @@
             placeholder="Start searching our stuffs"
             debounce="500"
             v-model="searchQuery"
+            autocomplete="off"
             trim
             autofocus
           ></b-form-input>
@@ -41,7 +42,7 @@
       </div>
     </div>
 
-    <item-list :items="$store.state.items"></item-list>
+    <item-list :items="itemList"></item-list>
   </div>
 </template>
 
@@ -56,14 +57,31 @@ export default {
   data() {
     return {
       searchQuery: '',
-      searchOptions: []
+      itemList: []
+    }
+  },
+  computed: {
+    items() {
+      return this.$store.state.items
+    },
+    searchOptions() {
+      return this.items.map(item => item.name)
     }
   },
   methods: {
-    searchItems() {}
+    searchItems() {
+      const pattern = this.searchQuery
+        .split('')
+        .map(x => {
+          return `(?=.*${x})`
+        })
+        .join('')
+      const search = new RegExp(`${pattern}`, 'gi')
+      this.itemList = this.items.filter(item => search.test(item.name))
+    }
   },
   created() {
-    this.$store.dispatch('FETCH_USER_DATA')
+    this.$store.dispatch('FETCH_USER_DATA').then(() => this.searchItems())
   }
 }
 </script>
