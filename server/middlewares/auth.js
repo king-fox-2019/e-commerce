@@ -9,7 +9,7 @@ function authenticate(req, res, next) {
         if(user) {
           next()
         }
-        else throw new Error({status: 401, message: 'Authentication failed'})
+        else next({status: 403, message: 'Authentication failed'})
       })
       .catch(next)
   }
@@ -19,7 +19,19 @@ function authenticate(req, res, next) {
 }
 
 function authorize(req, res, next) {
-  next()
+  try{
+    User.findById(req.loggedUser.id)
+      .then(user => {
+        if(user.isAdmin) {
+          next()
+        }
+        else next({status: 403, message: 'Authorization failed'})
+      })
+      .catch(next)
+  }
+  catch (err) {
+    next(err)
+  }
 }
 
 module.exports = { authenticate, authorize }
