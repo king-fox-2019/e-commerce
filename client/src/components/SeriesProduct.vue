@@ -50,10 +50,9 @@ export default {
   },
   methods: {
     addCart(data) {
-      this.cart = this.$store.state.cart;
-      this.cart.push(data);
-      this.$store.commit('SET_CART', this.cart);
       this.$store.dispatch('addItem', data._id)
+      this.$store.dispatch('fetchCart');
+      this.$store.state.newcart
     },
     showModal(data) {
       this.item = data;

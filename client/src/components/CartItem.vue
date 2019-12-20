@@ -56,6 +56,7 @@ export default {
     },
     sum() {
       const product = this.cartItem.items
+      // console.log(product)
       if(product) {
         let sum = 0;
         product.forEach((item) => {

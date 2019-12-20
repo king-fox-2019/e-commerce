@@ -78,7 +78,6 @@ class cartController {
     } 
     Cart.findOneAndUpdate({ customer }, value, { new: true, omitUndefined: true }).populate('items')
       .then((cart) => {
-        console.log(cart)
         res.status(200).json(cart)
       })
       .catch(next)
