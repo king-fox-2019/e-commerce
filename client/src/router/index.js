@@ -30,17 +30,23 @@ const routes = [
     name: "product-detail-page",
     component: () =>
       import(
-        /* webpackChunkName: "product-detail-page"*/ "@/views/ProductDetailPage.vue"
+        /* webpackChunkName: "product-detail-page" */ "@/views/ProductDetailPage.vue"
       ),
     children: [
       {
         path: ":productId",
         component: () =>
           import(
-            /* webpackChunkName: "product-detail-component"*/ "@/components/productDetailComponent.vue"
+            /* webpackChunkName: "product-detail-component" */ "@/components/productDetailComponent.vue"
           )
       }
     ]
+  },
+  {
+    path: "/cart",
+    name: "cart-page",
+    component: () =>
+      import(/* webpackChunkName: "cart-page" */ "@/views/CartPage.vue")
   }
 ];
 
@@ -55,6 +61,9 @@ router.beforeEach((to, from, next) => {
   } else if (to.name === "login") {
     if (localStorage.getItem("token")) next({ path: "/" });
     else next();
+  } else if (to.name === "cart") {
+    if (localStorage.getItem("token")) next();
+    else next({ path: "login" });
   } else next();
 });
 

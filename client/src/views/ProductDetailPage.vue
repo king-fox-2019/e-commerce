@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <h1>Ceritanya bakal jadi detail product page</h1>
     <router-view />
   </div>
 </template>

@@ -2,10 +2,10 @@
   <div v-if="username" class="col-lg-3">
     <h1 class="my-4">Menu</h1>
     <div class="list-group">
-      <a href="#" class="list-group-item"
+      <b-link :to="{ 'path': '/cart' }" class="list-group-item"
         >Cart
         <b-badge variant="primary">{{ cart.length }}</b-badge>
-      </a>
+      </b-link>
     </div>
   </div>
 </template>

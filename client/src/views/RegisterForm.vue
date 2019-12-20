@@ -68,7 +68,7 @@ export default {
         })
         .then(({ data }) => {
           localStorage.setItem("token", data.access_token);
-          localStoraget.setItem("username", data.username);
+          localStorage.setItem("username", data.username);
           this.$store.commit("UPDATE_USERNAME", { username: data.username });
           this.$store.commit("UPDATE_ACCESS_TOKEN", {
             access_token: data.access_token
@@ -80,27 +80,15 @@ export default {
         })
         .catch(error => {
           if (error.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
-            // console.log(error.response.data)
-            // console.log(error.response.status)
-            // console.log(error.response.headers)
             this.clearData();
             this.$swal(
               "Ooops",
               error.response.data.errors.join(" & "),
               "error"
             );
-          } else if (error.request) {
-            // The request was made but no response was received
-            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-            // http.ClientRequest in node.js
-            // console.log(error.request)
           } else {
-            // Something happened in setting up the request that triggered an Error
-            // console.log('Error', error.message)
+            console.log(error, "error");
           }
-          // console.log(error.config)
         });
     },
     clearData() {
