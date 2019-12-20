@@ -2,7 +2,7 @@ module.exports = (err, req, res, next) => {
   let errStatus
   let messages = []
 
-  // console.log('ini err pas error handler skrg', err)
+  console.log('ini err pas error handler skrg', err)
 
   if (err.name === 'CastError' && err.message.includes('Cast to ObjectId failed', 'Product')) {
 

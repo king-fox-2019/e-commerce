@@ -88,9 +88,6 @@ class ControllerUser {
         audience: process.env.GOOGLE_CLIENT_ID
       })
       .then(ticket => {
-
-        // console.log('ini ticket pas google sign in', ticket);
-        
         payload = ticket.getPayload()
         name = payload.name
         email = payload.email
@@ -101,24 +98,14 @@ class ControllerUser {
           .findOne({ email })
       })
       .then(user => {
-
-        // console.log('ini user yg ditemuin pas google sign in', user)
-        
         if (!user) {
-
-          // console.log('masuk !user pas google sign in', name, email, password);
-          
           User
             .create({ name, email, password, role: 'customer' })
             .then(user => {
 
-              // console.log('ini user pas create di google sign in', user);
-              
               const id = user._id
               const payload = { name, email, id }
               const access_token = generateToken(payload)
-
-              // console.log('ini token yg digenerate pas google sign in', access_token);
 
               res.status(201).json({
                 message: 'Successfully registered!',
