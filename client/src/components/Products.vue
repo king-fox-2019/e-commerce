@@ -80,6 +80,7 @@ export default {
         this.$store
           .dispatch("updateCart", payload)
           .then(data => {
+            this.$store.dispatch("fetchProducts");
             Swal.fire("Success!", data.message, "success");
           })
           .catch(err => {
