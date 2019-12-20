@@ -132,6 +132,45 @@ class CartController {
         next(err);
       });
   }
+  static deleteCart(req, res, next) {
+    const _id = req.params.id;
+    const options = {
+      rawResult: true
+    };
+    const customer = req.decoded._id;
+    const condition = {
+      _id
+    };
+    Cart.findOne(condition, options)
+      .populate("customer")
+      .then(cart => {
+        if (cart) {
+          const match = cart.customer._id == customer;
+          if (match) {
+            condition.customer = customer;
+            Cart.deleteOne(condition).then(resultDelete => {
+              res.status(200).json({
+                message: "Success delete cart",
+                result: resultDelete
+              });
+            });
+          } else {
+            throw {
+              status: 403,
+              message: "Unauthorized user"
+            };
+          }
+        } else {
+          throw {
+            status: 404,
+            message: "Cart not found"
+          };
+        }
+      })
+      .catch(err => {
+        next(err);
+      });
+  }
 }
 
 module.exports = CartController;
