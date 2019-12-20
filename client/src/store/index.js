@@ -8,12 +8,8 @@ export default new Vuex.Store({
   state: {
     isLoggedIn: localStorage.getItem('token'),
     products: [],
-    cart: [],
-    transactions: [],
     transactionsAsAdmin: [],
-    cartSubtotal: 0,
-    productToEdit: null,
-    bgUrl: 'https://images.pexels.com/photos/3325917/pexels-photo-3325917.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+    productToEdit: null
   },
   mutations: {
     SET_EDIT_PRODUCT_TO_NULL (state, payload) {
@@ -21,20 +17,6 @@ export default new Vuex.Store({
     },
     SET_PRODUCTS (state, payload) {
       state.products = payload
-    },
-    SET_CART (state, payload) {
-      let total = 0
-      let products = payload.products
-      for (let x in products) {
-        let price = products[x].item.price
-        let quantity = products[x].quantity
-        total += price * quantity
-      }
-      state.cartSubtotal = total
-      state.cart = payload
-    },
-    SET_TRANSACTIONS (state, payload) {
-      state.transactions = payload
     },
     SET_TRANSACTIONS_AS_ADMIN (state, payload) {
       state.transactionsAsAdmin = payload
@@ -49,13 +31,6 @@ export default new Vuex.Store({
         }
       })
       state.products = filtered
-    },
-    SET_EDITED_PRODUCT (state, payload) {
-      for (let i = 0; i < state.products.length; i++) {
-        if (state.products[i]._id == payload._id) {
-          state.products[i] = payload
-        }
-      }
     },
     SET_AFTER_UPDATE_TRANSACTION (state, payload) {
       for (let i = 0; i < state.transactions.length; i++) {
@@ -112,18 +87,24 @@ export default new Vuex.Store({
           })
       })
     },
-    editProduct ({ commit, state }, payload) {
+    editProduct ({ dispatch, commit, state }, payload) {
       return new Promise((resolve, reject) => {
+        let formData = new FormData()
+        formData.set('name', payload.name)
+        formData.set('price', payload.price)
+        formData.set('stock', payload.stock)
+        formData.append('image', payload.image)
+
         axios({
           method: 'put',
           url: `/products/${state.productToEdit._id}`,
-          data: payload,
+          data: formData,
           headers: {
             Authorization: localStorage.getItem('token')
           }
         })
           .then(({ data }) => {
-            commit('SET_EDITED_PRODUCT', data)
+            dispatch('fetchProducts')
             resolve(data)
           })
           .catch(err => {
@@ -161,21 +142,6 @@ export default new Vuex.Store({
           this.swal('error', err)
         })
     },
-    fetchCart ({ commit }) {
-      axios({
-        method: 'get',
-        url: '/carts',
-        headers: {
-          authorization: localStorage.getItem('token')
-        }
-      })
-        .then(({ data }) => {
-          commit('SET_CART', data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
     fetchTransactions ({ commit }) {
       axios({
         method: 'get',
@@ -190,101 +156,6 @@ export default new Vuex.Store({
         .catch(err => {
           this.swal('error', err)
         })
-    },
-    addToCart ({ commit, state }, payload) {
-      return new Promise((resolve, reject) => {
-        axios({
-          url: '/carts',
-          method: 'post',
-          data: {
-            item: payload.id,
-            quantity: payload.quantity
-          },
-          headers: {
-            authorization: localStorage.getItem('token')
-          }
-        })
-          .then(({ data }) => {
-            commit('SET_CART', data)
-            resolve(data)
-          })
-          .catch(err => {
-            reject(err)
-          })
-      })
-    },
-    removeItemFromCart ({ commit, state }, payload) {
-      return new Promise((resolve, reject) => {
-        axios({
-          url: '/carts',
-          method: 'put',
-          data: {
-            item: payload.id,
-            quantity: payload.quantity
-          },
-          headers: {
-            authorization: localStorage.getItem('token')
-          }
-        })
-          .then(({ data }) => {
-            commit('SET_CART', data)
-            resolve(data)
-          })
-          .catch(err => {
-            reject(err)
-          })
-      })
-    },
-    signIn ({ commit, state }, payload) {
-      return new Promise((resolve, reject) => {
-        axios({
-          url: '/login',
-          data: payload,
-          method: 'post'
-        })
-          .then(({ data }) => {
-            resolve(data)
-          })
-          .catch(err => {
-            reject(err)
-          })
-      })
-    },
-    signUp ({ commit, state }, payload) {
-      return new Promise((resolve, reject) => {
-        axios({
-          url: '/register',
-          data: payload,
-          method: 'post'
-        })
-          .then(({ data }) => {
-            resolve(data)
-          })
-          .catch(err => {
-            reject(err)
-          })
-      })
-    },
-    checkout ({ commit, state }) {
-      return new Promise((resolve, reject) => {
-        axios({
-          url: '/transactions',
-          method: 'post',
-          data: {
-            cart: state.cart
-          },
-          headers: {
-            authorization: localStorage.getItem('token')
-          }
-        })
-          .then(({ data }) => {
-            commit('SET_CART', [])
-            resolve(data)
-          })
-          .catch(err => {
-            reject(err)
-          })
-      })
     },
     confirmOrder ({ commit, state }, payload) {
       return new Promise((resolve, reject) => {
@@ -306,6 +177,24 @@ export default new Vuex.Store({
             reject(err)
           })
       })
+    },
+    updateTransactionStatus({ dispatch }, payload) {
+      axios({
+        method: 'put',
+        url: `/transactions/${payload.id}`,
+        headers: {
+          authorization: localStorage.getItem('token')
+        },
+        data: {
+          status: payload.status
+        }
+      })
+        .then(({ data }) => {
+          dispatch('fetchTransactionsAsAdmin')
+        })
+        .catch(err => {
+          this.swal('error', err)
+        })
     },
     fetchTransactionsAsAdmin ({ commit }, payload) {
       axios({

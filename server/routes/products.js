@@ -5,7 +5,7 @@ const authorize = require('../middlewares/adminAuthorize');
 const gcsUpload = require('../middlewares/gcsUpload');
 
 router.post('/', authenticate, authorize, gcsUpload.single('image'), ProductController.create);
-router.put('/:id', authenticate, authorize, ProductController.update);
+router.put('/:id', authenticate, authorize, gcsUpload.single('image'), ProductController.update);
 router.get('/', ProductController.showAll);
 router.get('/:id', ProductController.showOne);
 router.delete('/:id', authenticate, authorize, ProductController.destroy);

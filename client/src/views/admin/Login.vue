@@ -59,7 +59,6 @@ export default {
           } else {
             this.swal('error', err)
           }
-          console.log(result)
         })
         .catch(err => {
           this.swal('error', err)

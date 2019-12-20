@@ -84,6 +84,7 @@ export default {
         this.hasMessages = true
       } else {
         this.hasMessages = false
+        this.image = this.$refs.file.$refs.inputFile.files[0]
         let payload = {
           name: this.name,
           price: this.price,

@@ -49,14 +49,17 @@ class ProductController {
     }
 
     static update(req, res, next) {
-        console.log(req.body)
         const { name, price, image, stock } = req.body;
         Product
-            .findOneAndUpdate({_id: req.params.id}, 
-                { name, price, image, stock },
-                { returnOriginal: false })
+            .findOneAndUpdate({_id: req.params.id}, { 
+                name, 
+                price: JSON.parse(price), 
+                stock: JSON.parse(stock), 
+                image 
+            },{ 
+                returnOriginal: false 
+            })
             .then( data => {
-                console.log(data)
                 res.status(200).json(data)
             })
             .catch( err => {
