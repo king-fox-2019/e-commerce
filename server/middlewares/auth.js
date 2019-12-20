@@ -2,13 +2,17 @@ const User = require('../models/user')
 const { decodeToken } = require('../helpers/jwt')
 
 const authentication = (req, res, next) => {
-  console.log(req.headers)
+  console.log(req.headers.token, "TOKEN")
   User.findById(decodeToken(req.headers.token).id) //mengambil id obj yg telah di decode
     .then(user => {
-      // console.log(user, "dr middlewareeeeeeee")
+      console.log(user, "dr middlewareeeeeeee")
       if (!user) {
+        console.log("masuk if pertama");
+        
         throw {status : 401, message : `you have to login first`}
       } else {
+        console.log("masuk else");
+        
         req.loggedUser = user
         next()
       }

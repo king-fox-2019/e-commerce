@@ -75,4 +75,9 @@ export default {
 .container {
   width: 50vw;
 }
+hr {
+  width: 75vw;
+  border: 1px solid rgba(233, 222, 222, 0.541) !important;
+  margin-left: 12%;
+}
 </style>

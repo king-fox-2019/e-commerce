@@ -17,12 +17,12 @@
     <div class="container">
       <div class="columns">
         <div class="column">id</div>
-        <!-- <div class="column">date</div> -->
         <div class="column">total billing</div>
         <div class="column">status</div>
         <div class="column">action</div>
       </div>
     </div>
+      <hr>
     <div class="detil" v-for="(transaction, i) in transactions" :key="i">
       <DetailTransaction :transactions="transactions" :transaction="transaction" @refetch="refetch" :isAdmin="isAdmin"></DetailTransaction>
     </div>
@@ -35,47 +35,6 @@
     </div>
 
     </div>
-  <!-- admin
-  <div>
-    <br>
-    <div>
-    AAAAAAAAAAAAAAAAAA ini utk admin
-    </div>
-    <br>
-    <div> id : {{transactions[1]._id}}</div>
-    <div>status : {{transactions[1].status}}</div>
-     <div>Total : {{formatPrice}}</div>
-    <div>date: {{transactions[1].createdAt}}</div>
-    <div>customer : {{transactions[1].carts[0].user.username}}</div>
-    <div>products : {{transactions[1].carts[0].product.name}}</div>
-    <div>products : {{transactions[1].carts[1].product.name}}</div>
-    <button v-if="transactions[1].status === 'on hold for delivery confirmation'" @click="deliv" class="button is-light">Confirm</button>
-
-<button @click="$router.push(`/transaction/statistic`)" class="button is-light">statistic</button>
-<router-view :onRecap="onRecap"></router-view>
-  </div>
- admin  -->
-
-  <!-- if customer  -->
-  <!--
-    <div>
-    <br>
-    <div>
-    AAAAAAAAAAAAAAAAAA ini utk customer
-    </div>
-    <br>
-    <div> id : {{transactions[1]._id}}</div>
-    <div>status : {{transactions[1].status}}</div>
-    <div>total billing : {{transactions[1].total}}</div>
-    <div>Total : {{formatPrice}}</div>
-    <div>date: {{transactions[1].createdAt}}</div>
-    <div>customer : {{transactions[1].carts[0].user.username}}</div>
-    <div>products : {{transactions[1].carts[0].product.name}}</div>
-    <div>products : {{transactions[1].carts[1].product.name}}</div>
-    <button v-if="transactions[1].status === 'delivered'" @click="received" class="button is-light">Receive</button>
-  </div>
-  -->
-  <!-- is customer  -->
 
   </div>
 </template>
@@ -113,10 +72,11 @@ export default {
         })
         .then(({ data }) => {
           // console.log(data, 'dari transaction ada data apa yg mau ditampilin')
-
           this.transactions = data
         })
-        .catch(console.log)
+        .catch(err => {
+          this.$emit('alert', err)
+        })
     },
     refetch () {
       this.fetchTransaction()
@@ -145,7 +105,6 @@ export default {
         for (let i = 1; i <= 12; i++) {
           if (Number(month) === i) {
             dataSet[i - 1] += Number(transaction.total)
-            console.log(dataSet[i - 1], 'ggggggggggggggggggg')
           }
         }
       })
@@ -173,7 +132,6 @@ export default {
   }
 .h1 {
   font-size: 2px;
-
 }
 .row {
   display: flex;
@@ -182,17 +140,19 @@ export default {
 .col {
   width: 5vw;
 }
-
 hr {
-  width: 75vw !important;
+  width: 75vw;
   border: 1px solid rgb(226, 221, 221) !important;
   margin-left: 12%;
 }
-
+/* hr.after-title {
+  width: 50vw !important;
+  border: 1px solid rgb(226, 221, 221) !important;
+  margin-left: 0% !important;
+} */
 .container {
   width: 50vw;
 }
-
 .mainsection {
   font-family: 'Josefin Sans', sans-serif;
 }

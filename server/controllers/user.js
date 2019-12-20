@@ -12,7 +12,7 @@ class UserController {
       role : req.body.role
     })
       .then(user => {
-        console.log(user);
+        console.log(user, "ADA USER GAK");
         
         let token = generateToken({
           id : user._id,

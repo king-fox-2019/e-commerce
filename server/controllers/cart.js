@@ -32,15 +32,21 @@ class CartController {
 
     Cart.findOne({ product, user })
       .then(cart => {
-        console.log(cart);
+        console.log(cart, "CART");
+        console.log(req.body, "bawa apa");
         
-        if (cart) {
-          throw { status: 403, message: 'this item is already in your cart'}
-        } else {
+        if (!cart) {
+          console.log("masuk if pertama");
           return Cart.create({ user, product, amount })
+        } else {
+          console.log("masuk else");
+          
+          throw { status: 403, message: 'this item is already in your cart'}
         }
       })
       .then(cart => {
+        console.log(cart, "udh lewat then");
+        
         res.status(201).json(cart)
       })
       .catch(next)
@@ -58,6 +64,8 @@ class CartController {
     let id = req.params.id
     Cart.findByIdAndDelete(id)
       .then(cart => {
+        console.log();
+        
         res.status(200).json(cart)
       })
       .catch(next)

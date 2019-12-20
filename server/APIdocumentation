@@ -39,9 +39,16 @@ USER
       status 201
       content example
 
-      {
+     {
     "message": "login success",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkY2E2ZDZjMDdiYjJmNTA4ZmUwYzdiZCIsImVtYWlsIjoibmF0aEBtYWlsLmNvbSIsImlhdCI6MTU3MzU0NzU5Nn0.345oidFzPMF3CLH4gRjnYE90ECWZ8DMwe8G35_26LLo"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZDE4MDM0YTQwNzJlMTM0ZWQzZmI0NCIsImVtYWlsIjoibmF0aEBhZG1pbi5jb20iLCJpYXQiOjE1NzY3ODU2MDR9.wMaATgd79gxgjM-rWtWTeyVdpof7tCmw2sU0blQn79o",
+    "user": {
+        "role": "admin",
+        "_id": "5dd18034a4072e134ed3fb44",
+        "username": "nath",
+        "email": "nath@admin.com",
+        "password": "$2b$10$zIUhHjf7wsVyl666k5u6s.KqIZjphsD9xVPGzq1wGUyrxc46azpEi"
+    }
 }
 
 2. register
