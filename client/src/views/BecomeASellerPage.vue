@@ -5,17 +5,17 @@
 </template>
 
 <script>
-import SellerForm from '../components/SellerForm'
+import SellerForm from "../components/SellerForm";
 
 export default {
   components: {
     SellerForm
   },
   methods: {}
-}
+};
 </script>
 
-<style>
+<style scoped>
 .form-user {
   padding-top: 120px;
 }

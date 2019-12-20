@@ -19,32 +19,32 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 export default {
-  data () {
+  data() {
     return {
-      password: ''
-    }
+      password: ""
+    };
   },
   methods: {
-    becomeASeller () {
+    becomeASeller() {
       const payload = {
         password: this.password
-      }
+      };
       this.$store
-        .dispatch('changeStatusUser', payload)
+        .dispatch("changeStatusUser", payload)
         .then(data => {
-          Swal.fire('Success!', data.message, 'success')
-          this.$router.push('/')
+          Swal.fire("Success!", data.message, "success");
+          this.$router.push("/");
         })
         .catch(err => {
-          const message = err.response.data.message
-          Swal.fire('Oops...', message, 'error')
-        })
+          const message = err.response.data.message;
+          Swal.fire("Oops...", message, "error");
+        });
     }
   }
-}
+};
 </script>
 
 <style>
