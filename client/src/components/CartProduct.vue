@@ -238,7 +238,7 @@ export default {
     },
     getSubtotal() {
       let subtotal = 0;
-      if (this.cart) {
+      if (this.cart && this.cart.items.length > 0) {
         this.cart.items.forEach(item => {
           subtotal += item.price;
         });

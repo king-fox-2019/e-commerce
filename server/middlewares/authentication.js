@@ -7,6 +7,6 @@ module.exports = (req, res, next) => {
     req.decoded = payload;
     next();
   } catch (err) {
-    throw err;
+    next(err);
   }
 };
