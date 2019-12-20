@@ -83,20 +83,13 @@ export default new Vuex.Store({
       const data = {
         password: payload.password
       };
-      return new Promise((resolve, reject) => {
-        serverAPI({
-          method: "PATCH",
-          url: "/users/becomeaseller",
-          headers,
-          data
-        })
-          .then(({ data }) => {
-            resolve(data);
-          })
-          .catch(err => {
-            console.log(err);
-            reject(err);
-          });
+      return serverAPI({
+        method: "PATCH",
+        url: "/users/becomeaseller",
+        headers,
+        data
+      }).then(({ data }) => {
+        return data;
       });
     },
     updateCart({ dispatch }, payload) {
