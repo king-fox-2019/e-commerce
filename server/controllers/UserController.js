@@ -104,7 +104,8 @@ class UserController {
           const docs = {
             name: gProfile.ig,
             email: gProfile.U3,
-            password
+            password,
+            status: "Customer"
           };
           User.create(docs)
             .then(user => {
