@@ -144,11 +144,12 @@ export default {
         price: this.price,
         stock: this.stock,
         category: this.category,
-        image: this.image
+        image: this.showImage
       }
       this.$store.dispatch('product/createProduct', payload)
         .then(({ data }) => {
-          console.log(data)
+          this.$router.push('/shop')
+          this.$store.dispatch('product/fetchProduct')
         })
         .catch(err => {
           console.log(err.response.data.message)

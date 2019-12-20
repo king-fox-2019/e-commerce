@@ -45,6 +45,7 @@ const actions = {
         }
       })
         .then(({ data }) => {
+          console.log(data)
           commit('SET_LIST_TRANSACTION', data)
         })
         .catch(err => {
@@ -53,7 +54,6 @@ const actions = {
     }
   },
   sendItem ({ context }, payload) {
-    console.log('masuk vuex')
     return axios({
       url: `/transaction/${payload.id}/sent`,
       method: 'PUT',

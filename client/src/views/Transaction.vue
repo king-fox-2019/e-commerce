@@ -66,7 +66,7 @@
 
                     <v-card-actions class="d-flex justify-center">
                       <v-btn color="warning" v-if="item.status === 'onprocess' && getRole == 'admin'" @click.prevent="sendItem(item._id)">Send Item</v-btn>
-                      <v-btn color="success" v-if="item.status === 'sent' && getRole === 'customer'" @click.prevent="receivedItem(item._id)">Confirmed</v-btn>
+                      <v-btn color="success" v-if="item.status === 'sent' && getRole == 'customer'" @click.prevent="receivedItem(item._id)">Confirmed</v-btn>
                     </v-card-actions>
                   </v-card>
               </div>
@@ -84,7 +84,6 @@ export default {
   },
   methods: {
     sendItem (id) {
-      console.log('masuk sini')
       let payload = {
         id,
         token: localStorage.getItem('token')
