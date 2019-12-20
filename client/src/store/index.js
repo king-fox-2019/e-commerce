@@ -93,8 +93,11 @@ export default new Vuex.Store({
         formData.set('name', payload.name)
         formData.set('price', payload.price)
         formData.set('stock', payload.stock)
-        formData.append('image', payload.image)
 
+        if (payload.image) {
+          formData.append('image', payload.image)
+        }
+       
         axios({
           method: 'put',
           url: `/products/${state.productToEdit._id}`,

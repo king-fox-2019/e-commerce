@@ -50,13 +50,19 @@ class ProductController {
 
     static update(req, res, next) {
         const { name, price, image, stock } = req.body;
+
+        let obj = {
+            name, 
+            price: JSON.parse(price), 
+            stock: JSON.parse(stock)
+        }
+
+        if (image) {
+            obj.image = image;
+        }
+
         Product
-            .findOneAndUpdate({_id: req.params.id}, { 
-                name, 
-                price: JSON.parse(price), 
-                stock: JSON.parse(stock), 
-                image 
-            },{ 
+            .findOneAndUpdate({_id: req.params.id}, obj,{ 
                 returnOriginal: false 
             })
             .then( data => {
