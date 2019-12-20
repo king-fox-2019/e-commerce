@@ -9,7 +9,7 @@ const cors = require('cors')
 const router = require('./routes')
 const errorHandler = require('./middlewares/errorHandler')
 
-monggose.connect('mongodb://localhost/ecomerce', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, function (err) {
+monggose.connect('mongodb+srv://sukmabrahmantya:prajanji88@cluster0-7qmjd.gcp.mongodb.net/ecommerce?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, function (err) {
   if (err) console.log('database is an error')
   else console.log('data base is an active')
 })
