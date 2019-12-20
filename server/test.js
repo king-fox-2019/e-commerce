@@ -13,6 +13,7 @@ describe('routes product', function(){
                 .send({ email: 'tester@mail.com', name: 'tester', password: 'tester' })
                 .end(function(req,res){
                     expect(res).to.have.status(201);
+                    expect(response.body).to.have.property('access_token');
                     done()
                 })
         })
@@ -24,6 +25,7 @@ describe('routes product', function(){
                 .send({ email: 'tester@mail.com', password: 'tester' })
                 .end(function(req,res){
                     expect(res).to.have.status(200);
+                    expect(response.body).to.have.property('access_token');
                     access_token = res.body.access_token
                     done()
                 })
