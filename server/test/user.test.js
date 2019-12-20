@@ -79,7 +79,7 @@ describe("User route", function() {
             expect(res.body)
               .to.be.an("object")
               .to.have.any.keys("message");
-            expect(res.body.message).to.equal("ValidationError");
+            expect(res.body.message[0]).to.equal("Name cannot be empty");
             done();
           });
       });
@@ -95,7 +95,7 @@ describe("User route", function() {
             expect(res.body)
               .to.be.an("object")
               .to.have.any.keys("message");
-            expect(res.body.message).to.equal("ValidationError");
+            expect(res.body.message[0]).to.equal("Email cannot be empty");
             done();
           });
       });
@@ -110,7 +110,7 @@ describe("User route", function() {
             expect(res.body)
               .to.be.an("object")
               .to.have.any.keys("message");
-            expect(res.body.message).to.equal("ValidationError");
+            expect(res.body.message[0]).to.equal("Email is unavailable");
             done();
           });
       });
@@ -126,7 +126,7 @@ describe("User route", function() {
             expect(res.body)
               .to.be.an("object")
               .to.have.any.keys("message");
-            expect(res.body.message).to.equal("ValidationError");
+            expect(res.body.message[0]).to.equal("Email is not valid");
             done();
           });
       });
@@ -142,23 +142,7 @@ describe("User route", function() {
             expect(res.body)
               .to.be.an("object")
               .to.have.any.keys("message");
-            expect(res.body.message).to.equal("ValidationError");
-            done();
-          });
-      });
-      it("Should send an error 400 status code because password format is invalid", function(done) {
-        const withoutPassword = { ...newUser };
-        withoutPassword.password = "thisisinvalidpassword";
-        server
-          .post("/users/signup")
-          .send(withoutPassword)
-          .end((err, res) => {
-            expect(err).to.be.null;
-            expect(res).to.have.status(400);
-            expect(res.body)
-              .to.be.an("object")
-              .to.have.any.keys("message");
-            expect(res.body.message).to.equal("ValidationError");
+            expect(res.body.message[0]).to.equal("Password cannot be empty");
             done();
           });
       });
@@ -190,7 +174,7 @@ describe("User route", function() {
           .send(withoutEmail)
           .end((err, res) => {
             expect(err).to.be.null;
-            expect(res).to.have.status(400);
+            expect(res).to.have.status(404);
             expect(res.body)
               .to.be.an("object")
               .to.have.any.keys("message");
@@ -206,7 +190,7 @@ describe("User route", function() {
           .send(wrongEmail)
           .end((err, res) => {
             expect(err).to.be.null;
-            expect(res).to.have.status(400);
+            expect(res).to.have.status(404);
             expect(res.body)
               .to.be.an("object")
               .to.have.any.keys("message");
@@ -238,7 +222,7 @@ describe("User route", function() {
           .send(wrongPassword)
           .end((err, res) => {
             expect(err).to.be.null;
-            expect(res).to.be.have.status(400);
+            expect(res).to.be.have.status(401);
             expect(res.body)
               .to.be.an("object")
               .to.have.any.keys("message");
