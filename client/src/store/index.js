@@ -26,7 +26,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    signinGoogleAccount(context, payload) {
+    signinGoogleAccount({ dispatch, commit }, payload) {
       const data = {
         gProfile: payload.gProfile
       };

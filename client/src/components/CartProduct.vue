@@ -26,13 +26,13 @@
         style="display:flex;justify-content:center;align-items:center"
       >
         <div class="three wide column" style="text-align:center">
-          <a href @click.prevent="removeItemWithQty(getItemQty[item])">
+          <a href @click.prevent="removeByItem(getItemQty[item])">
             <i class="trash icon" style="padding-right:45px;color:black"></i>
           </a>
-          <a href @click.prevent="addToCart(getItemQty[item])">
+          <a href @click.prevent="increaseAmount(getItemQty[item])">
             <i class="plus icon" style="padding-right:45px;color:black"></i>
           </a>
-          <a href @click.prevent="removeFromCart(getItemQty[item])">
+          <a href @click.prevent="reduceAmount(getItemQty[item])">
             <i class="minus icon" style="padding-right:45px;color:black"></i>
           </a>
         </div>
@@ -79,7 +79,7 @@
       <div class="three wide column" style="text-align:center">
         <b>
           <button
-            @click.prevent="updateStatusCart"
+            @click.prevent="checkout"
             class="ui black button"
             style="border-radius:0px;margin-top:25px"
           >Checkout</button>
@@ -96,7 +96,7 @@ import Swal from "sweetalert2";
 
 export default {
   methods: {
-    updateStatusCart() {
+    checkout() {
       const command = "paid";
       const payload = {
         command
@@ -112,7 +112,7 @@ export default {
           Swal.fire("Oops...", `${message}`, "error");
         });
     },
-    removeItemWithQty(item) {
+    removeByItem(item) {
       Swal.fire({
         title: "Warning!",
         text: "Remove from cart ?",
@@ -142,7 +142,7 @@ export default {
         }
       });
     },
-    addToCart(item) {
+    increaseAmount(item) {
       const qty = 1;
       const isAvailable = Number(item.stock) - qty >= 0;
       if (isAvailable) {
@@ -154,9 +154,7 @@ export default {
         };
         this.$store
           .dispatch("updateCart", payload)
-          .then(data => {
-            Swal.fire("Success!", data.message, "success");
-          })
+          .then(data => {})
           .catch(err => {
             const message = err.response.data.message;
             Swal.fire("Oops...", `${message}`, "error");
@@ -170,7 +168,7 @@ export default {
         });
       }
     },
-    removeFromCart(item) {
+    reduceAmount(item) {
       const isAvailable = Number(item.qty) - 1 >= 0;
       if (isAvailable) {
         let currentItem;
