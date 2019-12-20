@@ -8,14 +8,14 @@
       <div>
         <div class="row">
           <b-card-text class="col-5">Item Price</b-card-text>
-          <div class="col-7 value">Rp. {{ this.sum.toLocaleString("id") }}</div>
+          <div class="col-7 value">Rp. {{ sum.toLocaleString("id") }}</div>
           <div class="w-100"></div>
           <b-card-text class="col col-5">Tax</b-card-text>
-          <div class="col-7 value">Rp. {{ this.tax.toLocaleString("id") }}</div>
+          <div class="col-7 value">Rp. {{ tax.toLocaleString("id") }}</div>
           <div class="w-100"></div>
           <b-card-text class="col-5">Total Price</b-card-text>
           <div class="col-7 value"> <strong> Rp.
-            {{ (this.sum + this.tax).toLocaleString("id") }} </strong></div>
+            {{ (sum + tax).toLocaleString("id") }} </strong></div>
         </div>
       </div>
       <hr>
@@ -52,21 +52,39 @@ export default {
   },
   computed: {
     cartItem() {
-      return this.$store.state.cart;
+      return this.$store.state.newcart;
     },
     sum() {
-      let sum = 0;
-      this.cartItem.forEach((item) => {
-        sum += item.price;
-      });
-      return sum;
+      const product = this.cartItem.items
+      if(product) {
+        let sum = 0;
+        product.forEach((item) => {
+          if(item.price == undefined) {
+            sum += 0
+          } else {
+            sum += Number(item.price);
+          }
+        });
+        return sum;
+      } else {
+        return []
+      }
     },
     tax() {
-      let tax = 0;
-      this.cartItem.forEach((item) => {
-        tax += item.price;
-      });
-      return tax * 10 / 100;
+      const product = this.cartItem.items
+      if(product) {
+        let tax = 0;
+        product.forEach((item) => {
+          if(item.price == undefined) {
+            tax += 0
+          } else {
+            tax += Number(item.price);
+          }
+        });
+        return tax * 10 / 100;
+      } else {
+        return []
+      }
     },
   },
 };

@@ -97,6 +97,7 @@ export default {
           this.password = '';
           localStorage.setItem('token', data.token);
           this.$store.commit('SET_LOGIN', true);
+          this.$store.dispatch('fetchCart')
           this.$router.push('/');
         })
         .catch((err) => {

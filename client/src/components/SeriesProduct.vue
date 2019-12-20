@@ -53,6 +53,7 @@ export default {
       this.cart = this.$store.state.cart;
       this.cart.push(data);
       this.$store.commit('SET_CART', this.cart);
+      this.$store.dispatch('addItem', data._id)
     },
     showModal(data) {
       this.item = data;
@@ -69,6 +70,7 @@ export default {
   },
   created() {
     this.$store.dispatch('fetchDataSeries');
+    this.$store.dispatch('fetchCart');
   },
 };
 </script>

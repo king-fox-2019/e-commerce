@@ -6,9 +6,9 @@ const { Cart } = require('../controllers')
 const authentication = require('../middlewares/authentication')
 
 router.use(authentication)
-router.post('/', Cart.create)
-router.get('/', Cart.read)
-router.put('/', Cart.update)
-router.delete('/', Cart.delete)
+router.put('/delete', Cart.deleteCart)
+router.put('/add', Cart.addCart)
+router.get('/', Cart.readCart)
+router.put('/', Cart.checkout)
 
 module.exports = router

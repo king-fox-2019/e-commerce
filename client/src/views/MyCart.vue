@@ -108,9 +108,9 @@ export default {
       this.$router.push('/purchase/gold');
     },
     plus(item) {
-      let cartItem = this.cartList;
-      cartItem.push(item);
-      this.$store.commit('SET_CART', cartItem);
+      this.$store.dispatch('addItem', item);
+      this.$store.dispatch('fetchCart');
+      this.$store.state.newcart
     },
     destroy(item) {
       Swal.fire({
@@ -123,16 +123,10 @@ export default {
         confirmButtonText: 'Yes, delete it!',
       }).then((result) => {
         if (result.value) {
-          let cartItem = this.cartList;
-          let index = null;
-          for (let i = 0; i < cartItem.length; i += 1) {
-            if (cartItem[i]._id === item._id) {
-              index = i;
-              break;
-            }
-          }
-          cartItem.splice(index, 1);
-          this.$store.commit('SET_CART', cartItem);
+          this.$store.dispatch('deleteItem', item)
+            .then(()=>
+              this.$store.dispatch('fetchCart')
+            )
           Swal.fire(
             'Deleted!',
             'Your item has been deleted.',
@@ -144,33 +138,38 @@ export default {
   },
   computed: {
     cartList() {
-      return this.$store.state.cart;
+      return this.$store.state.newcart;
     },
     dataCart() {
-      const products = this.$store.state.cart;
+      const products = this.cartList.items;
       let result = [];
-      for (let i = 0; i < products.length; i += 1) {
-        products[i].qty = 0;
-        let temp = false;
-        for (let j = 0; j < result.length; j += 1) {
-          if (result[j]._id === products[i]._id) {
-            temp = true;
+      if (products) {
+
+        for (let i = 0; i < products.length; i += 1) {
+          products[i].qty = 0;
+          let temp = false;
+          for (let j = 0; j < result.length; j += 1) {
+            if (result[j]._id === products[i]._id) {
+              temp = true;
+            }
+          }
+          if (temp === false) {
+            result.push(products[i]);
           }
         }
-        if (temp === false) {
-          result.push(products[i]);
-        }
-      }
-
-      for (let i = 0; i < result.length; i += 1) {
-        for (let j = 0; j < products.length; j += 1) {
-          if (products[j]._id === result[i]._id) {
-            result[i].qty += 1;
+  
+        for (let i = 0; i < result.length; i += 1) {
+          for (let j = 0; j < products.length; j += 1) {
+            if (products[j]._id === result[i]._id) {
+              result[i].qty += 1;
+            }
           }
         }
+  
+        // return products;
+        return result;
       }
-
-      return result;
+      else return []
     },
   },
   created() {
@@ -178,6 +177,7 @@ export default {
     if (!valid) {
       this.$router.push('/');
     }
+      this.$store.dispatch('fetchCart');
   },
 };
 </script>

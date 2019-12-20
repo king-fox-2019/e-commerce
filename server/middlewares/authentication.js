@@ -8,9 +8,9 @@ module.exports = (req, res, next) => {
   try {
     const decoded = verifyToken(token)
     User
-      .findById(decoded.id)
-      .then(user => {
-        if (user) {
+    .findById(decoded.id)
+    .then(user => {
+      if (user) {
           req.decoded = user
           next()
         }

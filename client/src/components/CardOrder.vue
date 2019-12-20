@@ -27,29 +27,56 @@
 </template>
 
 <script>
+import swal from 'sweetalert2'
+
 export default {
   methods: {
     addToCart() {
+      swal.fire({
+        icon: 'success',
+        title: 'Checkout Successful, Thanks',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      this.$store.dispatch('checkout')
       this.$router.push('/');
     },
   },
   computed: {
     cartList() {
-      return this.$store.state.cart;
+      return this.$store.state.newcart;
     },
     sum() {
-      let sum = 0;
-      this.cartList.forEach((item) => {
-        sum += item.price;
-      });
-      return sum;
+      const product = this.cartList.items
+      if(product) {
+        let sum = 0;
+        product.forEach((item) => {
+          if(item.price == undefined) {
+            sum += 0
+          } else {
+            sum += Number(item.price);
+          }
+        });
+        return sum;
+      } else {
+        return []
+      }
     },
     tax() {
-      let tax = 0;
-      this.cartList.forEach((item) => {
-        tax += item.price;
-      });
-      return tax * 10 / 100;
+      const product = this.cartList.items
+      if(product) {
+        let tax = 0;
+        product.forEach((item) => {
+          if(item.price == undefined) {
+            tax += 0
+          } else {
+            tax += Number(item.price);
+          }
+        });
+        return tax * 10 / 100;
+      } else {
+        return []
+      }
     },
   },
 };
