@@ -13,7 +13,6 @@ class CartController {
       .catch(next);
   };
   static create(req, res, next) {
-    console.log('masuk?')
     const { qty, product } = req.body;
     const { id } = req.token;
     product.qty = Number(qty)

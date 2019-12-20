@@ -25,7 +25,7 @@ class UserController {
     User.findOne({ email })
       .then(user => {
         if (!user) {
-          next({ isThrow: true, status: 404, message: 'Access denied, user not found' });
+          next({ isThrow: true, status: 401, message: 'Access denied, Wrong email / password' });
         } else {
           if (compare(password, user.password)) {
             const payload = {
