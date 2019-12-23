@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+.main-signup {
+  background-color: #f9f9f9;
+  min-width: 1100px;
+  font-family: "Montserrat", sans-serif;
+  position: relative;
+}
+
+.signup-body .bg-type1 {
+  position: relative;
+}
+
+.signup-body {
+  background-position-y: top;
+  background-position-x: -50;
+  background: url("../../img/formsign/avenger.png") no-repeat right 0;
+  margin: 0 auto;
+  padding: 68px 50px 0;
+  width: 1000px;
+}
+
+.signup-body hr {
+  z-index: 0;
+}
+
+.signup-box {
+  position: relative;
+  padding-bottom: 222px;
+  width: 440px;
+  margin-left: 11px;
+}
+/*# sourceMappingURL=signup.css.map */

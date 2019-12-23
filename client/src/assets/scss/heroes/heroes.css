@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+.Heroes {
+  font-family: "Montserrat", sans-serif;
+}
+
+.main-heroes {
+  margin-bottom: 100px;
+}
+
+#header-heroes {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+  width: 100%;
+}
+
+.we-heroes a {
+  position: relative;
+  display: block;
+  width: 266px;
+  height: 139px;
+  float: left;
+  margin: 0 12px 12px 0;
+  background-color: #fff;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  background: #fff url("../../img/heroes/over_effect.png") no-repeat;
+  background-position: -1260px top;
+}
+
+.we-heroes a .default {
+  display: block;
+  margin-left: 140px;
+  padding-right: 4px;
+}
+
+.we-heroes a .default strong {
+  padding-top: 28px;
+  display: block;
+  color: #2d1201;
+  font-size: 22px;
+  font-weight: normal;
+}
+
+.we-heroes a .default em {
+  padding-top: 12px;
+  display: block;
+  color: #000;
+  font-size: 13px;
+}
+
+.we-heroes a img {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.hero-layer {
+  position: relative;
+  margin-top: 25px;
+}
+
+.hero-layer .hero-info {
+  display: block;
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 1100px;
+  height: 530px;
+  background-color: #fff;
+}
+
+.hero-layer .hero-info .pic {
+  position: absolute;
+  right: 0;
+  top: -20px;
+}
+
+.hero-layer .hero-info .infohero {
+  padding-left: 70px;
+}
+
+.hero-layer .hero-info .infohero .title {
+  padding-top: 67px;
+  color: #333;
+  font-size: 40px;
+  font-weight: 500;
+}
+
+.hero-layer .hero-info .infohero .subtitle {
+  padding-top: 23px;
+  color: #ff5c05;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.hero-layer .hero-info .infohero .text {
+  padding-top: 30px;
+  color: #999;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 300;
+}
+
+.hero-layer .hero-info .infohero .sound {
+  display: inline-block;
+  margin-top: 80px;
+  color: #444;
+  font-size: 24px;
+  font-weight: 200;
+}
+
+.we-heroes a:hover {
+  background-position: -150px top;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  -webkit-transition: opacity 0.5s ease-out;
+  transition: opacity 0.5s ease-out;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+/*# sourceMappingURL=heroes.css.map */

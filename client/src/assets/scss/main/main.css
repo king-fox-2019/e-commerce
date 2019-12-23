@@ -1,0 +1,199 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+ul {
+  list-style: none;
+}
+
+.Main {
+  font-family: "Roboto", sans-serif;
+  padding: 0px;
+  margin: 0px;
+}
+
+.Main .main-container {
+  background: #f9f9f9 url("https://static-sea.dragonnest.com/static-sea/2/Content/EN/images/main_bg.jpg") no-repeat 0;
+  background-position: 50% 0;
+  min-width: 1100px;
+}
+
+.Main .main-container .main-box {
+  position: relative;
+  float: left;
+  padding: 37px 30px 0;
+  width: 350px;
+  height: 350px;
+  background-color: #ffffff;
+  border: 1px solid #d7d7d7;
+}
+
+.Main .main-container .main-box h3 {
+  line-height: 18px;
+  padding-bottom: 8px;
+  font-weight: 500;
+  font-size: 18px;
+  color: #464646;
+  padding-left: 24px;
+}
+
+.Main .main-container .main-box ul {
+  width: 337px;
+  height: 260px;
+}
+
+.Main .main-container .main-box ul li:first-child {
+  border-top: none;
+}
+
+.Main .main-container .main-box ul li {
+  padding-top: 9px;
+  width: 337px;
+  height: 42px;
+  border-top: 1px solid #f1f1f1;
+}
+
+.Main .main-container .main-box .bbox_tag.bbt_event {
+  background-color: #ffb816;
+}
+
+.Main .main-container .main-box .bbox_tag.bbt_update {
+  background-color: #9dc818;
+}
+
+.Main .main-container .main-box .bbox_tag.bbt_notice {
+  background-color: #12a1f3;
+}
+
+.Main .main-container .main-box .bbox_tag {
+  display: block;
+  float: left;
+  margin-right: 13px;
+  margin-bottom: 26px;
+  width: 50px;
+  height: 16px;
+  line-height: 17px;
+  font-size: 10px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.Main .main-container .main-box .bbox_text {
+  display: block;
+  float: left;
+  margin-bottom: 3px;
+  width: 240px;
+  height: 16px;
+  line-height: 16px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #5e5e5e;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.Main .main-container .main-box .bbox_text a {
+  text-decoration: none;
+  color: #5e5e5e;
+}
+
+.Main .main-container .main-box .bbox_date {
+  display: block;
+  float: left;
+  width: 240px;
+  height: 16px;
+  line-height: 16px;
+  font-size: 13px;
+  color: #acacac;
+}
+
+.Main .main-container .blog {
+  position: relative;
+  float: left;
+  padding: 37px 30px 0;
+  width: 337px;
+  height: 318px;
+  background-color: #ffffff;
+  border: 1px solid #d7d7d7;
+}
+
+.forum {
+  float: left;
+  margin-left: -1px;
+  width: 222px;
+  height: 108px;
+  background-color: #fbc800;
+  overflow: hidden;
+}
+
+.user {
+  position: relative;
+  float: left;
+  margin-left: -1px;
+  padding: 10px 10px 0;
+  width: 222px;
+  height: 134px;
+  background-color: #fff;
+  border: 1px solid #d7d7d7;
+}
+
+.user h3 {
+  height: 22px;
+  line-height: 22px;
+  border-bottom: 1px solid #ddd;
+  font-weight: 500;
+  font-size: 16px;
+  color: #333;
+}
+
+.user ul {
+  padding-left: 0px !important;
+  margin-top: 7px;
+  width: auto;
+  height: 168px;
+}
+
+.user ul:after {
+  display: block;
+  clear: both;
+  content: "";
+}
+
+.user li:first-child {
+  margin-left: 0;
+}
+
+.user li {
+  margin-top: 10px;
+  float: left;
+  width: 61px;
+  height: 65px;
+  margin-left: 2px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 1px;
+  text-align: center;
+}
+
+.user li:first-child:before {
+  background-position: 0 0;
+}
+
+.user li:first-child + li:before {
+  background-position: 0 -41px;
+}
+
+.user li:before {
+  content: "";
+  display: block;
+  margin-left: 9px;
+  width: 41px;
+  height: 41px;
+  background: url("https://static-sea.dragonnest.com/static-sea/2/Content/EN/images/main_csicon.png") no-repeat;
+  text-decoration: inherit;
+  vertical-align: inherit;
+}
+
+.user ul:after {
+  display: block;
+  clear: both;
+}
+/*# sourceMappingURL=main.css.map */
