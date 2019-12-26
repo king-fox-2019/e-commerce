@@ -37,6 +37,7 @@ export default {
   width: 90%;
   margin: 0 auto;
   margin-top: 6rem;
+  margin-bottom: 5rem;
 
   .card {
     cursor: pointer;

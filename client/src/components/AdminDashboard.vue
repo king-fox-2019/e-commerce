@@ -20,12 +20,14 @@
           <b-card-sub-title sub-title-text-variant="muted">
             <strong>{{ $store.state.items.length }}</strong> Items <br />
             <strong>{{
-              Math.round(
-                $store.state.items.reduce(
-                  (total, item) => total + item.stock,
-                  0
-                ) / $store.state.items.length
-              )
+              $store.state.items.length > 0
+                ? Math.round(
+                    $store.state.items.reduce(
+                      (total, item) => total + item.stock,
+                      0
+                    ) / $store.state.items.length
+                  )
+                : 0
             }}</strong>
             Average stocks per item<br />
             <strong>{{

@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div v-if="confirming">
+      <hr />
       <h3 class="text-center">Waiting for Confirmation</h3>
       <div class="mx-auto row w-100">
         <div
@@ -54,8 +55,8 @@
       </div>
     </div>
 
-    <hr />
     <div v-if="delivering">
+      <hr />
       <h3 class="text-center">Delivering Items</h3>
       <small class="text-muted d-block text-center"
         >Waiting for your customer delivered confirmation</small
@@ -106,8 +107,8 @@
       </div>
     </div>
 
-    <hr />
     <div v-if="done">
+      <hr />
       <h3 class="text-center">Transactions Completed</h3>
       <div class="mx-auto row w-100">
         <div

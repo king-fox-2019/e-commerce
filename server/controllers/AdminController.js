@@ -27,10 +27,17 @@ class AdminController {
           return Admin.create({
             username: req.body.username,
             password: req.body.password
-          }).then(admin => {
-            res.status(201).json({ message: 'Super admin registered' })
           })
         }
+      })
+      .then(admin => {
+        const access_token = sign(
+          { _id: admin._id },
+          process.env.JWT_SECRET_ADMIN
+        )
+        res
+          .status(201)
+          .json({ message: 'Super admin registered', data: { access_token } })
       })
       .catch(next)
   }

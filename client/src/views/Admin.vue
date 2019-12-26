@@ -191,6 +191,7 @@ export default {
           .then(({ data }) => {
             this.$toasted.show(data.message)
             this.$router.replace('/admin/dashboard')
+            this.fetchAdminData()
           })
           .catch(({ response }) => {
             this.password = ''

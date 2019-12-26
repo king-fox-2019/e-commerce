@@ -70,18 +70,23 @@ export default {
   },
   methods: {
     searchItems() {
-      const pattern = this.searchQuery
-        .split('')
-        .map(x => {
-          return `(?=.*${x})`
-        })
-        .join('')
-      const search = new RegExp(`${pattern}`, 'gi')
-      this.itemList = this.items.filter(item => search.test(item.name))
+      // if (this.searchQuery) {
+      this.$store.dispatch('FETCH_ITEMS').then(() => {
+        const pattern = this.searchQuery
+          .split('')
+          .map(x => {
+            return `(?=.*${x})`
+          })
+          .join('')
+        const search = new RegExp(`${pattern}`, 'gi')
+        this.itemList = this.items.filter(item => search.test(item.name))
+      })
+      // } else this.itemList = this.items
     }
   },
   created() {
-    this.$store.dispatch('FETCH_USER_DATA').then(() => this.searchItems())
+    this.$store.dispatch('FETCH_USER_DATA')
+    this.searchItems()
   }
 }
 </script>

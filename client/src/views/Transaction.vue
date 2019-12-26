@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div v-if="confirming">
+      <hr />
       <h3 class="text-center">Waiting for Admin Confirmation</h3>
       <small class="text-muted d-block text-center"
         >This may take a while, please wait</small
@@ -52,8 +53,8 @@
       </div>
     </div>
 
-    <hr />
     <div v-if="delivering">
+      <hr />
       <h3 class="text-center">Delivering Items</h3>
       <small class="text-muted d-block text-center"
         >Waiting for your confirmation when the items arrived</small
@@ -105,8 +106,8 @@
       </div>
     </div>
 
-    <hr />
     <div v-if="done">
+      <hr />
       <h3 class="text-center">Transactions Completed</h3>
       <small class="text-muted d-block text-center"
         >Thank you, we wait for your next order!</small
@@ -158,8 +159,8 @@
       </div>
     </div>
 
-    <hr />
     <div v-if="failed">
+      <hr />
       <h3 class="text-center">Transactions Rejected</h3>
       <small class="text-muted d-block text-center"
         >Sometimes things happen, sorry</small

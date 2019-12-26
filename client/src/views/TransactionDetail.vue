@@ -39,9 +39,24 @@
           variant="outline-danger"
           size="lg"
           v-if="transaction.status == 'confirming'"
-          @click="cancel"
+          id="cancel-transaction"
           >Cancel Transaction</b-button
         >
+
+        <b-popover
+          target="cancel-transaction"
+          triggers="click blur"
+          placement="right"
+        >
+          <template v-slot:title>Are you sure?</template>
+          <p>
+            If you change your mind later, you have to make new transaction
+            instead.
+          </p>
+          <b-button class="text-center" variant="outline-danger" @click="cancel"
+            >Yes, Cancel It</b-button
+          >
+        </b-popover>
       </div>
       <div
         class="item col-12 d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-start my-3 rounded"

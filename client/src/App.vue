@@ -12,9 +12,7 @@ export default {
   components: {
     'main-navbar': Navbar
   },
-  created() {
-    this.$store.dispatch('FETCH_ITEMS')
-  }
+  created() {}
 }
 </script>
 
