@@ -10,6 +10,14 @@ E-commerce app trying to mimic real-life e-commerce transaction. It's actually f
 http://localhost:3000
 ```
 
+##### Deployed Url
+
+```http
+http://lazalopedia.aliftaufik.site
+```
+
+
+
 ## Errors
 
 There are multiple errors that might happen, and this section is intended to capture all those errors, the causes, and possibly some ways to resolve the issues.

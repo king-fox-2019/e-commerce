@@ -55,14 +55,9 @@ export default {
         headers: { access_token }
       })
     },
-    ADD_ITEM({ dispatch }, payload) {
+    ADD_ITEM(context, payload) {
       const access_token = localStorage.getItem('access_token')
-      return server
-        .post('admin/items', payload, { headers: { access_token } })
-        .then(response => {
-          dispatch('FETCH_ITEMS')
-          return response
-        })
+      return server.post('admin/items', payload, { headers: { access_token } })
     },
     FETCH_ADMIN_TRANSACTIONS({ commit }) {
       const access_token = localStorage.getItem('access_token')

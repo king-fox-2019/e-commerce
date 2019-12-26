@@ -1,3 +1,3 @@
 const axios = require('axios')
 
-module.exports = axios.default.create({ baseURL: 'http://localhost:3000' })
+module.exports = axios.default.create({ baseURL: 'http://35.186.155.150:80' })

@@ -155,6 +155,7 @@ export default {
             this.imageFile = null
             this.price = ''
             this.stock = 0
+            return this.$store.dispatch('FETCH_ITEMS')
           })
           .catch(({ response }) => {
             this.password = ''
