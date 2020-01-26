@@ -6,6 +6,7 @@
   "scripts": {
     "test-server": "mocha test/bin/server.test.js",
     "test-controller-item": "mocha test/controller/item.test.js",
+    "test-controller-user": "mocha test/controller/user.test.js",
     "dev": "nodemon ./bin/server.js"
   },
   "keywords": [],

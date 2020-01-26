@@ -30,9 +30,9 @@
 </template>
 
 <script>
-    import formLogo from "./formLogo";
-    import router from "../router";
-    import message from "./message";
+    import formLogo from "../formLogo";
+    import router from "../../router";
+    import message from "../message";
 
     export default {
         name: "formLogin",
@@ -57,16 +57,16 @@
                     }
                 }).then(response => {
                     console.log("User successfully sign in");
-                    this.msgHeader = "Success Sign In";
-                    this.msgDescription = "User successfuly sign in";
-                    this.msgType = "info";
-                    this.msgVisibility = true;
                     localStorage.setItem('token', response.data.token);
                     router.push('/');
+                    this.$toast.success({
+                        title: 'Success',
+                        message: `Welcome back  ${response.data.name} :)`
+                    });
                 }).catch(err => {
-                    console.log(err);
+                    console.log({err});
                     this.msgHeader = "Error Sign In";
-                    this.msgDescription = err.response.data;
+                    this.msgDescription = err.response.data.errMsg;
                     this.msgType = "negative";
                     this.msgVisibility = true;
                 })

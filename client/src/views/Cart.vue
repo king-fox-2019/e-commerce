@@ -8,7 +8,7 @@
 </template>
 
 <script>
-    import cartPage from "../components/cartPage";
+    import cartPage from "../components/cart/cartPage";
     import navBar from "../components/navBar";
 
     export default {
@@ -21,7 +21,5 @@
 </script>
 
 <style scoped>
-    #detailItemContainer {
-        padding: 25px;
-    }
+
 </style>

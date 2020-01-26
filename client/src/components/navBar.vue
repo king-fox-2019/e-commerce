@@ -1,17 +1,18 @@
 <template>
-    <sui-menu attached="top">
+    <sui-menu attached="top" id="navbar">
         <sui-menu-menu>
-            <sui-menu-item>
-                <form-logo/>
+            <sui-menu-item id="home" @click="home">
+                <sui-icon name="home"/>
+                Belanja Murah
             </sui-menu-item>
         </sui-menu-menu>
-        <sui-menu-item>
+        <sui-menu-item id="search">
             <search/>
         </sui-menu-item>
         <sui-menu-menu position="right">
             <sui-menu-item>
                 <router-link to="/cart">
-                    <chart-button/>
+                    <cart-button/>
                 </router-link>
             </sui-menu-item>
             <sui-menu-item v-if="isLogin">
@@ -26,10 +27,11 @@
 
 <script>
     import search from "./search";
-    import signinButton from "./signinButton";
+    import signinButton from "./users/signinButton";
     import formLogo from "./formLogo";
-    import chartButton from "./cartButton";
-    import userButton from "./userButton";
+    import cartButton from "./cartButton";
+    import userButton from "./users/userButton";
+    import router from "../router";
 
     export default {
         name: "navBar",
@@ -46,7 +48,7 @@
 
                 this.$axios({
                     method: 'GET',
-                    url: '/api/user/verify',
+                    url: '/api/users/verify',
                     headers: {
                         token: localStorage.getItem('token')
                     }
@@ -57,9 +59,16 @@
                     localStorage.setItem('token', response.data.token);
                     this.isLogin = !!localStorage.getItem('token');
                 }).catch(err => {
-                    // console.log(err.response);
+                    console.log({err});
                     localStorage.clear();
+                    this.$toast.error({
+                        title: 'Error',
+                        message: 'Sign in failed :('
+                    });
                 });
+            },
+            home() {
+                router.push("/");
             }
         },
         mounted() {
@@ -69,12 +78,26 @@
             search,
             signinButton,
             formLogo,
-            chartButton,
+            cartButton,
             userButton
         }
     }
 </script>
 
 <style scoped>
+    #navbar {
+        margin-bottom: 20px;
+        background-color: #0d71bb;
+    }
 
+    #home {
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    #search{
+        background-color: white;
+        margin: 5px;
+    }
 </style>

@@ -1,7 +1,7 @@
 const User = require('../model/user');
+const Item = require('../model/item');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const errMsg = "User/ password not found";
 
 class UserController {
     static reqisterUser(req, res, next) {
@@ -13,40 +13,27 @@ class UserController {
         }).then(response => {
             let token = jwt.sign({userId: response._id}, process.env.SECRET_KEY);
             let name = response.name.split(" ");
-            res.status(200).json({
+            res.status(201).json({
                 name: name[0],
                 token: token,
                 message: "User successfully registered"
             })
-        }).catch(err => {
-            next(err);
-        })
-    }
-
-    static findUserid(req, res, next) {
-        User.findById(
-            req._id
-        ).then(response => {
-            // console.log(response);
-            let token = jwt.sign({userId: response._id}, process.env.SECRET_KEY);
-            let name = response.name.split(" ");
-            res.status(200).json({
-                name: name[0],
-                token: token,
-                message: "User successfully verified"
-            })
-        }).catch(err => {
-            next(err)
-        })
+        }).catch(next)
     }
 
     static loginUser(req, res, next) {
         User.findOne({
             email: req.body.email
         }).then(response => {
-            if (!response) throw errMsg;
+            if (!response) throw {
+                code: 404,
+                errMsg: 'User/ password'
+            };
             let isMatch = bcrypt.compareSync(req.body.password, response.password);
-            if (!isMatch) throw errMsg;
+            if (!isMatch) throw {
+                code: 404,
+                errMsg: 'User/ password'
+            };
             let token = jwt.sign({userId: response._id}, process.env.SECRET_KEY);
             let name = response.name.split(" ");
             res.status(200).json({
@@ -54,39 +41,122 @@ class UserController {
                 token: token,
                 message: "User successfully login"
             })
-        }).catch(err => {
-            next(err);
-        })
+        }).catch(next)
     }
 
-    static addToChart(req, res, next) {
-        User.updateOne({
-            _id: req._id
-        }, {
-            cart: req.body.cart
-        }).then(response => {
-            if (response.ok < 1) throw "cart failed to update";
+    static findUserid(req, res, next) {
+        User.findById(
+            req._id
+        ).then(response => {
+            let token = jwt.sign({userId: response._id}, process.env.SECRET_KEY);
+            let name = response.name.split(" ");
+            res.status(200).json({
+                name: name[0],
+                token: token,
+                message: "User successfully verified"
+            })
+        }).catch(next)
+    }
+
+    static addToCart(req, res, next) {
+        // console.log(req.body.cart);
+
+        Item.findOne({
+            _id: req.body.cart.item
+        }).then(responseItem => {
+            if (responseItem) {
+                if (responseItem.owner.toString() === req._id.toString()) {
+                    throw {
+                        code: 403,
+                        errMsg: "You are not allowed to buy your own item"
+                    }
+                } else {
+                    req.stockItem = responseItem.stock;
+                    return User.findOne({
+                        _id: req._id
+                    })
+                }
+            } else {
+                throw {
+                    code: 404,
+                    errMsg: "Item"
+                }
+            }
+        }).then(responseUser => {
+            let currentCartStock = 0;
+            responseUser.cart.forEach(items => {
+                if (items.item.toString() === req.body.cart.item) {
+                    currentCartStock = items.stock
+                }
+            });
+
+            if (currentCartStock > 0) {
+                if ((currentCartStock + req.body.cart.stock) > req.stockItem) {
+                    throw {
+                        code: 400,
+                        errMsg: `You can add item maksimal ${(req.stockItem - currentCartStock)} items`
+                    }
+                } else {
+                    let carts = responseUser.cart;
+                    carts.forEach(cart => {
+                        if (cart.item.toString() === req.body.cart.item.toString()) {
+                            cart.stock += req.body.cart.stock
+                        }
+                    });
+
+                    return User.updateOne({
+                        _id: req._id
+                    }, {
+                        cart: carts
+                    })
+                }
+            } else {
+                return User.updateOne({
+                    _id: req._id
+                }, {
+                    $push: {
+                        cart: {
+                            item: req.body.cart.item,
+                            stock: req.body.cart.stock,
+                            totalPrice: (req.body.cart.price * req.body.cart.stock)
+                        }
+                    }
+                })
+            }
+        }).then(responseFinalUpdate => {
             res.status(200).json({
                 message: "item successfully add to cart"
             });
-        }).catch(err => {
-            next(err)
-        })
+        }).catch(next);
+    }
+
+    static deleteCartItem(req, res, next) {
+        User.updateOne({
+            _id: req._id
+        }, {
+            $pull: {
+                cart: {
+                    _id: req.params.id
+                }
+            }
+        }).then(response => {
+            if (response.ok < 1) throw "cart item failed to remove";
+            res.status(200).json({
+                message: "item successfully remove from cart"
+            });
+        }).catch(next)
     }
 
     static viewUser(req, res, next) {
         User.findById(
             req._id
         ).populate(
-            'cart'
+            'cart.item'
         ).then(response => {
-            // console.log(response);
             res.status(200).json({
                 data: response
             })
-        }).catch(err => {
-            next(err)
-        })
+        }).catch(next)
     }
 }
 

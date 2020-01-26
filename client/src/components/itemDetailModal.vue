@@ -12,14 +12,17 @@
                 <sui-header>Rp. {{ price }}</sui-header>
                 <p>Stock available <b>{{ data.stock }}</b> items</p>
                 <p>
-                    <item-number/>
+                    <item-number @stockNumber="stockNumber"
+                                 :itemStock="itemStock"/>
                 </p>
                 <hr class="horizontalLine">
                 <p>{{ data.description }}</p>
                 <hr class="horizontalLine">
+
                 <p>
                     <sui-button content="Add to cart"
-                                @click="addToCart"
+                                @click.native="addToCart"
+                                v-model="itemStock"
                                 :class="isItemCarted"/>
                     <router-link to="/cart">
                         <sui-button icon="shop" primary/>
@@ -41,11 +44,12 @@
 
     export default {
         name: "itemDetailModal",
-        // data() {
-        //     return {
-        //         carts: []
-        //     }
-        // },
+        data() {
+            return {
+                itemStock: 1,
+                userId: ""
+            }
+        },
         props: {
             open: Boolean,
             data: Object
@@ -61,14 +65,15 @@
                 this.$store.dispatch('setCartClear');
                 this.$axios({
                     method: 'get',
-                    url: '/api/user/',
+                    url: '/api/users/',
                     headers: {
                         token: localStorage.getItem('token')
                     }
                 }).then(response => {
                     response.data.data.cart.forEach(item => {
                         this.$store.dispatch('addItemToCart', item._id);
-                    })
+                    });
+                    this.userId = response.data.data._id
                 }).catch(err => {
                     console.log(err.response)
                 })
@@ -79,22 +84,46 @@
                     return
                 }
 
-                this.$store.dispatch('addItemToCart', this.data._id);
-
-                this.$axios({
-                    method: 'patch',
-                    url: '/api/user/cart',
-                    data: {
-                        cart: this.$store.getters.cartList
-                    },
-                    headers: {
-                        token: localStorage.getItem('token')
-                    }
-                }).then(response => {
-                    console.log(response.data);
-                }).catch(err => {
-                    console.log(err.response)
-                })
+                this.$dialog
+                    .confirm('Add item to cart ?')
+                    .then(dialog => {
+                        let dataCart = {
+                            item: this.data._id,
+                            stock: this.itemStock,
+                            price: this.data.price
+                        };
+                        this.$store.dispatch('addItemToTempCart', dataCart);
+                        this.$axios({
+                            method: 'patch',
+                            url: '/api/users/cart',
+                            data: {cart: this.$store.getters.cartTemp},
+                            headers: {token: localStorage.getItem('token')}
+                        }).then(response => {
+                            console.log(response.data);
+                            this.$toast.success({
+                                title: 'Success',
+                                message: 'Item successfully add to cart'
+                            });
+                            dialog.close();
+                        }).catch(err => {
+                            console.log(err.response);
+                            this.$toast.error({
+                                title: 'Error',
+                                // message: 'Item failed add to cart'
+                                message: err.response.data.errMsg
+                            });
+                            dialog.close();
+                        })
+                    })
+                    .catch(err => {
+                        this.$toast.info({
+                            title: 'Cancel',
+                            message: 'Item cancel add to cart'
+                        });
+                    })
+            },
+            stockNumber(val) {
+                if (val <= this.data.stock) this.itemStock = val
             }
         },
         computed: {
@@ -112,15 +141,14 @@
                 return segment.join(".");
             },
             isItemCarted() {
-                let n = this.$store.getters.cartList.indexOf(this.data._id);
-                if (n >= 0) {
+                if (this.data.owner._id === this.userId) {
                     return "disabled"
                 } else {
                     return "primary"
                 }
             }
         },
-        created() {
+        mounted() {
             this.viewUser();
         },
         components: {

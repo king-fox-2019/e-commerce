@@ -3,6 +3,7 @@ const controllerItem = require('../controller/Item');
 const checkToken = require('../middleware/checkToken');
 
 router.get('/', controllerItem.list);
+router.get('/:itemName', controllerItem.findItem);
 
 router.use(checkToken);
 

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import formLogin from "../components/formLogin";
+    import formLogin from "../components/users/formLogin";
 
     export default {
         name: "Login",

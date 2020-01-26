@@ -1,36 +1,25 @@
 <template>
-    <div id="listItem">
+    <sui-segment id="listItem" :class="isLoading">
         <sui-card-group>
-            <card v-for="item in items" :key="item._id" :data="item"/>
+            <card id="card-item" v-for="(item, index) in listItem" :key="index" :data="item"/>
         </sui-card-group>
-    </div>
+    </sui-segment>
 </template>
 
 <script>
     import card from "./card";
-
     export default {
         name: "listItem",
-        data() {
-            return {
-                items: []
-            }
-        },
-        methods: {
+        computed: {
             listItem() {
-                this.$axios({
-                    method: 'get',
-                    url: '/api/item'
-                }).then(response => {
-                    console.log(response.data.data);
-                    this.items = response.data.data
-                }).catch(err => {
-                    console.log(err.response);
-                })
+                return this.$store.getters.itemList;
+            },
+            isLoading(){
+                return this.$store.getters.loadingIs;
             }
         },
         mounted() {
-            this.listItem()
+            this.$store.dispatch('getListItems');
         },
         components: {
             card

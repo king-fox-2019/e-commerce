@@ -1,10 +1,8 @@
 <template>
     <div class="suiCard">
         <sui-card>
-            <sui-dimmer-dimmable
-                    @mouseenter.native="cardOneActive = true"
-                    @mouseleave.native="cardOneActive = false">
-                <sui-image :src="data.image" class="suiCardImage"/>
+            <sui-dimmer-dimmable @mouseenter.native="cardOneActive = true" @mouseleave.native="cardOneActive = false">
+                <sui-image :src="data.image" class="suiCardImage"></sui-image>
                 <sui-dimmer blurring :active="cardOneActive">
                     <sui-button inverted @click.prevent="toggle">
                         Details
@@ -35,7 +33,6 @@
         data() {
             return {
                 cardOneActive: false,
-                cardTwoActive: false,
                 open: false
             };
         },

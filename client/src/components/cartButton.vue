@@ -1,7 +1,7 @@
 <template>
     <sui-button animated="vertical" id="suiButtonShop">
         <sui-button-content hidden class="shopIcon">
-            Chart
+            Cart
         </sui-button-content>
         <sui-button-content visible>
             <sui-icon name="shop" class="shopIcon"/>
@@ -11,7 +11,7 @@
 
 <script>
     export default {
-        name: "chartButton"
+        name: "cartButton"
     }
 </script>
 

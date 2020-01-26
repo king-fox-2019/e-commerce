@@ -10,8 +10,7 @@ class ItemController {
             owner: req._id,
             description: req.body.description
         }).then(response => {
-            // console.log(response);
-            res.status(200).json({
+            res.status(201).json({
                 message: "Item successfully registered"
             })
         }).catch(err => {
@@ -23,9 +22,22 @@ class ItemController {
         Item.find()
             .populate('owner', 'name ')
             .then(response => {
-                // console.log(response);
                 res.status(200).json({
-                    total: response.length,
+                    data: response
+                })
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
+
+    static findItem(req, res, next) {
+        Item.find({
+                name: {$regex: req.params.itemName, $options: 'i'}
+            })
+            .populate('owner', 'name ')
+            .then(response => {
+                res.status(200).json({
                     data: response
                 })
             })
