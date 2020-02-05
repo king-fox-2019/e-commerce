@@ -43,6 +43,7 @@ export default new Vuex.Store({
       state.money = ''
       state.image = ''
       state.role = ''
+      state.mycart = []
     },
     CHANGE_ITEMS(state, payload){
       console.log('dari vuex', payload);
