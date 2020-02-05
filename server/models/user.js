@@ -52,7 +52,7 @@ const UserSchema = new Schema({
 UserSchema.pre('save',function(next){
     if (this.email == 'anggabanny@admin.com') {
         this.role = 'admin'
-        this.money = 99999999999999999999999999999
+        this.money = 99999999999
         this.password = hashPassword(this.password)
         next()
     } else {
