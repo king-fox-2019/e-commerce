@@ -1,0 +1,12 @@
+const routes = require('express').Router()
+const ProductController = require('../controllers/product')
+const { upload } = require('../middlewares/fileUpload')
+const {authenticate, authorize} = require('../middlewares/auth')
+routes.use(authenticate)
+routes.post('/',upload.single('file'),authorize , ProductController.addProduct)
+routes.patch('/:id',upload.single('file'),authorize , ProductController.changePicture)
+routes.put('/:id',authorize, ProductController.editProduct)
+routes.delete('/:id',authorize, ProductController.deleteProduct)
+routes.get('/',ProductController.listProduct)
+routes.get('/:id',ProductController.detailProduct)
+module.exports = routes
